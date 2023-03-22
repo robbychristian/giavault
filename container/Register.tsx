@@ -3,8 +3,6 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -13,19 +11,45 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Copyright from "../component/Copyright";
 import Router from "next/router";
+import { IconButton, Snackbar } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
+import { RegisterClient } from "../helper/userClient";
+import { isEmpty } from "../helper/objects";
 
 export default function Registration() {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const [snackbar, setSnackbar] = React.useState<any>({
+    isOpen: false,
+    isError: false,
+    message: null,
+  });
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+    let object: any = {};
+    new FormData(event.currentTarget).forEach((value: any, key: any) => (object[key] = value));
+    if (isEmpty(object)) return setSnackbar({ isOpen: true, isError: true, message: "Check your fields" });
+    const res = await RegisterClient(object);
+    setSnackbar(res);
   };
+
+  const handleClose = (event: React.SyntheticEvent | Event, reason?: string) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setSnackbar({ isOpen: false, isError: false, message: "" });
+  };
+
+  const action = (
+    <React.Fragment>
+      <IconButton size="small" aria-label="close" color="inherit" onClick={handleClose}>
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
 
   return (
     <Container component="main" maxWidth="xs">
+      <Snackbar open={snackbar.isOpen} autoHideDuration={6000} onClose={handleClose} message={snackbar.message} action={action} />
       <CssBaseline />
       <Box
         sx={{
