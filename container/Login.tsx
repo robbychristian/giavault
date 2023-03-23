@@ -14,11 +14,11 @@ import Container from "@mui/material/Container";
 import Copyright from "../component/Copyright";
 import Router from "next/router";
 import { isEmpty } from "../helper/objects";
-import { LoginClient, RegisterClient } from "../helper/userClient";
 import { Snackbar, IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import { signIn } from "next-auth/react";
 
-export default function SignIn() {
+const Login = () => {
   const [snackbar, setSnackbar] = React.useState<any>({
     isOpen: false,
     isError: false,
@@ -45,7 +45,14 @@ export default function SignIn() {
     let object: any = {};
     new FormData(event.currentTarget).forEach((value: any, key: any) => (object[key] = value));
     if (isEmpty(object)) return setSnackbar({ isOpen: true, isError: true, message: "Check your fields" });
-    const res = await LoginClient(object);
+    signIn("credentials", { username: object?.username!, password: object?.password!, redirect: false }).then((e) => {
+      if (e?.error) setSnackbar({ isOpen: true, isError: true, message: "Your credentials is invalid, please try again" });
+      else if (e?.ok) Router.push("/dashboard");
+    });
+    // const res = await LoginClient(object);
+    // if (!res.isOpen && !res.isError && res.message.length > 1) {
+    //   setCookie("auth", res.message);
+    // }
   };
 
   return (
@@ -90,4 +97,6 @@ export default function SignIn() {
       <Copyright sx={{ mt: 8, mb: 4 }} />
     </Container>
   );
-}
+};
+
+export default Login;

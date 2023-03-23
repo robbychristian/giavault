@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import { NextApiRequest, NextApiResponse } from "next/types";
 import { ERROR_TYPES } from "../../typedefs/errors";
 import { getCookie } from "../cookies";
-const pkey = Buffer.from(`${process.env.NEXT_PRIVATE_PKEY}`, "base64").toString();
+const pkey = Buffer.from(`${process.env.NEXTAUTH_SECRET}`, "base64").toString();
 
 interface JWTResponse {
   _id: string;
@@ -39,8 +39,12 @@ export const JWTVerify = (token: string) => {
 };
 
 export const JWTParse = (token: string): JWTResponse => {
-  if (token) return JSON.parse(Buffer?.from(token?.split(".")[1], "base64").toString());
-  return {} as JWTResponse;
+  try {
+    return JSON.parse(Buffer.from(token.split(".")[1], "base64").toString());
+  } catch (e) {
+    console.log("error", e);
+    return {} as JWTResponse;
+  }
 };
 
 export const getAuth = () => {

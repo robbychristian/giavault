@@ -23,8 +23,8 @@ export const LoginClient = async (data: Partial<IUser>) => {
         password: data.password,
       },
     });
-    console.log("res", res);
-    return res;
+
+    return { isOpen: false, message: res, isError: false };
   } catch (e: any) {
     const {
       response: {

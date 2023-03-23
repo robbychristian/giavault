@@ -28,6 +28,7 @@ export const LoginApi = async (data: Partial<IUser>) => {
     await User.findOneAndUpdate({ username }, { lastLogin: new Date().toISOString() });
     return jwtToken;
   } catch (e) {
+    console.log("e", e);
     return false;
   }
 };
