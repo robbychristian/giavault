@@ -139,7 +139,7 @@ function UserDropdown() {
             color="primary"
             fullWidth
             onClick={() => {
-              signOut({ redirect: true });
+              signOut({ callbackUrl: "/" });
             }}
           >
             <LockOpenTwoToneIcon sx={{ mr: 1 }} />
