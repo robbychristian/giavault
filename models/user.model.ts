@@ -24,6 +24,7 @@ export const UserSchema = new Schema(
     lastName: {
       type: String,
     },
+    securityQuestions: [{ question: { type: String, required: true }, answer: { type: String, required: true } }],
     lastLogin: Date,
   },
   { timestamps: true, versionKey: false }
