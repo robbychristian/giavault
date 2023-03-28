@@ -1,19 +1,23 @@
 import Credentials from "next-auth/providers/credentials";
 import NextAuth from "next-auth/next";
 import { JWTParse } from "../../../../lib/jwt";
-
-export default NextAuth({
+import { NextApiRequest, NextApiResponse } from "next";
+// import { withAuth } from "../../../../lib/guard";
+import { ERROR_TYPES } from "../../../../typedefs/errors";
+import { URLList } from "../../../../constants/urls";
+import { LogAction } from "../../../../lib/logging";
+const options = {
   pages: {
     signIn: "/",
     signOut: "/",
   },
   callbacks: {
-    async session({ session, token }) {
+    async session({ session, token }: any) {
       //@ts-ignore
       session.user = token.user;
       return session;
     },
-    async jwt({ token, user }) {
+    async jwt({ token, user }: any) {
       if (user) token.user = user;
       return token;
     },
@@ -25,12 +29,6 @@ export default NextAuth({
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials, req) {
-        // You need to provide your own logic here that takes the credentials
-        // submitted and returns either a object representing a user or value
-        // that is false/null if the credentials are invalid.
-        // e.g. return { id: 1, name: 'J Smith', email: 'jsmith@example.com' }
-        // You can also use the `req` object to obtain additional parameters
-        // (i.e., the request IP address)
         const res = await fetch(`${process.env.NEXT_API_URL}/api/login?username=${credentials?.username}&password=${credentials?.password}`, {
           method: "GET",
           headers: { "Content-Type": "application/json" },
@@ -38,7 +36,8 @@ export default NextAuth({
         let user = await res.json();
         // If no error and we have user data, return it
         if (res.ok && user.token) {
-          user = JWTParse(user.token);
+          const newUser = JWTParse(user.token);
+          user = { ...newUser, accessToken: user.token };
           return user;
         }
         // Return null if user data could not be retrieved
@@ -47,4 +46,30 @@ export default NextAuth({
       },
     }),
   ],
-});
+};
+
+async function signIn(req: NextApiRequest, res: NextApiResponse) {
+  if (req.query.nextauth?.includes("callback") && req.method === "POST") {
+    const { url, body, method } = req;
+    const { username } = Object.assign({}, body);
+    const ip = req.headers["x-forwarded-for"]! || req.socket.remoteAddress;
+    const log = {
+      username,
+      IP: ip as string,
+      method,
+      action: URLList[`${url}`],
+    };
+    await LogAction(log);
+  }
+
+  // const data = form.parse(req, (err, fields, files) => {
+  //   console.log('err', err)
+  //   console.log("fields", fields);
+  //   if (err) return;
+  // });
+  // console.log("data", data);
+  // console.log("query 50", query);
+  await NextAuth(req, res, options);
+}
+
+export default signIn;
