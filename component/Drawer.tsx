@@ -1,25 +1,18 @@
-import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
-import CssBaseline from "@mui/material/CssBaseline";
+import { styled } from "@mui/material/styles";
 import MuiDrawer from "@mui/material/Drawer";
-import Box from "@mui/material/Box";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
-import Badge from "@mui/material/Badge";
-import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
-import Paper from "@mui/material/Paper";
-import Link from "@mui/material/Link";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import NotificationsIcon from "@mui/icons-material/Notifications";
 import { FC, ReactNode, useState } from "react";
 import { MenuList } from "./MenuList";
 import { useRouter } from "next/router";
 import UserDropDown from "./UserDropDown";
+import { NoSsr } from "@mui/material";
 const drawerWidth: number = 240;
 
 interface AppBarProps extends MuiAppBarProps {
@@ -77,8 +70,9 @@ export const SideDrawer: FC<ISideDrawer> = ({ children }) => {
   const toggleDrawer = () => {
     setOpen(!open);
   };
+
   return (
-    <>
+    <NoSsr>
       <AppBar position="absolute" open={open}>
         <Toolbar
           sx={{
@@ -113,17 +107,22 @@ export const SideDrawer: FC<ISideDrawer> = ({ children }) => {
           sx={{
             display: "flex",
             alignItems: "center",
-            justifyContent: "flex-end",
+            justifyContent: "center",
             px: [1],
           }}
         >
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1, textAlign: "center" }}>
+            GIA Vault
+          </Typography>
           <IconButton onClick={toggleDrawer}>
             <ChevronLeftIcon />
           </IconButton>
         </Toolbar>
         <Divider />
-        <List component="nav">{MenuList}</List>
+        <List component="nav">
+          <MenuList />
+        </List>
       </Drawer>
-    </>
+    </NoSsr>
   );
 };

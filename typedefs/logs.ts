@@ -3,6 +3,7 @@ export interface Logs {
   IP: string;
   method: string;
   action: string;
+  _id?: string;
   role?: string;
   createdAt?: string;
 }

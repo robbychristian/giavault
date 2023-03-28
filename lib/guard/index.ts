@@ -26,8 +26,8 @@ function getToken(req: NextApiRequest): string | null {
 export function withAuth(handler: (req: NextApiRequest, res: NextApiResponse) => Promise<void>) {
   return async (req: NextApiRequest, res: NextApiResponse) => {
     const ip = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
-    console.log("IP", ip);
-    console.log("req", req.method, req.url);
+    // console.log("IP", ip);
+    // console.log("req", req.method, req.url);
     // JWTServerValidator(req, res);
     const token = getToken(req)!;
     if (token) {

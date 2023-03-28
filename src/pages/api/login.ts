@@ -18,7 +18,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse<any>) {
     case "GET":
       // login
       const creds: Partial<User> = req.query;
-      console.log("creds", creds);
       const jwtToken = await LoginApi(creds);
       if (!jwtToken) return res.status(401).json({ error: ERROR_TYPES.UNAUTHORIZED });
       return res.status(200).json({ token: jwtToken });

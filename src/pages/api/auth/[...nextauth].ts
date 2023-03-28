@@ -3,9 +3,9 @@ import NextAuth from "next-auth/next";
 import { JWTParse } from "../../../../lib/jwt";
 import { NextApiRequest, NextApiResponse } from "next";
 // import { withAuth } from "../../../../lib/guard";
-import { ERROR_TYPES } from "../../../../typedefs/errors";
 import { URLList } from "../../../../constants/urls";
 import { LogAction } from "../../../../lib/logging";
+import connectMongo from "../../../../lib/database";
 const options = {
   pages: {
     signIn: "/",
@@ -72,4 +72,4 @@ async function signIn(req: NextApiRequest, res: NextApiResponse) {
   await NextAuth(req, res, options);
 }
 
-export default signIn;
+export default connectMongo(signIn);

@@ -3,18 +3,25 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import DashboardIcon from "@mui/icons-material/Dashboard";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import PeopleIcon from "@mui/icons-material/People";
-import BarChartIcon from "@mui/icons-material/BarChart";
-import LayersIcon from "@mui/icons-material/Layers";
+import TocIcon from "@mui/icons-material/Toc";
+import { useRouter } from "next/router";
 
-export const MenuList = (
-  <React.Fragment>
-    <ListItemButton>
-      <ListItemIcon>
-        <DashboardIcon />
-      </ListItemIcon>
-      <ListItemText primary="Dashboard" />
-    </ListItemButton>
-  </React.Fragment>
-);
+export const MenuList = () => {
+  const router = useRouter();
+  return (
+    <React.Fragment>
+      <ListItemButton onClick={() => router.push("/dashboard")}>
+        <ListItemIcon>
+          <DashboardIcon />
+        </ListItemIcon>
+        <ListItemText primary="Dashboard" />
+      </ListItemButton>
+      <ListItemButton onClick={() => router.push("/logs")}>
+        <ListItemIcon>
+          <TocIcon />
+        </ListItemIcon>
+        <ListItemText primary="Logs" />
+      </ListItemButton>
+    </React.Fragment>
+  );
+};

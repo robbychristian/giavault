@@ -8,7 +8,6 @@ export default function Home() {
 
 export async function getServerSideProps(context: any) {
   const session = await getSession(context);
-  console.log("session", session);
   if (session) {
     return {
       redirect: {
