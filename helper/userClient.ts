@@ -88,3 +88,21 @@ export const ResetClient = async (userData: Partial<IUser>) => {
     return false;
   }
 };
+
+export const refetchUsers = async (accessToken: string, setData: (data: any) => void) => {
+  try {
+    const {
+      data: { data },
+    } = await API.get("/api/user", {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+      params: { limit: 100, page: 0, search: "" },
+    });
+    console.log("refetch data", data);
+    return setData(data);
+  } catch (e) {
+    console.log("error refetching: ", e);
+    return null;
+  }
+};

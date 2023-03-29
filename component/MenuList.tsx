@@ -4,6 +4,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import TocIcon from "@mui/icons-material/Toc";
+import PersonIcon from "@mui/icons-material/Person";
 import { useRouter } from "next/router";
 
 export const MenuList = () => {
@@ -21,6 +22,12 @@ export const MenuList = () => {
           <TocIcon />
         </ListItemIcon>
         <ListItemText primary="Logs" />
+      </ListItemButton>
+      <ListItemButton onClick={() => router.push("/users")}>
+        <ListItemIcon>
+          <PersonIcon />
+        </ListItemIcon>
+        <ListItemText primary="User Management" />
       </ListItemButton>
     </React.Fragment>
   );

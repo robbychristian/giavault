@@ -5,26 +5,53 @@ import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import SearchIcon from "@mui/icons-material/Search";
-import { FC, useEffect, useState } from "react";
-import LogsTable from "../component/LogsTable";
+import React, { FC, useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { searchLogsClient } from "../helper/userLog";
+import { TableTypes } from "../typedefs/components/Table.type";
+import { TableSwitch } from "../component/TableSwitch";
+import { Box, Modal, Typography } from "@mui/material";
 
 interface ITable {
   placeholder: string;
   data: any[];
+  type: TableTypes;
   hasButton?: boolean;
   buttonText?: string;
+  modalChildren?: React.ReactNode;
+  refetch?: () => void;
 }
 
-const TableContainer: FC<ITable> = ({ placeholder, data, hasButton, buttonText }) => {
+const style = {
+  position: "absolute" as "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 500,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+};
+
+const TableContainer: FC<ITable> = ({ placeholder, data, hasButton, buttonText, type, modalChildren, refetch }) => {
   const { data: session } = useSession({ required: true });
   const [searchData, setSearchData] = useState<any>(data);
   const [searchInput, setSearchInput] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleClose = () => {
+    refetch && refetch();
+    setIsModalOpen(!isModalOpen);
+  };
 
   useEffect(() => {
     if (searchInput.length > 1) {
-      searchLogsClient(searchInput, session?.user?.accessToken!, setSearchData);
+      switch (type) {
+        case TableTypes.LOGS:
+          searchLogsClient(searchInput, session?.user?.accessToken!, setSearchData);
+          return;
+      }
     } else if (searchInput.length <= 1) {
       setSearchData(null);
     }
@@ -52,7 +79,7 @@ const TableContainer: FC<ITable> = ({ placeholder, data, hasButton, buttonText }
             </Grid>
             <Grid item>
               {!hasButton ? null : (
-                <Button variant="contained" sx={{ mr: 1 }}>
+                <Button variant="contained" sx={{ mr: 1 }} onClick={() => setIsModalOpen(!isModalOpen)}>
                   {buttonText}
                 </Button>
               )}
@@ -65,7 +92,10 @@ const TableContainer: FC<ITable> = ({ placeholder, data, hasButton, buttonText }
           </Grid>
         </Toolbar>
       </AppBar>
-      <LogsTable data={searchData ?? data} />
+      <TableSwitch tableType={type} data={data} searchData={searchData} />
+      <Modal open={isModalOpen} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
+        <Box sx={style}>{modalChildren}</Box>
+      </Modal>
     </Paper>
   );
 };

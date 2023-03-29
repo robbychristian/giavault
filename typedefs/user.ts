@@ -1,14 +1,20 @@
+import { Roles } from "./roles";
+
 export type SecurityQuestionType = {
   question: string;
   answer: string;
 };
 
 export interface User {
+  _id: string;
   firstName: string;
   lastName: string;
   username: string;
+  role: Roles;
   password: string;
   securityQuestions: SecurityQuestionType[];
+  createdAt: string;
+  lastLogin: string;
 }
 
 export interface InsurancePolicy {

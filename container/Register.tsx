@@ -10,12 +10,12 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Copyright from "../component/Copyright";
 import Router from "next/router";
-import { IconButton, InputLabel, MenuItem, Select, SelectChangeEvent, Snackbar } from "@mui/material";
+import { IconButton, InputLabel, Snackbar } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { RegisterClient } from "../helper/userClient";
 import { isEmpty } from "../helper/objects";
 import { shuffle } from "lodash";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { SecurityQuestions } from "../constants/securityQuestions";
 import { User } from "../typedefs/user";
 import SecurityQuestionList from "../component/SecurityQuestion";
@@ -60,26 +60,6 @@ export default function Registration() {
       </IconButton>
     </React.Fragment>
   );
-
-  // const SecurityQ = ({ indexSec }: any) => (
-  //   <Select
-  //     key={`sel-${indexSec}`}
-  //     labelId={`security-question-label-${indexSec}`}
-  //     fullWidth
-  //     value={userData?.securityQuestions[indexSec].question}
-  //     onChange={(event: SelectChangeEvent) => {
-  //       const setSelectedQuestion = [...(userData?.securityQuestions || [])];
-  //       setSelectedQuestion[indexSec] = { ...userData?.securityQuestions[indexSec], question: event.target.value };
-  //       setUserData({ ...userData, securityQuestions: setSelectedQuestion });
-  //     }}
-  //   >
-  //     {shuffledQuestions.map((question: any, index: any) => (
-  //       <MenuItem key={`${question}-${index}`} value={question}>
-  //         <Typography key={`typog-${index}`}>{question}</Typography>
-  //       </MenuItem>
-  //     ))}
-  //   </Select>
-  // );
 
   return (
     <Container component="main" maxWidth="xs">

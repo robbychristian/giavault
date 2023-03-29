@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { isEmpty } from "../../../helper/objects";
+import { isEmpty, isEmptyNoSec } from "../../../helper/objects";
 import { LoginApi, RegisterApi } from "../../../helper/user";
 import connectMongo from "../../../lib/database";
 import { ERROR_TYPES } from "../../../typedefs/errors";
@@ -10,7 +10,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<any>) {
     case "POST":
       // registration
       const user: User = req.body;
-      if (isEmpty(user)) res.status(400).json({ success: false, error: "Empty Field Detected" });
+      if (isEmptyNoSec(user)) res.status(400).json({ success: false, error: "Empty Field Detected" });
       if (!user) res.status(400).json({ success: false });
       const { status, code } = await RegisterApi(user);
       if (status) return res.status(201).json({ success: true });
