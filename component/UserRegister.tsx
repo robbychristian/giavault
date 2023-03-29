@@ -22,10 +22,6 @@ export const RegistrationAdmin = () => {
     role: Roles.AGENT,
   });
 
-  useEffect(() => {
-    console.log("userData", userData);
-  }, [userData]);
-
   const [snackbar, setSnackbar] = useState<any>({
     isOpen: false,
     isError: false,

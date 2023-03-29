@@ -31,7 +31,7 @@ export const UserContainer: FC<IUserContainer> = ({ data }) => {
         }}
       >
         <TableContainer
-          placeholder="Search by username, role, first name, or last name"
+          placeholder="Search by username, first name, or last name"
           data={userData}
           type={TableTypes.USER}
           hasButton={true}

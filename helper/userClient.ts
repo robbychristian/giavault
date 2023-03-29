@@ -106,3 +106,15 @@ export const refetchUsers = async (accessToken: string, setData: (data: any) => 
     return null;
   }
 };
+
+
+export const searchUsersClient = async (input: string, accessToken: string, setData: (data: any) => void) => {
+  const { data } = await API.get("/api/user", {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+    params: { limit: 100, page: 0, search: input },
+  });
+  const { data: logs } = data;
+  setData(logs);
+};

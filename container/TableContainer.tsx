@@ -10,7 +10,9 @@ import { useSession } from "next-auth/react";
 import { searchLogsClient } from "../helper/userLog";
 import { TableTypes } from "../typedefs/components/Table.type";
 import { TableSwitch } from "../component/TableSwitch";
-import { Box, Modal, Typography } from "@mui/material";
+import { Box, IconButton, Modal, Tooltip, Typography } from "@mui/material";
+import { searchUsersClient } from "../helper/userClient";
+import RefreshIcon from "@mui/icons-material/Refresh";
 
 interface ITable {
   placeholder: string;
@@ -32,7 +34,7 @@ const style = {
   boxShadow: 24,
   p: 4,
   borderRadius: 2,
-  height: 500
+  height: 500,
 };
 
 const TableContainer: FC<ITable> = ({ placeholder, data, hasButton, buttonText, type, modalChildren, refetch }) => {
@@ -51,6 +53,9 @@ const TableContainer: FC<ITable> = ({ placeholder, data, hasButton, buttonText, 
       switch (type) {
         case TableTypes.LOGS:
           searchLogsClient(searchInput, session?.user?.accessToken!, setSearchData);
+          return;
+        case TableTypes.USER:
+          searchUsersClient(searchInput, session?.user.accessToken!, setSearchData);
           return;
       }
     } else if (searchInput.length <= 1) {
@@ -80,15 +85,17 @@ const TableContainer: FC<ITable> = ({ placeholder, data, hasButton, buttonText, 
             </Grid>
             <Grid item>
               {!hasButton ? null : (
-                <Button variant="contained" sx={{ mr: 1 }} onClick={() => setIsModalOpen(!isModalOpen)}>
-                  {buttonText}
-                </Button>
+                <>
+                  <Button variant="contained" sx={{ mr: 1 }} onClick={() => setIsModalOpen(!isModalOpen)}>
+                    {buttonText}
+                  </Button>
+                  <Tooltip title="Reload" onClick={() => refetch && refetch()}>
+                    <IconButton>
+                      <RefreshIcon color="inherit" sx={{ display: "block" }} />
+                    </IconButton>
+                  </Tooltip>
+                </>
               )}
-              {/* <Tooltip title="Reload">
-                <IconButton>
-                  <RefreshIcon color="inherit" sx={{ display: "block" }} />
-                </IconButton>
-              </Tooltip> */}
             </Grid>
           </Grid>
         </Toolbar>
