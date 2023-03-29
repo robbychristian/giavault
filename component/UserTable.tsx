@@ -38,7 +38,7 @@ const UserTable: FC<IUserTable> = ({ data }) => {
               <TableCell align="right">{row?.lastName}</TableCell>
               <TableCell align="right">{Roles[row?.role]}</TableCell>
               <TableCell align="right">{formatDate(row?.createdAt!)}</TableCell>
-              <TableCell align="right">{formatDate(row?.lastLogin!)}</TableCell>
+              <TableCell align="right">{row?.lastLogin ? formatDate(row?.lastLogin) : "User hasn't logged in yet"}</TableCell>
             </TableRow>
           ))}
         </TableBody>
