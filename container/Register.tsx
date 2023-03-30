@@ -44,6 +44,7 @@ export default function Registration() {
     if (isEmpty(userData)) return setSnackbar({ isOpen: true, isError: true, message: "Check your fields" });
     const res = await RegisterClient(userData);
     setSnackbar(res);
+    Router.push("/");
   };
 
   const handleClose = (event: React.SyntheticEvent | Event, reason?: string) => {
@@ -93,40 +94,38 @@ export default function Registration() {
             <Grid item xs={12}>
               <TextField required fullWidth name="password" label="Password" type="password" id="password" autoComplete="new-password" onChange={(e) => setUserData({ ...userData, password: e.target.value })} />
             </Grid>
-            {Array(3)
-              .fill(null)
-              .map((e, index) => {
-                return (
-                  <>
-                    <Grid item xs={12}>
-                      <InputLabel id="security-question-label" key={`sec-label-${index}`}>
-                        Security Question {index + 1}
-                      </InputLabel>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <SecurityQuestionList indexSec={index} key={`seq-${index}`} userData={userData} setUserData={setUserData} shuffledQuestions={shuffledQuestions}></SecurityQuestionList>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <TextField
-                        autoFocus
-                        key={`field-${index}`}
-                        required
-                        fullWidth
-                        name={`answer-${index}`}
-                        label={`Answer ${index + 1}`}
-                        type="answer"
-                        id={`answer-${index}`}
-                        value={userData?.securityQuestions[index].answer || ""}
-                        onChange={(e) => {
-                          const setSelectedQuestion = [...(userData?.securityQuestions || [])];
-                          setSelectedQuestion[index] = { ...userData?.securityQuestions[index], answer: e.target.value };
-                          setUserData({ ...userData, securityQuestions: setSelectedQuestion });
-                        }}
-                      />
-                    </Grid>
-                  </>
-                );
-              })}
+            {userData.securityQuestions.map((e: any, index: any) => {
+              return (
+                <>
+                  <Grid item xs={12}>
+                    <InputLabel id="security-question-label" key={`sec-label-${index}`}>
+                      Security Question {index + 1}
+                    </InputLabel>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <SecurityQuestionList indexSec={index} key={`seq-${index}`} userData={userData} setUserData={setUserData} shuffledQuestions={shuffledQuestions}></SecurityQuestionList>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      autoFocus
+                      key={`field-${index}`}
+                      required
+                      fullWidth
+                      name={`answer-${index}`}
+                      label={`Answer ${index + 1}`}
+                      type="answer"
+                      id={`answer-${index}`}
+                      value={userData?.securityQuestions[index].answer || ""}
+                      onChange={(e) => {
+                        const setSelectedQuestion = [...(userData?.securityQuestions || [])];
+                        setSelectedQuestion[index] = { ...userData?.securityQuestions[index], answer: e.target.value };
+                        setUserData({ ...userData, securityQuestions: setSelectedQuestion });
+                      }}
+                    />
+                  </Grid>
+                </>
+              );
+            })}
           </Grid>
 
           <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>

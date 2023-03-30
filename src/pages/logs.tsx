@@ -1,10 +1,20 @@
 import { getSession } from "next-auth/react";
+import Head from "next/head";
+import Loader from "../../component/Loader";
 import { LogsContainer } from "../../container/Logs";
 import { API } from "../../lib/api";
+import { Roles } from "../../typedefs/roles";
 
 export default function Logs({ data }: any) {
   const { data: logs } = data;
-  return <LogsContainer data={logs} />;
+  return (
+    <>
+      <Head>
+        <title>Logs</title>
+      </Head>
+      <LogsContainer data={logs} />
+    </>
+  );
 }
 
 export async function getServerSideProps(context: any) {
@@ -29,3 +39,9 @@ export async function getServerSideProps(context: any) {
     };
   }
 }
+
+Logs.auth = {
+  role: Roles.ADMIN,
+  loading: <Loader />,
+  unauthorized: "/",
+};

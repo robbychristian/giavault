@@ -118,3 +118,18 @@ export const searchUsersClient = async (input: string, accessToken: string, setD
   const { data: logs } = data;
   setData(logs);
 };
+
+
+export const UpdateClient = async (data: IUser) => {
+  try {
+    const res = await API.patch("/api/login", data);
+    if (res.status === 201) return { isOpen: true, message: "Success. Please Logout for changes to take effect", isError: false };
+  } catch (e: any) {
+    const {
+      response: {
+        data: { error },
+      },
+    } = e;
+    return { isOpen: true, message: error, isError: true };
+  }
+};

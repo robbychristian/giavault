@@ -1,18 +1,17 @@
 import { getSession } from "next-auth/react";
 import Head from "next/head";
-import Loader from "../../component/Loader";
-import { UserContainer } from "../../container/User";
-import { API } from "../../lib/api";
-import { Roles } from "../../typedefs/roles";
+import UserSetting from "../../../container/UserEdit";
+import { API } from "../../../lib/api";
 
 export default function Users({ data }: any) {
-  const { data: users } = data;
+  const { data: user } = data;
+  console.log("datausersrsrsr", user[0]);
   return (
     <>
       <Head>
-        <title> User List</title>
+        <title>Edit Details</title>
       </Head>
-      <UserContainer data={users} />
+      <UserSetting data={user[0]} />
     </>
   );
 }
@@ -24,7 +23,7 @@ export async function getServerSideProps(context: any) {
       headers: {
         Authorization: `Bearer ${session?.user?.accessToken}`,
       },
-      params: { limit: 100, page: 0, search: "" },
+      params: { limit: 100, page: 0, search: session?.user.username },
     });
     return {
       props: {
@@ -39,9 +38,3 @@ export async function getServerSideProps(context: any) {
     };
   }
 }
-
-Users.auth = {
-  role: Roles.ADMIN,
-  loading: <Loader />,
-  unauthorized: "/",
-};

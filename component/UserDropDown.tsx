@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-
-import { Avatar, Box, Button, Divider, Hidden, lighten, Popover, Typography } from "@mui/material";
-
+import NextLink, { LinkProps as NextLinkProps } from "next/link";
+import { Avatar, Box, Button, Divider, Hidden, lighten, List, ListItem, ListItemText, Popover, Typography } from "@mui/material";
+import AccountBoxTwoToneIcon from "@mui/icons-material/AccountBoxTwoTone";
 import { styled } from "@mui/material/styles";
 import ExpandMoreTwoToneIcon from "@mui/icons-material/ExpandMoreTwoTone";
 import LockOpenTwoToneIcon from "@mui/icons-material/LockOpenTwoTone";
@@ -113,26 +113,14 @@ function UserDropdown() {
           </UserBoxText>
         </MenuUserBox>
         <Divider sx={{ mb: 0 }} />
-        {/* <List sx={{ p: 1 }} component="nav">
-          <NextLink href="/management/profile" passHref>
+        <List sx={{ p: 1 }} component="nav">
+          <NextLink href="/user/edit" passHref>
             <ListItem button>
               <AccountBoxTwoToneIcon fontSize="small" />
               <ListItemText primary="My Profile" />
             </ListItem>
           </NextLink>
-          <NextLink href="/applications/messenger" passHref>
-            <ListItem button>
-              <InboxTwoToneIcon fontSize="small" />
-              <ListItemText primary="Messenger" />
-            </ListItem>
-          </NextLink>
-          <NextLink href="/management/profile/settings" passHref>
-            <ListItem button>
-              <AccountTreeTwoToneIcon fontSize="small" />
-              <ListItemText primary="Account Settings" />
-            </ListItem>
-          </NextLink>
-        </List> */}
+        </List>
         <Divider />
         <Box sx={{ m: 1 }}>
           <Button

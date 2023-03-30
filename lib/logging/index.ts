@@ -1,3 +1,4 @@
+import { toInteger } from "lodash";
 import Logs from "../../models/logs.model";
 import { Logs as LogType } from "../../typedefs/logs";
 import { Query } from "../../typedefs/query";
@@ -28,7 +29,7 @@ export const searchLogs = async (query: Query) => {
       },
     },
   ])
-    .limit(+limit)
-    .skip(+page)
+    .limit(toInteger(limit))
+    .skip(toInteger(page))
     .sort({ createdAt: -1 });
 };

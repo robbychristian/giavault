@@ -1,5 +1,5 @@
 import Typography from "@mui/material/Typography";
-import { MenuItem, Select, SelectChangeEvent } from "@mui/material";
+import { MenuItem, NoSsr, Select, SelectChangeEvent } from "@mui/material";
 import React, { FC } from "react";
 import { SecurityQuestionType, User } from "../typedefs/user";
 
@@ -8,33 +8,37 @@ interface ISecQ {
   indexSec: number;
   setUserData: (data: User) => void;
   shuffledQuestions?: [];
+  variant?: any;
 }
 
-const SecurityQuestionList: FC<ISecQ> = ({ indexSec, userData, setUserData, shuffledQuestions }) => (
-  <Select
-    key={`sel-${indexSec}`}
-    labelId={`security-question-label-${indexSec}`}
-    fullWidth
-    value={userData?.securityQuestions[indexSec].question}
-    onChange={(event: SelectChangeEvent) => {
-      const setSelectedQuestion = [...(userData?.securityQuestions || [])];
-      setSelectedQuestion[indexSec] = { ...userData?.securityQuestions[indexSec], question: event.target.value };
-      setUserData({ ...userData, securityQuestions: setSelectedQuestion });
-    }}
-    disabled={shuffledQuestions ? false : true}
-  >
-    {shuffledQuestions
-      ? shuffledQuestions.map((question: any, index: any) => (
-          <MenuItem key={`${question}-${index}`} value={question}>
-            <Typography key={`typog-${index}`}>{question}</Typography>
-          </MenuItem>
-        ))
-      : userData.securityQuestions.map((secQ: SecurityQuestionType, index: number) => (
-          <MenuItem key={`${secQ.question}-${index}`} value={secQ.question}>
-            <Typography key={`typog-${index}`}>{secQ.question}</Typography>
-          </MenuItem>
-        ))}
-  </Select>
+const SecurityQuestionList: FC<ISecQ> = ({ indexSec, userData, setUserData, shuffledQuestions, variant }) => (
+  <NoSsr>
+    <Select
+      key={`sel-${indexSec}`}
+      labelId={`security-question-label-${indexSec}`}
+      fullWidth
+      variant={variant ? variant : "outlined"}
+      value={(userData?.securityQuestions && userData?.securityQuestions[indexSec].question) || (shuffledQuestions && shuffledQuestions[indexSec]!)}
+      onChange={(event: SelectChangeEvent) => {
+        const setSelectedQuestion = [...(userData?.securityQuestions || [])];
+        setSelectedQuestion[indexSec] = { ...userData?.securityQuestions[indexSec], question: event.target.value };
+        setUserData({ ...userData, securityQuestions: setSelectedQuestion });
+      }}
+      disabled={shuffledQuestions ? false : true}
+    >
+      {shuffledQuestions
+        ? shuffledQuestions.map((question: any, index: any) => (
+            <MenuItem key={`${question}-${index}`} value={question}>
+              <Typography key={`typog-${index}`}>{question}</Typography>
+            </MenuItem>
+          ))
+        : userData.securityQuestions.map((secQ: SecurityQuestionType, index: number) => (
+            <MenuItem key={`${secQ.question}-${index}`} value={secQ.question}>
+              <Typography key={`typog-${index}`}>{secQ.question}</Typography>
+            </MenuItem>
+          ))}
+    </Select>
+  </NoSsr>
 );
 
 export default SecurityQuestionList;

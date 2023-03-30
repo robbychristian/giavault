@@ -1,9 +1,9 @@
 import { User } from "../../typedefs/user";
 
-export function isEmpty(obj: any, isAdmin?: boolean) {
+export function isEmpty(obj: any, isAdmin?: boolean, containsSecQuestion?: boolean) {
   for (var i in obj) {
     if (obj[i].length <= 1) return true;
-    if (!isAdmin) return validateSecurityQuestions(obj);
+    if (!isAdmin && !containsSecQuestion) return validateSecurityQuestions(obj);
   }
   return false;
 }

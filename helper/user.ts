@@ -3,6 +3,8 @@ import User from "../models/user.model";
 import * as bcrypt from "bcrypt";
 import { JWTSign } from "../lib/jwt";
 import { Query } from "../typedefs/query";
+import { Types } from "mongoose";
+import { toInteger } from "lodash";
 
 export const RegisterApi = async (data: IUser) => {
   try {
@@ -20,9 +22,11 @@ export const RegisterApi = async (data: IUser) => {
       password: hashed,
       securityQuestions: secQuestions.length > 1 ? secQuestions : null,
     };
-    await User.updateOne(updated, updated, { upsert: true });
+    console.log("updated", updated);
+    await User.create(updated);
     return { status: true, code: null };
   } catch (e: any) {
+    console.log("e", e);
     return { status: false, code: e?.code };
   }
 };
@@ -30,11 +34,11 @@ export const RegisterApi = async (data: IUser) => {
 export const LoginApi = async (data: Partial<IUser>) => {
   try {
     const { username, password } = data;
-    const { password: docPass, role } = await User.findOne({ username });
+    const { password: docPass, role, _id } = await User.findOne({ username });
     if (!docPass) return false;
     const isMatch = await bcrypt.compare(password as string, docPass);
     if (!isMatch) return false;
-    const jwtToken = JWTSign({ username, role });
+    const jwtToken = JWTSign({ username, role, _id });
     await User.findOneAndUpdate({ username }, { lastLogin: new Date().toISOString() });
     return jwtToken;
   } catch (e) {
@@ -43,9 +47,41 @@ export const LoginApi = async (data: Partial<IUser>) => {
   }
 };
 
+export const UserUpdateApi = async (data: IUser) => {
+  try {
+    let hashed, updated;
+    if (data.password) {
+      hashed = await bcrypt.hash(data.password, 10);
+      updated = {
+        ...data,
+        password: hashed,
+      };
+    }
+
+    if (data.securityQuestions && data.securityQuestions.length > 1) {
+      const secQuestions = [];
+      console.log("data.securityQuestions", data.securityQuestions);
+      for (let question of data?.securityQuestions) {
+        secQuestions.push({ ...question, answer: await bcrypt.hash(question.answer, 10) });
+      }
+      updated = {
+        ...data,
+        password: hashed,
+        securityQuestions: secQuestions.length > 1 ? secQuestions : null,
+      };
+    }
+
+    await User.updateOne({ _id: new Types.ObjectId(data._id) }, updated);
+    return { status: true, code: null };
+  } catch (e: any) {
+    return { status: false, code: e?.code };
+  }
+};
+
 export const getUsers = async (query: Query) => {
   try {
     const { limit, page, search } = query;
+    console.log("limit81", limit);
     return await User.aggregate([
       {
         $match: {
@@ -59,13 +95,18 @@ export const getUsers = async (query: Query) => {
       },
       {
         $project: {
-          password: 0,
-          securityQuestions: 0,
+          username: 1,
+          role: 1,
+          firstName: 1,
+          lastName: 1,
+          _id: 1,
+          lastLogin: 1,
+          "securityQuestions.question": 1,
         },
       },
     ])
-      .limit(+limit)
-      .skip(+page)
+      .limit(toInteger(limit))
+      .skip(toInteger(page))
       .sort({ createdAt: -1 });
   } catch (e) {}
 };
