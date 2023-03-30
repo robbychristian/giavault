@@ -1,9 +1,9 @@
 import { Box, CssBaseline } from "@mui/material";
 import { FC } from "react";
-import { SideDrawer } from "../component/Drawer";
-import TableContainer from "./TableContainer";
-import { Logs as LogType } from "../typedefs/logs";
-import { TableTypes } from "../typedefs/components/Table.type";
+import { SideDrawer } from "@components/Drawer";
+import TableContainer from "@containers/TableContainer";
+import { Logs as LogType } from "@typedefs/logs";
+import { TableTypes } from "@typedefs/components/Table.type";
 
 interface ILogsContainer {
   data: LogType[];

@@ -1,5 +1,5 @@
 import Head from "next/head";
-import Registration from "../../container/Register";
+import Registration from "@containers/Register";
 
 export default function Register() {
   return (

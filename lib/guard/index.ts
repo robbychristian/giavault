@@ -1,8 +1,8 @@
 import { IncomingMessage } from "http";
 import { NextApiRequest, NextApiResponse } from "next";
 import { NextRequest } from "next/server";
-import { ERROR_TYPES } from "../../typedefs/errors";
-import { JWTParse, JWTServerValidator, JWTVerify } from "../jwt";
+import { ERROR_TYPES } from "@typedefs/errors";
+import { JWTParse, JWTServerValidator, JWTVerify } from "@libs/jwt";
 
 /*
 Future support will include userAgent please see: https://nextjs.org/docs/api-reference/next/server#useragent

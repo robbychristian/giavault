@@ -1,5 +1,5 @@
-import { User as IUser } from "../typedefs/user";
-import User from "../models/user.model";
+import { User as IUser } from "@typedefs/user";
+import User from "@models/user.model";
 import * as bcrypt from "bcrypt";
 
 export const FindApiForReset = async (data: Partial<IUser>) => {

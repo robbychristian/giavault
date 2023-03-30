@@ -1,10 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { isEmpty } from "../../../helper/objects";
-import { getUsers, LoginApi, RegisterApi } from "../../../helper/user";
-import connectMongo from "../../../lib/database";
-import { ERROR_TYPES } from "../../../typedefs/errors";
-import { Query } from "../../../typedefs/query";
-import { User } from "../../../typedefs/user";
+import { isEmpty } from "@helper/objects";
+import { getUsers, LoginApi, RegisterApi } from "@helper/user";
+import connectMongo from "@libs/database";
+import { ERROR_TYPES } from "@typedefs/errors";
+import { Query } from "@typedefs/query";
+import { User } from "@typedefs/user";
 
 async function handler(req: NextApiRequest, res: NextApiResponse<any>) {
   switch (req.method) {

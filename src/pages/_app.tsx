@@ -4,7 +4,7 @@ import { createTheme } from "@mui/material";
 import { ThemeProvider } from "@mui/styles";
 import type { AppProps } from "next/app";
 import { SessionProvider, useSession } from "next-auth/react";
-import Loader from "../../component/Loader";
+import Loader from "@components/Loader";
 const theme = createTheme({
   palette: {
     primary: {

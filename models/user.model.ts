@@ -1,5 +1,5 @@
 import { Schema, model, models, Document, Model } from "mongoose";
-import { Roles } from "../typedefs/roles";
+import { Roles } from "@typedefs/roles";
 
 const SecurityQuestionsSchema = new Schema({
   question: { type: String, required: true },

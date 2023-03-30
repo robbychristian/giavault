@@ -1,9 +1,9 @@
 import { getSession } from "next-auth/react";
 import Head from "next/head";
-import Loader from "../../component/Loader";
-import { UserContainer } from "../../container/User";
-import { API } from "../../lib/api";
-import { Roles } from "../../typedefs/roles";
+import Loader from "@components/Loader";
+import { UserContainer } from "@containers/User/User";
+import { API } from "@libs/api";
+import { Roles } from "@typedefs/roles";
 
 export default function Users({ data }: any) {
   const { data: users } = data;

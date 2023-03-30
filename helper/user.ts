@@ -1,8 +1,8 @@
-import { User as IUser } from "../typedefs/user";
-import User from "../models/user.model";
+import { User as IUser } from "@typedefs/user";
+import User from "@models/user.model";
 import * as bcrypt from "bcrypt";
-import { JWTSign } from "../lib/jwt";
-import { Query } from "../typedefs/query";
+import { JWTSign } from "@libs/jwt";
+import { Query } from "@typedefs/query";
 import { Types } from "mongoose";
 import { toInteger } from "lodash";
 

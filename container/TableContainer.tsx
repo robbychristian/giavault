@@ -7,11 +7,11 @@ import TextField from "@mui/material/TextField";
 import SearchIcon from "@mui/icons-material/Search";
 import React, { FC, useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
-import { searchLogsClient } from "../helper/userLog";
-import { TableTypes } from "../typedefs/components/Table.type";
-import { TableSwitch } from "../component/TableSwitch";
+import { searchLogsClient } from "@helper/userLog";
+import { TableTypes } from "@typedefs/components/Table.type";
+import { TableSwitch } from "@components/TableSwitch";
 import { Box, IconButton, Modal, Tooltip, Typography } from "@mui/material";
-import { searchUsersClient } from "../helper/userClient";
+import { searchUsersClient } from "@helper/userClient";
 import RefreshIcon from "@mui/icons-material/Refresh";
 
 interface ITable {

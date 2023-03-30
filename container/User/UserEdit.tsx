@@ -2,10 +2,10 @@ import { useState, ChangeEvent, FC } from "react";
 import Head from "next/head";
 import { Container, Tabs, Tab, Grid, CssBaseline } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import UserEdit from "../component/UserEdit";
+import UserEdit from "@components/UserEdit";
 import { Box } from "@mui/system";
-import { SideDrawer } from "../component/Drawer";
-import { User } from "../typedefs/user";
+import { SideDrawer } from "@components/Drawer";
+import { User } from "@typedefs/user";
 
 export interface IUserSetting {
   data: User;

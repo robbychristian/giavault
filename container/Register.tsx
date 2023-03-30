@@ -8,17 +8,17 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import Copyright from "../component/Copyright";
+import Copyright from "@components/Copyright";
 import Router from "next/router";
 import { IconButton, InputLabel, Snackbar } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { RegisterClient } from "../helper/userClient";
-import { isEmpty } from "../helper/objects";
+import { RegisterClient } from "@helper/userClient";
+import { isEmpty } from "@helper/objects";
 import { shuffle } from "lodash";
 import React, { useState } from "react";
-import { SecurityQuestions } from "../constants/securityQuestions";
-import { User } from "../typedefs/user";
-import SecurityQuestionList from "../component/SecurityQuestion";
+import { SecurityQuestions } from "@constants/securityQuestions";
+import { User } from "@typedefs/user";
+import SecurityQuestionList from "@components/SecurityQuestion";
 
 export default function Registration() {
   const [shuffledQuestions, setShuffledQuestions] = useState<any>(shuffle(SecurityQuestions));

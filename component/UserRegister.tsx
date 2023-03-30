@@ -7,11 +7,11 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { IconButton, MenuItem, Select, SelectChangeEvent, Snackbar } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { RegisterClient } from "../helper/userClient";
-import { isEmpty } from "../helper/objects";
+import { RegisterClient } from "@helper/userClient";
+import { isEmpty } from "@helper/objects";
 import React, { useEffect, useState } from "react";
-import { User } from "../typedefs/user";
-import { Roles } from "../typedefs/roles";
+import { User } from "@typedefs/user";
+import { Roles } from "@typedefs/roles";
 
 export const RegistrationAdmin = () => {
   const [userData, setUserData] = useState<Partial<User> | any>({

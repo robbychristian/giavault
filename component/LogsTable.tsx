@@ -5,9 +5,9 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { Logs as LogType } from "../typedefs/logs";
+import { Logs as LogType } from "@typedefs/logs";
 import { FC } from "react";
-import { formatDate } from "../helper/date";
+import { formatDate } from "@helper/date";
 
 interface ILogsTable {
   data: LogType[];

@@ -1,7 +1,7 @@
 import { FC } from "react";
-import { TableTypes } from "../typedefs/components/Table.type";
-import LogsTable from "./LogsTable";
-import UserTable from "./UserTable";
+import { TableTypes } from "@typedefs/components/Table.type";
+import LogsTable from "@components/LogsTable";
+import UserTable from "@components/UserTable";
 
 interface ITableSwitch {
   tableType: TableTypes;

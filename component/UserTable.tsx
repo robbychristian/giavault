@@ -6,9 +6,9 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { FC } from "react";
-import { formatDate } from "../helper/date";
-import { User } from "../typedefs/user";
-import { Roles } from "../typedefs/roles";
+import { formatDate } from "@helper/date";
+import { User } from "@typedefs/user";
+import { Roles } from "@typedefs/roles";
 
 interface IUserTable {
   data: User[];

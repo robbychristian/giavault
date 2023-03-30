@@ -1,7 +1,7 @@
 import { toInteger } from "lodash";
-import Logs from "../../models/logs.model";
-import { Logs as LogType } from "../../typedefs/logs";
-import { Query } from "../../typedefs/query";
+import Logs from "@models/logs.model";
+import { Logs as LogType } from "@typedefs/logs";
+import { Query } from "@typedefs/query";
 
 export const LogAction = async (data: LogType) => {
   const res = await Logs.create(data);

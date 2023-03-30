@@ -1,7 +1,7 @@
 import Typography from "@mui/material/Typography";
 import { MenuItem, NoSsr, Select, SelectChangeEvent } from "@mui/material";
 import React, { FC } from "react";
-import { SecurityQuestionType, User } from "../typedefs/user";
+import { SecurityQuestionType, User } from "@typedefs/user";
 
 interface ISecQ {
   userData: User;

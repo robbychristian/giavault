@@ -1,5 +1,5 @@
-import { API } from "../lib/api";
-import { User as IUser } from "../typedefs/user";
+import { API } from "@libs/api";
+import { User as IUser } from "@typedefs/user";
 
 export const RegisterClient = async (data: IUser) => {
   try {

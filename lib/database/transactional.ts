@@ -1,6 +1,6 @@
 import { Model } from 'mongoose';
 import mongodb from 'mongodb';
-import { User } from '../../typedefs/user';
+import { User } from '@typedefs/user';
 
 export class Database {
   constructor(private readonly model: Model<User>) {}

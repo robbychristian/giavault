@@ -7,12 +7,12 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import Copyright from "../component/Copyright";
+import Copyright from "@components/Copyright";
 import { InputLabel } from "@mui/material";
 import React, { useState } from "react";
-import { SecurityQuestionType, User } from "../typedefs/user";
-import { CheckForResetClient, ResetClient } from "../helper/userClient";
-import SecurityQuestionList from "../component/SecurityQuestion";
+import { SecurityQuestionType, User } from "@typedefs/user";
+import { CheckForResetClient, ResetClient } from "@helper/userClient";
+import SecurityQuestionList from "@components/SecurityQuestion";
 
 const PasswordReset = () => {
   const [isLoading, setisLoading] = useState(false);

@@ -6,8 +6,8 @@ import Toolbar from "@mui/material/Toolbar";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
-import Copyright from "../component/Copyright";
-import { SideDrawer } from "../component/Drawer";
+import Copyright from "@components/Copyright";
+import { SideDrawer } from "@components/Drawer";
 
 const mdTheme = createTheme();
 

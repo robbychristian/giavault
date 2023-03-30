@@ -1,7 +1,7 @@
 import { getSession } from "next-auth/react";
 import Head from "next/head";
-import UserSetting from "../../../container/UserEdit";
-import { API } from "../../../lib/api";
+import UserSetting from "@containers/User/UserEdit";
+import { API } from "@libs/api";
 
 export default function Users({ data }: any) {
   const { data: user } = data;

@@ -6,7 +6,7 @@ import { styled } from "@mui/material/styles";
 import ExpandMoreTwoToneIcon from "@mui/icons-material/ExpandMoreTwoTone";
 import LockOpenTwoToneIcon from "@mui/icons-material/LockOpenTwoTone";
 import { signOut, useSession } from "next-auth/react";
-import { Roles } from "../typedefs/roles";
+import { Roles } from "@typedefs/roles";
 
 const UserBoxButton = styled(Button)(
   ({ theme }) => `

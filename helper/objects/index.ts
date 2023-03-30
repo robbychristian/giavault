@@ -1,4 +1,4 @@
-import { User } from "../../typedefs/user";
+import { User } from "@typedefs/user";
 
 export function isEmpty(obj: any, isAdmin?: boolean, containsSecQuestion?: boolean) {
   for (var i in obj) {

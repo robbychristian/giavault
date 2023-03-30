@@ -1,11 +1,10 @@
 import Credentials from "next-auth/providers/credentials";
 import NextAuth from "next-auth/next";
-import { JWTParse } from "../../../../lib/jwt";
+import { JWTParse } from "@libs/jwt";
 import { NextApiRequest, NextApiResponse } from "next";
-// import { withAuth } from "../../../../lib/guard";
-import { URLList } from "../../../../constants/urls";
-import { LogAction } from "../../../../lib/logging";
-import connectMongo from "../../../../lib/database";
+import { URLList } from "@constants/urls";
+import { LogAction } from "@libs/logging";
+import connectMongo from "@libs/database";
 const options = {
   pages: {
     signIn: "/",

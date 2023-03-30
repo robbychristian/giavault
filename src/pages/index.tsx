@@ -1,6 +1,5 @@
-import Login from "../../container/Login";
-import type { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
-import { getCsrfToken, getSession } from "next-auth/react";
+import Login from "@containers/Login";
+import { getSession } from "next-auth/react";
 import Head from "next/head";
 
 export default function Home() {

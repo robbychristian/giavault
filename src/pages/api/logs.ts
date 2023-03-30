@@ -1,10 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import connectMongo from "../../../lib/database";
-import { ERROR_TYPES } from "../../../typedefs/errors";
+import connectMongo from "@libs/database";
+import { ERROR_TYPES } from "@typedefs/errors";
 import type { NextRequest } from "next/server";
-import { withAuth } from "../../../lib/guard";
-import { getLogs, searchLogs } from "../../../lib/logging";
-import { Query } from "../../../typedefs/query";
+import { withAuth } from "@libs/guard";
+import { getLogs, searchLogs } from "@libs/logging";
+import { Query } from "@typedefs/query";
 
 async function handler(req: NextApiRequest, res: NextApiResponse<any>) {
   switch (req.method) {
