@@ -1,8 +1,14 @@
+export type SecurityQuestionType = {
+  question: string;
+  answer: string;
+};
+
 export interface User {
   firstName: string;
   lastName: string;
   username: string;
   password: string;
+  securityQuestions: SecurityQuestionType[];
 }
 
 export interface InsurancePolicy {

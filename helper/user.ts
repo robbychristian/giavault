@@ -6,9 +6,15 @@ import { JWTSign } from "../lib/jwt";
 export const RegisterApi = async (data: IUser) => {
   try {
     const hashed = await bcrypt.hash(data.password, 10);
+    const secQuestions = [];
+    for (let question of data.securityQuestions) {
+      secQuestions.push({ ...question, answer: await bcrypt.hash(question.answer, 10) });
+    }
+    // console.log("secQuestions", secQuestions);
     const updated = {
       ...data,
       password: hashed,
+      securityQuestions: secQuestions,
     };
     await User.updateOne(updated, updated, { upsert: true });
     return { status: true, code: null };

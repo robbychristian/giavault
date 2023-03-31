@@ -13,7 +13,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Copyright from "../component/Copyright";
 import Router from "next/router";
-import { isEmpty } from "../helper/objects";
+import { isEmptyNoSec } from "../helper/objects";
 import { Snackbar, IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { signIn } from "next-auth/react";
@@ -44,7 +44,7 @@ const Login = () => {
     event.preventDefault();
     let object: any = {};
     new FormData(event.currentTarget).forEach((value: any, key: any) => (object[key] = value));
-    if (isEmpty(object)) return setSnackbar({ isOpen: true, isError: true, message: "Check your fields" });
+    if (isEmptyNoSec(object)) return setSnackbar({ isOpen: true, isError: true, message: "Check your fields" });
     signIn("credentials", { username: object?.username!, password: object?.password!, redirect: false }).then((e) => {
       if (e?.error) setSnackbar({ isOpen: true, isError: true, message: "Your credentials is invalid, please try again" });
       else if (e?.ok) Router.push("/dashboard");
@@ -74,18 +74,18 @@ const Login = () => {
           Sign in
         </Typography>
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-          <TextField margin="normal" required fullWidth id="username" label="Username" name="username" autoComplete="sername" autoFocus />
+          <TextField margin="normal" required fullWidth id="username" label="Username" name="username" autoComplete="username" autoFocus />
           <TextField margin="normal" required fullWidth name="password" label="Password" type="password" id="password" autoComplete="current-password" />
           <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="Remember me" />
           <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
             Sign In
           </Button>
           <Grid container>
-            {/* <Grid item xs>
-              <Link href="#" variant="body2">
+            <Grid item xs>
+              <Link href="#" variant="body2" onClick={() => Router.push("/reset")}>
                 Forgot password?
               </Link>
-            </Grid> */}
+            </Grid>
             <Grid item alignItems="center" justifyContent="center">
               <Link href="#" variant="body2" onClick={() => Router.push("/register")}>
                 {"Don't have an account? Sign Up"}
