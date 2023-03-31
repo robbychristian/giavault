@@ -28,6 +28,35 @@ export const searchLogs = async (query: Query) => {
         ],
       },
     },
+    {
+      $lookup: {
+        from: "users",
+        localField: "username",
+        foreignField: "username",
+        pipeline: [
+          {
+            $project: {
+              role: 1,
+              _id: 0,
+            },
+          },
+        ],
+        as: "role",
+      },
+    },
+    {
+      $unwind: { path: "$role", preserveNullAndEmptyArrays: true },
+    },
+    {
+      $project: {
+        role: "$role.role",
+        username: 1,
+        IP: 1,
+        method: 1,
+        action: 1,
+        createdAt: 1,
+      },
+    },
   ])
     .limit(toInteger(limit))
     .skip(toInteger(page))

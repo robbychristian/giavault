@@ -8,6 +8,7 @@ import Paper from "@mui/material/Paper";
 import { Logs as LogType } from "@typedefs/logs";
 import { FC } from "react";
 import { formatDate } from "@helper/date";
+import { Roles } from "@typedefs/roles";
 
 interface ILogsTable {
   data: LogType[];
@@ -34,7 +35,7 @@ const LogsTable: FC<ILogsTable> = ({ data }) => {
                 {row?.username}
               </TableCell>
               <TableCell align="right">{row?.IP}</TableCell>
-              <TableCell align="right">{row?.role ?? "N/A"}</TableCell>
+              <TableCell align="right">{Roles[row?.role as any] ?? "N/A"}</TableCell>
               <TableCell align="right">{row?.method}</TableCell>
               <TableCell align="right">{row?.action}</TableCell>
               <TableCell align="right">{formatDate(row?.createdAt!)}</TableCell>
