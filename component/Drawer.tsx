@@ -8,7 +8,7 @@ import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import { FC, ReactNode, useState } from "react";
+import { FC, ReactNode, useEffect, useState } from "react";
 import { MenuList } from "./MenuList";
 import { useRouter } from "next/router";
 import UserDropDown from "./UserDropDown";
@@ -65,11 +65,15 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== "open" 
 }));
 
 export const SideDrawer: FC<ISideDrawer> = ({ children }) => {
+  const [title, setTitle] = useState(document.title);
   const [open, setOpen] = useState(false);
   const { asPath, pathname } = useRouter();
   const toggleDrawer = () => {
     setOpen(!open);
   };
+  useEffect(() => {
+    if (document.title) setTitle(document.title);
+  }, [document.title]);
 
   return (
     <NoSsr>
@@ -92,7 +96,7 @@ export const SideDrawer: FC<ISideDrawer> = ({ children }) => {
             <MenuIcon />
           </IconButton>
           <Typography component="h1" variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }}>
-            {pathname.replace("/", "").charAt(0).toUpperCase() + pathname.slice(2)}
+            {title}
           </Typography>
           <IconButton color="inherit">
             <UserDropDown />
