@@ -18,10 +18,10 @@ const SecurityQuestionList: FC<ISecQ> = ({ indexSec, userData, setUserData, shuf
       labelId={`security-question-label-${indexSec}`}
       fullWidth
       variant={variant ? variant : "outlined"}
-      value={(userData?.securityQuestions && userData?.securityQuestions[indexSec].question) || (shuffledQuestions && shuffledQuestions[indexSec]!)}
+      value={userData?.securityQuestions && userData?.securityQuestions[indexSec]?.question ? userData?.securityQuestions[indexSec]?.question : shuffledQuestions && shuffledQuestions[indexSec]}
       onChange={(event: SelectChangeEvent) => {
         const setSelectedQuestion = [...(userData?.securityQuestions || [])];
-        setSelectedQuestion[indexSec] = { ...userData?.securityQuestions[indexSec], question: event.target.value };
+        setSelectedQuestion[indexSec] = { ...(userData?.securityQuestions?.[indexSec] ?? setSelectedQuestion[indexSec]), question: event.target.value };
         setUserData({ ...userData, securityQuestions: setSelectedQuestion });
       }}
       disabled={shuffledQuestions ? false : true}

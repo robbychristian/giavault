@@ -41,8 +41,9 @@ const UserEdit: FC<{ data: User }> = ({ data }) => {
         alert("Security Question is Needed");
       }
     }
-    if (isEmpty(userData, false, containsSecQuestion)) return setSnackbar({ isOpen: true, isError: true, message: "Check your fields." });
-    const res = await UpdateClient(userData);
+    const { role, _id, lastLogin, ...rest } = userData;
+    if (isEmpty(rest, false, containsSecQuestion)) return setSnackbar({ isOpen: true, isError: true, message: "Check your fields." });
+    const res = await UpdateClient(rest);
     setSnackbar(res);
   };
 
@@ -148,7 +149,7 @@ const UserEdit: FC<{ data: User }> = ({ data }) => {
                       value={(userData?.securityQuestions && userData?.securityQuestions[index]?.answer) ?? ""}
                       onChange={(e) => {
                         const setSelectedQuestion = [...(userData?.securityQuestions || [])];
-                        setSelectedQuestion[index] = { ...userData?.securityQuestions[index], answer: e.target.value };
+                        setSelectedQuestion[index] = { ...(userData?.securityQuestions?.[index] ?? setSelectedQuestion[index]), answer: e.target.value };
                         setUserData({ ...userData, securityQuestions: setSelectedQuestion });
                       }}
                     />
