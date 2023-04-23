@@ -26,10 +26,6 @@ const LogsTable: FC<ILogsTable> = ({ data }) => {
     setDataIndexed({ ...dataIndexed, data: data.slice(0, dataIndexed.offset) });
   }, [data]);
 
-  // useEffect(() => {
-  //   console.log("dataIndexed", dataIndexed);
-  // }, [dataIndexed]);
-
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
       <TableContainer component={Paper}>

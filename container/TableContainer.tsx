@@ -100,7 +100,7 @@ const TableContainer: FC<ITable> = ({ placeholder, data, hasButton, buttonText, 
           </Grid>
         </Toolbar>
       </AppBar>
-      <TableSwitch tableType={type} data={data} searchData={searchData} />
+      <TableSwitch tableType={type} data={data} searchData={searchData} refetch={refetch} />
       <Modal open={isModalOpen} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
         <Box sx={style}>{modalChildren}</Box>
       </Modal>

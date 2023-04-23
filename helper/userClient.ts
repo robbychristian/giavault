@@ -132,3 +132,24 @@ export const UpdateClient = async (data: IUser) => {
     return { isOpen: true, message: error, isError: true };
   }
 };
+
+export const DeleteUserClient = async (_id: string, accessToken: string, callback: () => void) => {
+  try {
+    const res = await API.delete("/api/user", {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+      params: { _id },
+    });
+    if (res.status === 200) {
+      return callback();
+    }
+  } catch (e: any) {
+    const {
+      response: {
+        data: { error },
+      },
+    } = e;
+    return { isOpen: true, message: error, isError: true };
+  }
+};

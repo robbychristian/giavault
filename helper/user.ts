@@ -81,7 +81,6 @@ export const UserUpdateApi = async (data: IUser) => {
 export const getUsers = async (query: Query) => {
   try {
     const { limit, page, search } = query;
-    console.log("limit81", limit);
     return await User.aggregate([
       {
         $match: {
@@ -109,4 +108,8 @@ export const getUsers = async (query: Query) => {
       .skip(toInteger(page))
       .sort({ createdAt: -1 });
   } catch (e) {}
+};
+
+export const deleteUser = async (_id: string) => {
+  return await User.deleteOne({ _id: new Types.ObjectId(_id) });
 };
