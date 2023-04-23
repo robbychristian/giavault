@@ -59,11 +59,12 @@ export const CheckForResetClient = async (userData: Partial<IUser>, setUserData:
         data: { error },
       },
     } = e;
+    alert("Error! Account not found");
     return setIsValid(false);
   }
 };
 
-export const ResetClient = async (userData: Partial<IUser>) => {
+export const ResetClient = async (userData: Partial<IUser>, router: any) => {
   try {
     const res = await API.post("/api/reset", userData, {
       headers: {
@@ -75,16 +76,16 @@ export const ResetClient = async (userData: Partial<IUser>) => {
     });
 
     if (res.status == 200) {
-      return true;
+      alert("Success! Redirecting you to login page");
+      return router.push("/");
     }
-
-    return false;
   } catch (e: any) {
     const {
       response: {
         data: { error },
       },
     } = e;
+    alert("Error!");
     return false;
   }
 };
@@ -107,7 +108,6 @@ export const refetchUsers = async (accessToken: string, setData: (data: any) => 
   }
 };
 
-
 export const searchUsersClient = async (input: string, accessToken: string, setData: (data: any) => void) => {
   const { data } = await API.get("/api/user", {
     headers: {
@@ -118,7 +118,6 @@ export const searchUsersClient = async (input: string, accessToken: string, setD
   const { data: logs } = data;
   setData(logs);
 };
-
 
 export const UpdateClient = async (data: IUser) => {
   try {

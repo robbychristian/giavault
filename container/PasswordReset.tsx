@@ -13,8 +13,10 @@ import React, { useState } from "react";
 import { SecurityQuestionType, User } from "@typedefs/user";
 import { CheckForResetClient, ResetClient } from "@helper/userClient";
 import SecurityQuestionList from "@components/SecurityQuestion";
+import { useRouter } from "next/router";
 
 const PasswordReset = () => {
+  const router = useRouter();
   const [isLoading, setisLoading] = useState(false);
   const [isValid, setIsValid] = useState(false);
   const [userData, setUserData] = useState<Partial<User> | any>({
@@ -47,7 +49,7 @@ const PasswordReset = () => {
           component="form"
           onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
             event.preventDefault();
-            !isValid ? CheckForResetClient(userData, setUserData, setIsValid) : ResetClient(userData);
+            !isValid ? CheckForResetClient(userData, setUserData, setIsValid) : ResetClient(userData, router);
           }}
           noValidate
           sx={{ mt: 3 }}
