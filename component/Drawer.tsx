@@ -67,10 +67,11 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== "open" 
 export const SideDrawer: FC<ISideDrawer> = ({ children }) => {
   const [title, setTitle] = useState(document.title);
   const [open, setOpen] = useState(false);
-  const { asPath, pathname } = useRouter();
+
   const toggleDrawer = () => {
     setOpen(!open);
   };
+
   useEffect(() => {
     if (document.title) setTitle(document.title);
   }, [document.title]);

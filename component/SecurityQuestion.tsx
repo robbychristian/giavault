@@ -7,7 +7,7 @@ interface ISecQ {
   userData: User;
   indexSec: number;
   setUserData: (data: User) => void;
-  shuffledQuestions?: [];
+  shuffledQuestions?: any[];
   variant?: any;
 }
 
@@ -15,6 +15,7 @@ const SecurityQuestionList: FC<ISecQ> = ({ indexSec, userData, setUserData, shuf
   <NoSsr>
     <Select
       key={`sel-${indexSec}`}
+      data-testid={`secq-${indexSec}`}
       labelId={`security-question-label-${indexSec}`}
       fullWidth
       variant={variant ? variant : "outlined"}

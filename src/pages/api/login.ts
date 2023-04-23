@@ -28,6 +28,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<any>) {
       if (isEmptyNoSec(userUpdate)) res.status(400).json({ success: false, error: "Empty Field Detected" });
       if (!userUpdate) res.status(400).json({ success: false });
       const { status, code } = await UserUpdateApi(userUpdate);
+      if (status) return res.status(201).json({ success: true });
       return res.status(400).json({ success: false, error: "Unknown error" });
     }
     default:
