@@ -7,6 +7,7 @@ export const LogsSchema = new Schema(
     role: { type: String }, // only needed for logged in users
     method: { type: String, required: true },
     action: { type: String, required: true },
+    payload: { type: String },
     createdAt: { type: String },
   },
   { timestamps: true, versionKey: false }

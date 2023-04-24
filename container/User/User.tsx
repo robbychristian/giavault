@@ -3,7 +3,7 @@ import { useSession } from "next-auth/react";
 import { FC, useState } from "react";
 import { SideDrawer } from "@components/Drawer";
 import { RegistrationAdmin } from "@components/UserRegister";
-import { refetchUsers } from "@helper/userClient";
+import { refetchUsers } from "@helper/client/user/userClient";
 import { TableTypes } from "@typedefs/components/Table.type";
 import { User } from "@typedefs/user";
 import TableContainer from "@containers/TableContainer";

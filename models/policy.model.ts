@@ -1,6 +1,6 @@
-import { Schema, model, models, Document, Model } from "mongoose";
+import { Schema, model, models } from "mongoose";
 
-const PolicySchema = new Schema(
+export const PolicySchema = new Schema(
   {
     sa: {
       type: String,
@@ -130,6 +130,6 @@ const PolicySchema = new Schema(
   { timestamps: true, versionKey: false }
 );
 
-const Policy = models.PolicySchema || model("policy", PolicySchema);
+const Policy = models.Policy || model("Policy", PolicySchema);
 
 export default Policy;
