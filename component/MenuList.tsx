@@ -34,7 +34,7 @@ const Agent = () => {
         </ListItemIcon>
         <ListItemText primary="Dashboard" />
       </ListItemButton>
-      <ListItemButton onClick={() => router.push("/agent/form")}>
+      <ListItemButton onClick={() => router.push("/insurance/form")}>
         <ListItemIcon>
           <ListAltIcon />
         </ListItemIcon>
@@ -67,7 +67,7 @@ const Admin = () => {
         <ListItemText primary="User Management" />
       </ListItemButton>
       <Divider />
-      <ListItemButton onClick={() => router.push("/agent/form")}>
+      <ListItemButton onClick={() => router.push("/insurance/form")}>
         <ListItemIcon>
           <ListAltIcon />
         </ListItemIcon>
