@@ -15,6 +15,7 @@ export const RegisterClient = async (data: IUser) => {
   }
 };
 
+// function below is unsupported api. isn't used anymore. moved to next-auth
 export const LoginClient = async (data: Partial<IUser>) => {
   try {
     const res = await API.get("/api/login", {

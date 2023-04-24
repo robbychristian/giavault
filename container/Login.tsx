@@ -14,9 +14,10 @@ import Container from "@mui/material/Container";
 import Copyright from "@components/Copyright";
 import Router from "next/router";
 import { isEmptyNoSec } from "@helper/objects";
-import { Snackbar, IconButton } from "@mui/material";
+import { IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { signIn } from "next-auth/react";
+import SnackBarComponent from "@components/Snackbar";
 
 const Login = () => {
   const [snackbar, setSnackbar] = React.useState<any>({
@@ -57,7 +58,7 @@ const Login = () => {
 
   return (
     <Container component="main" maxWidth="xs">
-      <Snackbar open={snackbar.isOpen} autoHideDuration={6000} onClose={handleClose} message={snackbar.message} action={action} />
+      <SnackBarComponent setSnackbar={setSnackbar} snackbar={snackbar} />
       <CssBaseline />
       <Box
         sx={{

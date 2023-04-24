@@ -7,11 +7,12 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { IconButton, MenuItem, Select, SelectChangeEvent, Snackbar } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { RegisterClient } from "@helper/userClient";
+import { RegisterClient } from "@helper/client/user/userClient";
 import { isEmpty } from "@helper/objects";
 import React, { useEffect, useState } from "react";
 import { User } from "@typedefs/user";
 import { Roles } from "@typedefs/roles";
+import SnackBarComponent from "./Snackbar";
 
 export const RegistrationAdmin = () => {
   const [userData, setUserData] = useState<Partial<User> | any>({
@@ -52,7 +53,7 @@ export const RegistrationAdmin = () => {
 
   return (
     <Container component="main" maxWidth="xs">
-      <Snackbar open={snackbar.isOpen} autoHideDuration={6000} onClose={handleClose} message={snackbar.message} action={action} />
+      <SnackBarComponent setSnackbar={setSnackbar} snackbar={snackbar} />
       <CssBaseline />
       <Box
         sx={{

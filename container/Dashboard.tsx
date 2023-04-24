@@ -59,9 +59,9 @@ const Dashboard = () => {
               <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>{/* <Orders /> */}</Paper>
             </Grid>
           </Grid>
-          <Copyright />
         </Container>
       </Box>
+      <Copyright />
     </Box>
   );
 };

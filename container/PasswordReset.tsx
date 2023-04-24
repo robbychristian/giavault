@@ -11,7 +11,7 @@ import Copyright from "@components/Copyright";
 import { InputLabel } from "@mui/material";
 import React, { useState } from "react";
 import { SecurityQuestionType, User } from "@typedefs/user";
-import { CheckForResetClient, ResetClient } from "@helper/userClient";
+import { CheckForResetClient, ResetClient } from "@helper/client/user/userClient";
 import SecurityQuestionList from "@components/SecurityQuestion";
 import { useRouter } from "next/router";
 

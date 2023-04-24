@@ -11,8 +11,8 @@ import { User } from "@typedefs/user";
 import { Roles } from "@typedefs/roles";
 import Pagination from "./Pagination";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Modal } from "@mui/material";
-import { DeleteUserClient } from "@helper/userClient";
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton } from "@mui/material";
+import { DeleteUserClient } from "@helper/client/user/userClient";
 import { useSession } from "next-auth/react";
 
 const style = {

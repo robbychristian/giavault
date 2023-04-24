@@ -10,15 +10,16 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Copyright from "@components/Copyright";
 import Router from "next/router";
-import { IconButton, InputLabel, Snackbar } from "@mui/material";
+import { IconButton, InputLabel } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { RegisterClient } from "@helper/userClient";
+import { RegisterClient } from "@helper/client/user/userClient";
 import { isEmpty } from "@helper/objects";
 import { shuffle } from "lodash";
 import React, { useState } from "react";
 import { SecurityQuestions } from "@constants/securityQuestions";
 import { User } from "@typedefs/user";
 import SecurityQuestionList from "@components/SecurityQuestion";
+import SnackBarComponent from "@components/Snackbar";
 
 export default function Registration() {
   const [shuffledQuestions, setShuffledQuestions] = useState<any>(shuffle(SecurityQuestions));
@@ -64,7 +65,7 @@ export default function Registration() {
 
   return (
     <Container component="main" maxWidth="xs">
-      <Snackbar open={snackbar.isOpen} autoHideDuration={6000} onClose={handleClose} message={snackbar.message} action={action} />
+      <SnackBarComponent setSnackbar={setSnackbar} snackbar={snackbar} />
       <CssBaseline />
       <Box
         sx={{

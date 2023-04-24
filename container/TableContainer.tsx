@@ -11,7 +11,7 @@ import { searchLogsClient } from "@helper/userLog";
 import { TableTypes } from "@typedefs/components/Table.type";
 import { TableSwitch } from "@components/TableSwitch";
 import { Box, IconButton, Modal, Tooltip, Typography } from "@mui/material";
-import { searchUsersClient } from "@helper/userClient";
+import { searchUsersClient } from "@helper/client/user/userClient";
 import RefreshIcon from "@mui/icons-material/Refresh";
 
 interface ITable {

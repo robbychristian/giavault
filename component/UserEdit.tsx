@@ -4,15 +4,16 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Copyright from "@components/Copyright";
-import { Checkbox, IconButton, InputLabel, Paper, Snackbar } from "@mui/material";
+import { Checkbox, IconButton, InputLabel, Paper } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { UpdateClient } from "@helper/userClient";
+import { UpdateClient } from "@helper/client/user/userClient";
 import { isEmpty } from "@helper/objects";
 import { shuffle } from "lodash";
 import React, { FC, useEffect, useState } from "react";
 import { SecurityQuestions } from "@constants/securityQuestions";
 import { User } from "@typedefs/user";
 import SecurityQuestionList from "@components/SecurityQuestion";
+import SnackBarComponent from "./Snackbar";
 
 const UserEdit: FC<{ data: User }> = ({ data }) => {
   const [shuffledQuestions, setShuffledQuestions] = useState<any>(shuffle(SecurityQuestions));
@@ -65,7 +66,7 @@ const UserEdit: FC<{ data: User }> = ({ data }) => {
   return (
     <Container component="form" noValidate maxWidth="sm" sx={{ mb: 4, mt: 5 }} onSubmit={handleSubmit}>
       <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
-        <Snackbar open={snackbar.isOpen} autoHideDuration={6000} onClose={handleClose} message={snackbar.message} action={action} />
+        <SnackBarComponent setSnackbar={setSnackbar} snackbar={snackbar} />
         <Typography component="h1" variant="h4" align="center">
           Edit Details
         </Typography>
