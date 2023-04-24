@@ -1,9 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import connectMongo from "@libs/database";
 import { ERROR_TYPES } from "@typedefs/errors";
-import type { NextRequest } from "next/server";
 import { withAuth } from "@libs/guard";
-import { getLogs, searchLogs } from "@libs/logging";
+import { searchLogs } from "@libs/logging";
 import { Query } from "@typedefs/query";
 
 async function handler(req: NextApiRequest, res: NextApiResponse<any>) {

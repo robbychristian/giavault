@@ -1,10 +1,6 @@
-import { IncomingMessage } from "http";
 import { NextApiRequest, NextApiResponse } from "next";
-import { NextRequest } from "next/server";
-import { ERROR_TYPES } from "@typedefs/errors";
-import { JWTParse, JWTServerValidator, JWTVerify } from "@libs/jwt";
-import { User } from "@typedefs/user";
-import { URLList } from "@constants/urls";
+import { JWTParse, JWTServerValidator } from "@libs/jwt";
+import { getAction } from "@constants/urls";
 import { LogAction } from "@libs/logging";
 
 /*
@@ -25,29 +21,45 @@ function getToken(req: NextApiRequest): string | null {
   return token;
 }
 
+function isUrlExcluded(method: string): boolean {
+  const excluded = ["/api/auth/callback/credentials"];
+  return excluded.includes(method);
+}
+
 export function withAuth(handler: (req: NextApiRequest, res: NextApiResponse) => Promise<void>) {
   return async (req: NextApiRequest, res: NextApiResponse) => {
-    JWTServerValidator(req, res);
     const ip = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
-    const { method, url } = req;
-    console.log("IP", ip);
-    console.log("req", method, url);
-    const token = getToken(req)!;
-    if (token) {
-      const { username, role, _id } = JWTParse(getToken(req)!);
-      const queryStringIndex = url?.indexOf("?")!;
-      const newUrl = queryStringIndex === -1 ? url : url?.substring(0, queryStringIndex + 1);
+    const { method, url, query, body } = req;
+    const queryStringIndex = url?.indexOf("?")!;
+    const newUrl = (queryStringIndex === -1 ? url : url?.substring(0, queryStringIndex + 1))?.replaceAll("?", "");
+    console.log("newUrl: ", newUrl);
+    if (!isUrlExcluded(newUrl!)) {
+      if (getToken(req)) JWTServerValidator(req, res);
+      let payload = "";
+      if ((typeof query === "object" && query?.hasOwnProperty("password")) || (typeof body === "object" && body?.hasOwnProperty("password"))) {
+        let newQuery = { ...query };
+        let newBody = { ...body };
+        if (newQuery.password) {
+          delete newQuery.password;
+        }
+        if (newBody.password) {
+          delete newBody.password;
+        }
+        payload = JSON.stringify(newQuery || newBody);
+      }
+
+      const { username, role } = JWTParse(getToken(req)!);
       const log = {
-        username,
-        role,
+        username: username ? username : "N/A",
+        role: role ? role : "N/A",
         IP: ip as string,
         method: method!,
-        action: URLList[`${newUrl}`],
+        action: getAction(method!, newUrl!),
+        payload,
       };
-      console.log("parsed Log", log);
+
       await LogAction(log);
     }
-
     await handler(req, res);
   };
 }

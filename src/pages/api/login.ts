@@ -1,9 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { isEmpty, isEmptyNoSec } from "@helper/objects";
+import { isEmptyNoSec } from "@helper/objects";
 import { LoginApi, RegisterApi, UserUpdateApi } from "@helper/user";
 import connectMongo from "@libs/database";
 import { ERROR_TYPES } from "@typedefs/errors";
 import { User } from "@typedefs/user";
+import { withAuth } from "@libs/guard";
 
 async function handler(req: NextApiRequest, res: NextApiResponse<any>) {
   switch (req.method) {
@@ -36,4 +37,4 @@ async function handler(req: NextApiRequest, res: NextApiResponse<any>) {
   }
 }
 
-export default connectMongo(handler);
+export default withAuth(connectMongo(handler));

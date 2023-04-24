@@ -48,18 +48,18 @@ const options = {
 };
 
 async function signIn(req: NextApiRequest, res: NextApiResponse) {
-  if (req.query.nextauth?.includes("callback") && req.method === "POST") {
-    const { url, body, method } = req;
-    const { username } = Object.assign({}, body);
-    const ip = req.headers["x-forwarded-for"]! || req.socket.remoteAddress;
-    const log = {
-      username,
-      IP: ip as string,
-      method,
-      action: URLList[`${url}`],
-    };
-    await LogAction(log);
-  }
+  // if (req.query.nextauth?.includes("callback") && req.method === "POST") {
+  //   const { url, body, method } = req;
+  //   const { username } = Object.assign({}, body);
+  //   const ip = req.headers["x-forwarded-for"]! || req.socket.remoteAddress;
+  //   const log = {
+  //     username,
+  //     IP: ip as string,
+  //     method,
+  //     action: URLList[`${url}`],
+  //   };
+  //   await LogAction(log);
+  // }
 
   // const data = form.parse(req, (err, fields, files) => {
   //   console.log('err', err)

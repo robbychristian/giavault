@@ -3,6 +3,7 @@ import { deleteUser, getUsers } from "@helper/user";
 import connectMongo from "@libs/database";
 import { ERROR_TYPES } from "@typedefs/errors";
 import { Query } from "@typedefs/query";
+import { withAuth } from "@libs/guard";
 
 async function handler(req: NextApiRequest, res: NextApiResponse<any>) {
   switch (req.method) {
@@ -27,4 +28,4 @@ async function handler(req: NextApiRequest, res: NextApiResponse<any>) {
   }
 }
 
-export default connectMongo(handler);
+export default withAuth(connectMongo(handler));

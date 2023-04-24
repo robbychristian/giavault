@@ -7,5 +7,6 @@ export interface Logs {
   action: string;
   _id?: string;
   role?: string | Roles;
+  payload?: string;
   createdAt?: string;
 }
