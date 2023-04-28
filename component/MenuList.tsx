@@ -10,6 +10,7 @@ import { useSession } from "next-auth/react";
 import { Roles } from "@typedefs/roles";
 import { Divider } from "@mui/material";
 import ListAltIcon from "@mui/icons-material/ListAlt";
+import PolicyIcon from '@mui/icons-material/Policy';
 
 export const MenuList = () => {
   const { data: session } = useSession({ required: true });
@@ -69,9 +70,15 @@ const Admin = () => {
       <Divider />
       <ListItemButton onClick={() => router.push("/insurance/form")}>
         <ListItemIcon>
+          <PolicyIcon />
+        </ListItemIcon>
+        <ListItemText primary="Add Insurance Policy" />
+      </ListItemButton>
+      <ListItemButton onClick={() => router.push("/insurance/list")}>
+        <ListItemIcon>
           <ListAltIcon />
         </ListItemIcon>
-        <ListItemText primary="Insurance Policy" />
+        <ListItemText primary="Insurance Policy List" />
       </ListItemButton>
     </React.Fragment>
   );

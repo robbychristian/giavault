@@ -57,9 +57,12 @@ const TableContainer: FC<ITable> = ({ placeholder, data, hasButton, buttonText, 
         case TableTypes.USER:
           searchUsersClient(searchInput, session?.user.accessToken!, setSearchData);
           return;
+        case TableTypes.POLICY:
+          // to do search policy
+          return;
       }
     } else if (searchInput.length <= 1) {
-      setSearchData(null);
+      setSearchData(data);
     }
   }, [searchInput]);
 

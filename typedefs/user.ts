@@ -49,4 +49,5 @@ export interface InsurancePolicy {
   autoPaOrPrem: string;
   aogOrPrem: string;
   lossOfUseOrPrem: string;
+  _id?: string;
 }

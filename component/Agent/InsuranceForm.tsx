@@ -1,10 +1,15 @@
-import { Box, Button, Container, Divider, Grid, InputLabel, Paper, TextField, Typography } from "@mui/material";
+import { Box, Button, Divider, Grid, Paper, TextField, Typography } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import React, { useState } from "react";
+import React, { FC, useState } from "react";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import moment from "moment";
+import { InsurancePolicy } from "@typedefs/user";
 
-const InsuranceForm = () => {
+interface IInsuranceForm {
+  data?: InsurancePolicy;
+}
+
+const InsuranceForm: FC<IInsuranceForm> = ({ data }) => {
   const [dates, setDates] = useState({
     inception: new Date(),
     issueDate: new Date(),
@@ -44,16 +49,16 @@ const InsuranceForm = () => {
                 </Typography>
               </Grid>
               <Grid item xs={6}>
-                <TextField label="Sum Assured" name="sa" fullWidth />
+                <TextField label="Sum Assured" name="sa" fullWidth defaultValue={data?.sa} />
               </Grid>
               <Grid item xs={6}>
-                <TextField label="Insurer" name="insurer" fullWidth />
+                <TextField label="Insurer" name="insurer" fullWidth defaultValue={data?.insurer} />
               </Grid>
               <Grid item xs={6}>
-                <TextField label="Assured" name="assured" fullWidth />
+                <TextField label="Assured" name="assured" fullWidth defaultValue={data?.assured} />
               </Grid>
               <Grid item xs={6}>
-                <TextField label="Address" name="address" fullWidth />
+                <TextField label="Address" name="address" fullWidth defaultValue={data?.address} />
               </Grid>
               <Grid item xs={12} mt={2} mb={1}>
                 <Divider />
@@ -63,27 +68,35 @@ const InsuranceForm = () => {
                   Policy *
                 </Typography>
               </Grid>
-
               <Grid item xs={6}>
-                <TextField label="Policy" name="policy" fullWidth />
+                <TextField label="Policy" name="policy" fullWidth defaultValue={data?.policy} />
               </Grid>
               <Grid item xs={6}>
-                {/* <TextField label="Expiry" name="expiry" fullWidth /> */}
-                <DatePicker label="Expiry" value={moment(dates.expiry)} onChange={(e: any) => setDates({ ...dates, expiry: e! })} slotProps={{ textField: { fullWidth: true } }} />
+                <DatePicker label="Expiry" value={moment(dates.expiry)} onChange={(e: any) => setDates({ ...dates, expiry: e! })} slotProps={{ textField: { fullWidth: true } }} defaultValue={data?.expiry} />
               </Grid>
               <Grid item xs={6}>
-                <TextField label="Sum Insured" name="sumInsured" fullWidth />
+                <TextField label="Sum Insured" name="sumInsured" fullWidth defaultValue={data?.sumInsured} />
               </Grid>
               <Grid item xs={6}>
-                <TextField label="Deductible" name="deductible" fullWidth />
+                <TextField label="Deductible" name="deductible" fullWidth defaultValue={data?.deductible} />
               </Grid>
               <Grid item xs={6}>
-                {/* <TextField label="Issue Date" name="issueDate" fullWidth /> */}
-                <DatePicker label="Issue Date" value={moment(dates.issueDate)} onChange={(e: any) => setDates({ ...dates, issueDate: e! })} slotProps={{ textField: { fullWidth: true } }} />
+                <DatePicker
+                  label="Issue Date"
+                  value={data?.issueDate ? moment(data?.issueDate) : moment(dates.issueDate)}
+                  onChange={(e: any) => setDates({ ...dates, issueDate: e! })}
+                  slotProps={{ textField: { fullWidth: true } }}
+                  defaultValue={data?.issueDate}
+                />
               </Grid>
               <Grid item xs={6}>
-                {/* <TextField label="Inception" name="inception" fullWidth /> */}
-                <DatePicker label="Inception" value={moment(dates.inception)} onChange={(e: any) => setDates({ ...dates, inception: e! })} slotProps={{ textField: { fullWidth: true } }} />
+                <DatePicker
+                  label="Inception"
+                  value={data?.inception ? moment(data.inception) : moment(dates.inception)}
+                  onChange={(e: any) => setDates({ ...dates, inception: e! })}
+                  slotProps={{ textField: { fullWidth: true } }}
+                  defaultValue={data?.inception}
+                />
               </Grid>
               <Grid item xs={12} mt={2} mb={1}>
                 <Divider />
@@ -94,40 +107,40 @@ const InsuranceForm = () => {
                 </Typography>
               </Grid>
               <Grid item xs={3}>
-                <TextField label="Serial" name="serial" fullWidth />
+                <TextField label="Serial" name="serial" fullWidth defaultValue={data?.serial} />
               </Grid>
               <Grid item xs={3}>
-                <TextField label="Motor" name="motor" fullWidth />
+                <TextField label="Motor" name="motor" fullWidth defaultValue={data?.motor} />
               </Grid>
               <Grid item xs={3}>
-                <TextField label="Model/Make Risk" name="modelMakeRisk" fullWidth />
+                <TextField label="Model/Make Risk" name="modelMakeRisk" fullWidth defaultValue={data?.modelMakeRisk} />
               </Grid>
               <Grid item xs={3}>
-                <TextField label="Plate" name="plate" fullWidth />
+                <TextField label="Plate" name="plate" fullWidth defaultValue={data?.plate} />
               </Grid>
               <Grid item xs={3}>
-                <TextField label="MV File" name="mvFile" fullWidth />
+                <TextField label="MV File" name="mvFile" fullWidth defaultValue={data?.mvFile} />
               </Grid>
               <Grid item xs={3}>
-                <TextField label="OD" name="od" fullWidth />
+                <TextField label="OD" name="od" fullWidth defaultValue={data?.od} />
               </Grid>
               <Grid item xs={3}>
-                <TextField label="V-BI" name="vbi" fullWidth />
+                <TextField label="V-BI" name="vbi" fullWidth defaultValue={data?.vbi} />
               </Grid>
               <Grid item xs={3}>
-                <TextField label="V-PD" name="vpd" fullWidth />
+                <TextField label="V-PD" name="vpd" fullWidth defaultValue={data?.vpd} />
               </Grid>
               <Grid item xs={6}>
-                <TextField label="THEFT" name="theft" fullWidth />
+                <TextField label="THEFT" name="theft" fullWidth defaultValue={data?.theft} />
               </Grid>
               <Grid item xs={6}>
-                <TextField label="Auto PA" name="autoPa" fullWidth />
+                <TextField label="Auto PA" name="autoPa" fullWidth defaultValue={data?.autoPa} />
               </Grid>
               <Grid item xs={6}>
-                <TextField label="AOG" name="aog" fullWidth />
+                <TextField label="AOG" name="aog" fullWidth defaultValue={data?.aog} />
               </Grid>
               <Grid item xs={6}>
-                <TextField label="Loss of Use" name="lossOfUse" fullWidth />
+                <TextField label="Loss of Use" name="lossOfUse" fullWidth defaultValue={data?.lossOfUse} />
               </Grid>
               <Grid item xs={12} mt={2} mb={1}>
                 <Divider />
@@ -138,31 +151,31 @@ const InsuranceForm = () => {
                 </Typography>
               </Grid>
               <Grid item xs={3}>
-                <TextField label="ODPREM" name="odPrem" fullWidth />
+                <TextField label="ODPREM" name="odPrem" fullWidth defaultValue={data?.odPrem} />
               </Grid>
               <Grid item xs={3}>
-                <TextField label="THEFTPREM" name="theftPrem" fullWidth />
+                <TextField label="THEFTPREM" name="theftPrem" fullWidth defaultValue={data?.theftPrem} />
               </Grid>
               <Grid item xs={3}>
-                <TextField label="V-BI/PREM" name="vBiOrPrem" fullWidth />
+                <TextField label="V-BI/PREM" name="vBiOrPrem" fullWidth defaultValue={data?.vBiOrPrem} />
               </Grid>
               <Grid item xs={3}>
-                <TextField label="V-PD/PREM" name="vPdOrPrem" fullWidth />
+                <TextField label="V-PD/PREM" name="vPdOrPrem" fullWidth defaultValue={data?.vPdOrPrem} />
               </Grid>
               <Grid item xs={3}>
-                <TextField label="Auto PA/PREM" name="autoPaOrPrem" fullWidth />
+                <TextField label="Auto PA/PREM" name="autoPaOrPrem" fullWidth defaultValue={data?.autoPaOrPrem} />
               </Grid>
               <Grid item xs={3}>
-                <TextField label="AOG/PREM" name="aogOrPrem" fullWidth />
+                <TextField label="AOG/PREM" name="aogOrPrem" fullWidth defaultValue={data?.aogOrPrem} />
               </Grid>
               <Grid item xs={6}>
-                <TextField label="Total Prem" name="totalPrem" fullWidth />
+                <TextField label="Total Prem" name="totalPrem" fullWidth defaultValue={data?.totalPrem} />
               </Grid>
               <Grid item xs={6}>
-                <TextField label="Gross Prem" name="grossPrem" fullWidth />
+                <TextField label="Gross Prem" name="grossPrem" fullWidth defaultValue={data?.grossPrem} />
               </Grid>
               <Grid item xs={6}>
-                <TextField label="Loss of Use/PREM" name="lossOfUseOrPrem" fullWidth />
+                <TextField label="Loss of Use/PREM" name="lossOfUseOrPrem" fullWidth defaultValue={data?.lossOfUseOrPrem} />
               </Grid>
               <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
                 Submit
