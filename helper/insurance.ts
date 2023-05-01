@@ -3,6 +3,7 @@ import Policy from "@models/policy.model";
 import { session } from "@libs/mongoose/session.handler";
 import { Query } from "@typedefs/query";
 import { toInteger } from "lodash";
+import { Types } from "mongoose";
 
 export const savePolicy = async (insurancePolicy: InsurancePolicy | InsurancePolicy[]) => {
   const mongoSession = await session();
@@ -14,7 +15,6 @@ export const savePolicy = async (insurancePolicy: InsurancePolicy | InsurancePol
         upsert: true,
       },
     }));
-    console.log("policy", policy);
     // const response = await Policy.bulkWrite(policy, { session: mongoSession }); // use this for session
     const response = await Policy.bulkWrite(policy);
     console.log("response", response);
@@ -48,4 +48,43 @@ export const getPolicies = async (query: Query) => {
       .skip(toInteger(page))
       .sort({ createdAt: -1 });
   } catch (e) {}
+};
+
+export const updatePolicy = async (insurancePolicy: InsurancePolicy | InsurancePolicy[]) => {
+  const mongoSession = await session();
+  try {
+    const policy = (Array.isArray(insurancePolicy) ? insurancePolicy : [insurancePolicy]).map((e: InsurancePolicy) => {
+      const { _id, ...rest } = e;
+
+      return {
+        updateOne: {
+          filter: { _id: new Types.ObjectId(_id) },
+          update: rest,
+          upsert: true,
+        },
+      };
+    });
+    console.log("policy", JSON.stringify(policy));
+    // const response = await Policy.bulkWrite(policy, { session: mongoSession }); // use this for session
+    const response = await Policy.bulkWrite(policy);
+    console.log("response", response);
+    return response;
+  } catch (e) {
+    console.log("error", e);
+    mongoSession.abortTransaction();
+    return null;
+  }
+};
+
+export const deletePolicy = async (_id: string) => {
+  const mongoSession = await session();
+  try {
+    const response = await Policy.deleteOne({ _id: new Types.ObjectId(_id) });
+    console.log("response", response);
+    return response;
+  } catch (e) {
+    console.log("error", e);
+    mongoSession.abortTransaction();
+    return null;
+  }
 };

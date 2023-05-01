@@ -7,15 +7,15 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { FC, useEffect, useState } from "react";
 import { formatDate } from "@helper/date";
-import { InsurancePolicy, User } from "@typedefs/user";
+import { InsurancePolicy } from "@typedefs/user";
 import { Roles } from "@typedefs/roles";
 import Pagination from "../Pagination";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton } from "@mui/material";
-import { DeleteUserClient } from "@helper/client/user/userClient";
 import { useSession } from "next-auth/react";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import InsuranceForm from "@components/Agent/InsuranceForm";
+import { DeletePolicy } from "@helper/client/policy";
 
 const style = {
   position: "absolute" as "absolute",
@@ -36,12 +36,14 @@ interface IPolicyTable {
 }
 
 const PolicyTable: FC<IPolicyTable> = ({ data, refetch }) => {
+  // to-do: range date
   const { data: session } = useSession({ required: true });
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedData, setSelectedData] = useState({
     selectedData: null,
-    isView: false,
+    isUpdate: false,
+    isDelete: false,
   });
+
   const [dataIndexed, setDataIndexed] = useState({
     data: data,
     page: 0,
@@ -49,18 +51,18 @@ const PolicyTable: FC<IPolicyTable> = ({ data, refetch }) => {
   });
 
   useEffect(() => {
-    console.log("session?.user.role ", session?.user.role == Roles.ADMIN);
+    console.log("data changing", data);
     setDataIndexed({ ...dataIndexed, data: data.slice(0, dataIndexed.offset) });
   }, [data]);
 
-  useEffect(() => {
-    if (selectedData.selectedData && selectedData.isView) setIsModalOpen(!isModalOpen);
-  }, [selectedData]);
+  // useEffect(() => {
+  //   if (selectedData.selectedData && selectedData.isView) setIsModalOpen({ ...isModalOpen, updateModal: !isModalOpen.updateModal });
+  //   if (selectedData.selectedData && !selectedData.isView) setIsModalOpen({ ...isModalOpen, deleteModal: !isModalOpen.deleteModal });
+  // }, [selectedData.selectedData]);
 
   const handleClose = () => {
     refetch && refetch();
-    setSelectedData({ selectedData: null, isView: false });
-    setIsModalOpen(!isModalOpen);
+    setSelectedData({ selectedData: null, isUpdate: false, isDelete: false });
   };
 
   return (
@@ -68,7 +70,7 @@ const PolicyTable: FC<IPolicyTable> = ({ data, refetch }) => {
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>Car Serial</TableCell>
+            <TableCell>Serial</TableCell>
             <TableCell align="right">Issue Date</TableCell>
             <TableCell align="right">Expiry</TableCell>
             <TableCell align="center">View</TableCell>
@@ -81,16 +83,16 @@ const PolicyTable: FC<IPolicyTable> = ({ data, refetch }) => {
               <TableCell component="th" scope="row">
                 {row?.serial}
               </TableCell>
-              <TableCell align="right">{row?.issueDate}</TableCell>
-              <TableCell align="right">{row?.expiry}</TableCell>
+              <TableCell align="right">{formatDate(row?.issueDate)}</TableCell>
+              <TableCell align="right">{formatDate(row?.expiry)}</TableCell>
               <TableCell align="center">
-                <IconButton onClick={() => setSelectedData({ selectedData: row as any, isView: true })}>
+                <IconButton onClick={() => setSelectedData({ ...selectedData, selectedData: row as any, isUpdate: true })}>
                   <VisibilityIcon />
                 </IconButton>
               </TableCell>
               {session?.user.role == Roles.ADMIN ? (
                 <TableCell align="center">
-                  <IconButton onClick={() => setSelectedData({ selectedData: row as any, isView: false })}>
+                  <IconButton onClick={() => setSelectedData({ ...selectedData, selectedData: row as any, isDelete: true })}>
                     <DeleteIcon />
                   </IconButton>
                 </TableCell>
@@ -100,17 +102,18 @@ const PolicyTable: FC<IPolicyTable> = ({ data, refetch }) => {
         </TableBody>
       </Table>
       <Pagination data={data} dataIndexed={dataIndexed} setDataIndexed={setDataIndexed} />
-      <InsuranceModal open={isModalOpen} onClose={handleClose} data={selectedData} onConfirm={DeleteUserClient} />
+      <InsuranceModal open={selectedData.isUpdate} onClose={handleClose} data={selectedData} />
+      <InsuranceModalDelete open={selectedData.isDelete} onClose={handleClose} data={selectedData} onConfirm={DeletePolicy} />
     </TableContainer>
   );
 };
 
-const InsuranceModal = ({ open, onClose, onConfirm, data }: any) => {
+const InsuranceModal = ({ open, onClose, data }: any) => {
   return (
-    <Dialog open={open} onClose={onClose}>
+    <Dialog open={open} onClose={onClose} maxWidth="lg">
       <DialogTitle>Edit Policy</DialogTitle>
       <DialogContent>
-        <InsuranceForm data={data.selectedData} />
+        <InsuranceForm data={data.selectedData} onClose={onClose} />
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose}>Cancel</Button>
@@ -119,4 +122,20 @@ const InsuranceModal = ({ open, onClose, onConfirm, data }: any) => {
   );
 };
 
+const InsuranceModalDelete = ({ open, onClose, onConfirm, data, session }: any) => {
+  return (
+    <Dialog open={open} onClose={onClose} maxWidth="lg">
+      <DialogTitle>Delete Policy</DialogTitle>
+      <DialogContent>
+        <DialogContentText>Are you sure you want to delete "{data?.selectedData?.serial}"? This action cannot be undone.</DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={() => onConfirm(data?.selectedData?._id, session?.user.accessToken, onClose)} color="error" autoFocus>
+          Delete
+        </Button>
+        <Button onClick={onClose}>Cancel</Button>
+      </DialogActions>
+    </Dialog>
+  );
+};
 export default PolicyTable;

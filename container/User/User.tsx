@@ -7,6 +7,7 @@ import { refetchUsers } from "@helper/client/user/userClient";
 import { TableTypes } from "@typedefs/components/Table.type";
 import { User } from "@typedefs/user";
 import TableContainer from "@containers/TableContainer";
+import MemoizedComponent from "@helper/hooks/memoization";
 
 interface IUserContainer {
   data: User[];
@@ -30,15 +31,17 @@ export const UserContainer: FC<IUserContainer> = ({ data }) => {
           overflow: "auto",
         }}
       >
-        <TableContainer
-          placeholder="Search by username, first name, or last name"
-          data={userData}
-          type={TableTypes.USER}
-          hasButton={true}
-          buttonText={"Add User"}
-          modalChildren={<RegistrationAdmin />}
-          refetch={refetch}
-        />
+        <MemoizedComponent dependency={[userData, refetch]}>
+          <TableContainer
+            placeholder="Search by username, first name, or last name"
+            data={userData}
+            type={TableTypes.USER}
+            hasButton={true}
+            buttonText={"Add User"}
+            modalChildren={<RegistrationAdmin />}
+            refetch={refetch}
+          />
+        </MemoizedComponent>
       </Box>
     </Box>
   );

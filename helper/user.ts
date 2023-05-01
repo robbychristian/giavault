@@ -107,7 +107,9 @@ export const getUsers = async (query: Query) => {
       .limit(toInteger(limit))
       .skip(toInteger(page))
       .sort({ createdAt: -1 });
-  } catch (e) {}
+  } catch (e) {
+    console.log("e", e);
+  }
 };
 
 export const deleteUser = async (_id: string) => {

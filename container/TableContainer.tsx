@@ -39,7 +39,7 @@ const style = {
 
 const TableContainer: FC<ITable> = ({ placeholder, data, hasButton, buttonText, type, modalChildren, refetch }) => {
   const { data: session } = useSession({ required: true });
-  const [searchData, setSearchData] = useState<any>(data);
+  const [searchData, setSearchData] = useState<any>(null);
   const [searchInput, setSearchInput] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -62,7 +62,7 @@ const TableContainer: FC<ITable> = ({ placeholder, data, hasButton, buttonText, 
           return;
       }
     } else if (searchInput.length <= 1) {
-      setSearchData(data);
+      setSearchData(null);
     }
   }, [searchInput]);
 

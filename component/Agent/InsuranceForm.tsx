@@ -4,21 +4,23 @@ import React, { FC, useState } from "react";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import moment from "moment";
 import { InsurancePolicy } from "@typedefs/user";
-import { AddPolicy } from "@helper/client/policy";
+import { AddPolicy, UpdatePolicy } from "@helper/client/policy";
 import { useSession } from "next-auth/react";
 import SnackBarComponent from "@components/Snackbar";
 
 interface IInsuranceForm {
   data?: InsurancePolicy;
+  onClose?: () => void;
 }
 
-const InsuranceForm: FC<IInsuranceForm> = ({ data }) => {
+const InsuranceForm: FC<IInsuranceForm> = ({ data, onClose }) => {
   const { data: session } = useSession({ required: true });
   const [snackbar, setSnackbar] = useState<any>({
     isOpen: false,
     isError: false,
     message: null,
   });
+
   const [dates, setDates] = useState({
     inception: new Date(),
     issueDate: new Date(),
@@ -26,21 +28,27 @@ const InsuranceForm: FC<IInsuranceForm> = ({ data }) => {
   });
 
   const handleSubmit = (e: any) => {
-    let data: any = {};
+    let dataSubmit: any = {};
     e.preventDefault();
     const formValues = new FormData(e.target);
     formValues.forEach((value, key) => {
-      data[key] = value;
+      dataSubmit[key] = value;
     });
-    AddPolicy({ ...data, ...dates }, session?.user.accessToken!, setSnackbar);
+
+    if (data?._id) {
+      const { _id } = data;
+      UpdatePolicy({ ...dataSubmit, ...dates, _id }, session?.user.accessToken!, setSnackbar);
+      return onClose && onClose();
+    }
+
+    return AddPolicy({ ...dataSubmit, ...dates }, session?.user.accessToken!, setSnackbar);
   };
 
   return (
-    <Paper sx={{ maxWidth: 936, margin: "auto", overflow: "hidden", marginTop: 5 }}>
+    <>
       <SnackBarComponent setSnackbar={setSnackbar} snackbar={snackbar} />
       <Box
         sx={{
-          marginTop: 4,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -48,9 +56,11 @@ const InsuranceForm: FC<IInsuranceForm> = ({ data }) => {
         }}
       >
         <LocalizationProvider dateAdapter={AdapterMoment}>
-          <Typography component="h1" variant="h4" align="center" sx={{ mb: 5 }}>
-            Add Form
-          </Typography>
+          {data?._id ? null : (
+            <Typography component="h1" variant="h4" align="center" sx={{ mb: 5 }}>
+              Add Form
+            </Typography>
+          )}
           <form onSubmit={handleSubmit}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
@@ -113,11 +123,11 @@ const InsuranceForm: FC<IInsuranceForm> = ({ data }) => {
               </Grid>
               <Grid item xs={12}>
                 <Typography id="premium" key={`prem`} component="h3" variant="h6" sx={{ fontStyle: "bold" }}>
-                  Car Details *
+                  Details *
                 </Typography>
               </Grid>
               <Grid item xs={3}>
-                <TextField label="Serial" name="serial" fullWidth defaultValue={data?.serial} />
+                <TextField label="Serial" name="serial" fullWidth defaultValue={data?.serial} disabled={data?.serial ? true : false} />
               </Grid>
               <Grid item xs={3}>
                 <TextField label="Motor" name="motor" fullWidth defaultValue={data?.motor} />
@@ -188,13 +198,13 @@ const InsuranceForm: FC<IInsuranceForm> = ({ data }) => {
                 <TextField label="Loss of Use/PREM" name="lossOfUseOrPrem" fullWidth defaultValue={data?.lossOfUseOrPrem} />
               </Grid>
               <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
-                Submit
+                {data?._id ? "Update" : "Submit"}
               </Button>
             </Grid>
           </form>
         </LocalizationProvider>
       </Box>
-    </Paper>
+    </>
   );
 };
 

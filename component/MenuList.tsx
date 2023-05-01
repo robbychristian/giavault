@@ -14,7 +14,6 @@ import PolicyIcon from '@mui/icons-material/Policy';
 
 export const MenuList = () => {
   const { data: session } = useSession({ required: true });
-  console.log("role", session?.user.role);
   switch (session?.user.role) {
     case Roles.ADMIN:
       return <Admin />;

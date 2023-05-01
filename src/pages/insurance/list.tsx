@@ -1,7 +1,6 @@
 import Head from "next/head";
 import Loader from "@components/Loader";
 import { Roles } from "@typedefs/roles";
-import Form from "@containers/Agent/Form";
 import { PolicyContainer } from "@containers/PolicyContainer";
 import { getSession } from "next-auth/react";
 import { API } from "@libs/api";
