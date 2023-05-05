@@ -30,7 +30,7 @@ const Pagination: FC<IPagination> = ({ data, dataIndexed, setDataIndexed }) => {
     const pageOffset = (page + 1) * offset;
     const hasMorePages = pageOffset < data.length;
 
-    if (hasMorePages) {
+    if (hasMorePages && page < Math.ceil(data.length / offset) - 1) {
       setDataIndexed({ ...dataIndexed, data: data.slice(truePage + offset, pageOffset + offset), page: page + 1 });
       setHasNext(true);
       setIsPrevDisabled(false);
