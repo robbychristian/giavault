@@ -13,6 +13,7 @@ import { TableSwitch } from "@components/TableSwitch";
 import { Box, IconButton, Modal, Tooltip, Typography } from "@mui/material";
 import { searchUsersClient } from "@helper/client/user/userClient";
 import RefreshIcon from "@mui/icons-material/Refresh";
+import { searchPolicyClient } from "@helper/client/policy";
 
 interface ITable {
   placeholder: string;
@@ -58,7 +59,7 @@ const TableContainer: FC<ITable> = ({ placeholder, data, hasButton, buttonText, 
           searchUsersClient(searchInput, session?.user.accessToken!, setSearchData);
           return;
         case TableTypes.POLICY:
-          // to do search policy
+          searchPolicyClient(searchInput, session?.user.accessToken!, setSearchData);
           return;
       }
     } else if (searchInput.length <= 1) {

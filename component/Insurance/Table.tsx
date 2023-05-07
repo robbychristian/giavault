@@ -11,7 +11,7 @@ import { InsurancePolicy } from "@typedefs/user";
 import { Roles } from "@typedefs/roles";
 import Pagination from "../Pagination";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton } from "@mui/material";
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Typography } from "@mui/material";
 import { useSession } from "next-auth/react";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import InsuranceForm from "@components/Agent/InsuranceForm";
@@ -116,6 +116,11 @@ const InsuranceModal = ({ open, onClose, data }: any) => {
         <InsuranceForm data={data.selectedData} onClose={onClose} />
       </DialogContent>
       <DialogActions>
+        {data?.selectedData?.updatedByAgent ? (
+          <Typography display="flex" alignItems="start" sx={{ textAlign: "left" }}>
+            Updated by {data?.selectedData?.updatedByAgentName} on {formatDate(data?.selectedData?.updatedAt!)}
+          </Typography>
+        ) : null}
         <Button onClick={onClose}>Cancel</Button>
       </DialogActions>
     </Dialog>
