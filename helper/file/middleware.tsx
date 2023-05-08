@@ -11,9 +11,8 @@ export const upload = multer({
   }),
   fileFilter: function (req, file, cb) {
     const filetypes = /csv|xlsx|excel/;
-    const mimetype = filetypes.test(file.mimetype);
     const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
-    if (mimetype && extname) {
+    if (extname) {
       return cb(null, true);
     }
     cb(new Error("Only CSV and Excel files are allowed"));

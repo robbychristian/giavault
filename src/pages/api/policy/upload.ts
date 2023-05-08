@@ -3,6 +3,8 @@ import { middleware, upload } from "@helper/file/middleware";
 import { ERROR_TYPES } from "@typedefs/errors";
 import { parseExcelFile } from "@helper/upload";
 import { savePolicy } from "@helper/insurance";
+import { JWTParse } from "@libs/jwt";
+import { User } from "@typedefs/user";
 
 export const config = {
   api: {
@@ -16,9 +18,11 @@ async function handler(req: NextApiRequest & { [key: string]: any }, res: NextAp
       try {
         await middleware(req, res, upload.array("file"));
         const files = req?.files; // stricly one file only
+        const authHeader: string = req.headers.authorization?.split(" ")[1]!;
+        const userData: unknown = JWTParse(authHeader);
         if (files.length <= 0) return res.status(400).json({ error: ERROR_TYPES.FILE_DOESNT_EXIST });
         const parsedFile = await parseExcelFile(files);
-        const resInsurance = await savePolicy(parsedFile);
+        const resInsurance = await savePolicy(parsedFile, userData as User);
         if (!resInsurance) return res.status(400).json({ error: true, message: "Error processing file" });
         return res.status(200).json({ message: "Success Uploading File", reference: resInsurance });
       } catch (error) {

@@ -1,4 +1,4 @@
-import { InsurancePolicy } from "@typedefs/user";
+import { InsurancePolicy } from "@typedefs/policy";
 import * as XLSX from "xlsx";
 
 export const parseExcelFile = (file: any): Promise<InsurancePolicy[]> => {

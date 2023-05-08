@@ -1,14 +1,20 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { deletePolicy, getPolicies, savePolicy, updatePolicy } from "@helper/insurance";
-import { InsurancePolicy } from "@typedefs/user";
+import { User } from "@typedefs/user";
 import { Query } from "@typedefs/query";
+import connectMongo from "@libs/database";
+import { withAuth } from "@libs/guard";
+import { JWTParse } from "@libs/jwt";
+import { InsurancePolicy } from "@typedefs/policy";
 
 async function handler(req: NextApiRequest & { [key: string]: any }, res: NextApiResponse<any>) {
   switch (req.method) {
     case "POST": {
       try {
         const policy: InsurancePolicy = req.body;
-        const resInsurance = await savePolicy(policy);
+        const authHeader: string = req.headers.authorization?.split(" ")[1]!;
+        const userData: unknown = JWTParse(authHeader);
+        const resInsurance = await savePolicy(policy, userData as User);
         if (!resInsurance) return res.status(400).json({ error: true, message: "Error parsing inputs" });
         return res.status(200).json({ message: "Success", reference: resInsurance });
       } catch (error) {
@@ -22,7 +28,9 @@ async function handler(req: NextApiRequest & { [key: string]: any }, res: NextAp
     }
     case "PATCH": {
       const policy: InsurancePolicy = req.body;
-      const resInsurance = await updatePolicy(policy);
+      const authHeader: string = req.headers.authorization?.split(" ")[1]!;
+      const userData: unknown = JWTParse(authHeader);
+      const resInsurance = await updatePolicy(policy, userData as User);
       if (!resInsurance) return res.status(400).json({ error: true, message: "Error parsing inputs" });
       return res.status(200).json({ message: "Success", reference: resInsurance });
     }
@@ -38,4 +46,4 @@ async function handler(req: NextApiRequest & { [key: string]: any }, res: NextAp
   }
 }
 
-export default handler;
+export default withAuth(connectMongo(handler));

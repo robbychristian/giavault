@@ -50,4 +50,8 @@ export interface InsurancePolicy {
   aogOrPrem: string;
   lossOfUseOrPrem: string;
   _id?: string;
+  updatedAt?: string;
+  creator?: string;
+  updatedByAgent?: string;
+  updatedByAgentName?: string;
 }

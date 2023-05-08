@@ -1,27 +1,41 @@
-import { InsurancePolicy } from "@typedefs/user";
+import { User } from "@typedefs/user";
 import Policy from "@models/policy.model";
 import { session } from "@libs/mongoose/session.handler";
 import { Query } from "@typedefs/query";
 import { toInteger } from "lodash";
 import { Types } from "mongoose";
 
-export const savePolicy = async (insurancePolicy: InsurancePolicy | InsurancePolicy[]) => {
+import { convertDateToIso } from "@helper/date";
+import { InsurancePolicy } from "@typedefs/policy";
+
+export const savePolicy = async (insurancePolicy: InsurancePolicy | InsurancePolicy[], agentDetails: Partial<User>) => {
   const mongoSession = await session();
+  const { username, _id } = agentDetails;
   try {
     const policy = (Array.isArray(insurancePolicy) ? insurancePolicy : [insurancePolicy]).map((e: InsurancePolicy) => ({
       updateOne: {
-        filter: { serial: e.serial, issueDate: e.issueDate },
-        update: e,
+        filter: { serial: e.serial, issueDate: convertDateToIso(e.issueDate) },
+        update: {
+          ...e,
+          creator: _id,
+          updatedByAgent: _id,
+          updatedByAgentName: username,
+          issueDate: convertDateToIso(e.issueDate),
+          inception: convertDateToIso(e.inception),
+          expiry: convertDateToIso(e.expiry),
+          giaArDate: convertDateToIso(e.giaArDate),
+          insurerOrDate: convertDateToIso(e.insurerOrDate),
+          giaOrDate: convertDateToIso(e.giaOrDate),
+        },
         upsert: true,
       },
     }));
     // const response = await Policy.bulkWrite(policy, { session: mongoSession }); // use this for session
     const response = await Policy.bulkWrite(policy);
-    console.log("response", response);
     return response;
   } catch (e) {
     console.log("error", e);
-    mongoSession.abortTransaction();
+    // mongoSession.abortTransaction();
     return null;
   }
 };
@@ -50,18 +64,18 @@ export const getPolicies = async (query: Query) => {
   } catch (e) {}
 };
 
-export const updatePolicy = async (insurancePolicy: InsurancePolicy | InsurancePolicy[]) => {
+export const updatePolicy = async (insurancePolicy: InsurancePolicy | InsurancePolicy[], agentDetails: Partial<User>) => {
   const mongoSession = await session();
   try {
     const policy = (Array.isArray(insurancePolicy) ? insurancePolicy : [insurancePolicy]).map((e: InsurancePolicy) => {
       const { _id, ...rest } = e;
-
+      const { username, _id: agentId } = agentDetails;
       return {
         updateOne: {
           filter: { _id: new Types.ObjectId(_id) },
-          update: rest,
-          upsert: true,
+          update: { rest, updatedByAgentName: username, updatedByAgent: new Types.ObjectId(agentId) },
         },
+        upsert: true,
       };
     });
     console.log("policy", JSON.stringify(policy));

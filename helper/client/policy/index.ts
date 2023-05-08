@@ -94,3 +94,15 @@ export const UpdatePolicy = async (policy: Partial<InsurancePolicy>, accessToken
     return { isOpen: true, message: error, isError: true };
   }
 };
+
+
+export const searchPolicyClient = async (input: string, accessToken: string, setData: (data: any) => void) => {
+  const { data } = await API.get("/api/policy", {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+    params: { limit: 100, page: 0, search: input },
+  });
+  const { data: logs } = data;
+  setData(logs);
+};

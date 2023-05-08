@@ -18,11 +18,8 @@ export const ClientUpload = async (file: File, accessToken: string, setSnackbar:
 
     return { isOpen: true, message: res?.data?.message, isError: true };
   } catch (e: any) {
-    const {
-      response: {
-        data: { error },
-      },
-    } = e;
-    return { isOpen: true, message: error, isError: true };
+    console.log("e", e);
+    return { isOpen: true, message: "Error", isError: true };
   }
 };
+

@@ -1,156 +1,16 @@
-import { Schema, Types, model, models } from "mongoose";
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.PolicySchema = void 0;
+var mongoose_1 = require("mongoose");
 
-// export const PolicySchema = new Schema(
-//   {
-//     creator: {
-//       type: Types.ObjectId,
-//       required: true,
-//     },
-//     updatedByAgent: {
-//       type: Types.ObjectId,
-//       required: true,
-//     },
-// updatedByAgentName: {
-//   type: String,
-//   required: true,
-// },
-//     sa: {
-//       type: String,
-//       required: true,
-//     },
-//     insurer: {
-//       type: String,
-//       required: true,
-//     },
-//     assured: {
-//       type: String,
-//       required: true,
-//     },
-//     address: {
-//       type: String,
-//       required: true,
-//     },
-//     policy: {
-//       type: String,
-//       required: true,
-//     },
-//     issueDate: {
-//       type: Date,
-//       required: true,
-//     },
-//     inception: {
-//       type: Date,
-//       required: true,
-//     },
-//     expiry: {
-//       type: Date,
-//       required: true,
-//     },
-//     modelMakeRisk: {
-//       type: String,
-//       required: true,
-//     },
-//     plate: {
-//       type: String,
-//       required: true,
-//     },
-//     sumInsured: {
-//       type: String,
-//       required: true,
-//     },
-//     totalPrem: {
-//       type: String,
-//       required: true,
-//     },
-//     grossPrem: {
-//       type: String,
-//       required: true,
-//     },
-//     deductible: {
-//       type: String,
-//       required: true,
-//     },
-//     serial: {
-//       type: String,
-//       required: true,
-//       unique: true,
-//     },
-//     motor: {
-//       type: String,
-//       required: true,
-//     },
-//     mvFile: {
-//       type: String,
-//       required: true,
-//     },
-//     od: {
-//       type: String,
-//       required: true,
-//     },
-//     theft: {
-//       type: String,
-//       required: true,
-//     },
-//     vbi: {
-//       type: String,
-//       required: true,
-//     },
-//     vpd: {
-//       type: String,
-//       required: true,
-//     },
-//     autoPa: {
-//       type: String,
-//       required: true,
-//     },
-//     aog: {
-//       type: String,
-//       required: true,
-//     },
-//     lossOfUse: {
-//       type: String,
-//       required: true,
-//     },
-//     odPrem: {
-//       type: String,
-//       required: true,
-//     },
-//     theftPrem: {
-//       type: String,
-//       required: true,
-//     },
-//     vBiOrPrem: {
-//       type: String,
-//       required: true,
-//     },
-//     vPdOrPrem: {
-//       type: String,
-//       required: true,
-//     },
-//     autoPaOrPrem: {
-//       type: String,
-//       required: true,
-//     },
-//     aogOrPrem: {
-//       type: String,
-//       required: true,
-//     },
-//     lossOfUseOrPrem: {
-//       type: String,
-//       required: true,
-//     },
-//   },
-//   { timestamps: true, versionKey: false }
-// );
-
-export const PolicySchema = new Schema(
+exports.PolicySchema = new mongoose_1.Schema(
   {
     creator: {
-      type: Types.ObjectId,
+      type: mongoose_1.Types.ObjectId,
       required: true,
     },
     updatedByAgent: {
-      type: Types.ObjectId,
+      type: mongoose_1.Types.ObjectId,
       required: true,
     },
     updatedByAgentName: {
@@ -400,7 +260,4 @@ export const PolicySchema = new Schema(
   },
   { timestamps: true, versionKey: false }
 );
-
-const Policy = models.Policy || model("Policy", PolicySchema);
-
-export default Policy;
+exports.Policy = mongoose_1.models.Policy || (0, mongoose_1.model)("Policy", exports.PolicySchema);
