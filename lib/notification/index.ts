@@ -1,6 +1,7 @@
-import Notification from "../../models/notification.model";
-import Policy from "../../models/policy.model";
-import { ExpiringPolicies } from "../../typedefs/notifications";
+import { Query } from "@typedefs/query";
+import Notification from "@models/notification.model";
+import Policy from "@models/policy.model";
+import { ExpiringPolicies, Notification as INotifications } from "@typedefs/notifications";
 import { Types } from "mongoose";
 
 const today = new Date();
@@ -48,15 +49,22 @@ export const createExpiringPoliciesNotification = async () => {
   }
 };
 
-/* 
-How to handle this date format in mongoose?
+export const getNotifications = async (query: Query) => {
+  const { search, limit, page } = query;
+  return await Notification.aggregate([
+    {
+      $match: {
+        agentId: new Types.ObjectId(search),
+      },
+    },
+  ])
+    .limit(+limit)
+    .skip(+page);
+};
 
-Date formats:
-12/11/23
-December 11, 2023
-12/11/2023
-12-11-2023
-
-What I want to achieve is that the date will be converted to mongodb's accepted date value.
-
-*/
+export const updateNotifications = async (query: INotifications) => {
+  const { _id, ...rest } = query;
+  const res = await Notification.findOneAndUpdate({ agentId: new Types.ObjectId(query.agentId) }, { ...rest });
+  console.log("response: ", res);
+  return res;
+};

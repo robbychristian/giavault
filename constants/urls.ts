@@ -5,6 +5,18 @@ export const URLList: { [x: string]: string } = {
 
 export const getAction = (method: string, endpoint: string): string => {
   switch (endpoint) {
+    case "/api/notification": {
+      if (method === "POST") {
+        return "Read Notification";
+      } else if (method === "GET") {
+        return "View Notifications";
+      } else if (method === "PATCH") {
+        return "Accessed A Method That Is Not Supported Yet";
+      } else if (method === "DELETE") {
+        return "Deleted User";
+      }
+      break;
+    }
     case "/api/user": {
       if (method === "POST") {
         return "Accessed A Method That Is Not Supported Yet";

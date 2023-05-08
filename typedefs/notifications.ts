@@ -4,6 +4,7 @@ export interface Notification {
   updaterAgentId: string;
   read: boolean;
   createdAt: Date;
+  _id?: string;
 }
 
 export interface ExpiringPolicies {
