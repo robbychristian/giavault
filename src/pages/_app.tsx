@@ -5,6 +5,7 @@ import { ThemeProvider } from "@mui/styles";
 import type { AppProps } from "next/app";
 import { SessionProvider, useSession } from "next-auth/react";
 import Loader from "@components/Loader";
+import DrawerContainer from "@containers/DrawerContainer";
 const theme = createTheme({
   palette: {
     primary: {
@@ -29,7 +30,9 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
       <ThemeProvider theme={theme}>
         {Component?.auth ? (
           <Auth>
-            <Component {...pageProps} />
+            <DrawerContainer>
+              <Component {...pageProps} />
+            </DrawerContainer>
           </Auth>
         ) : (
           <Component {...pageProps} />

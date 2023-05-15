@@ -57,14 +57,23 @@ export const getNotifications = async (query: Query) => {
         agentId: new Types.ObjectId(search),
       },
     },
+    {
+      $lookup: {
+        from: "policies",
+        localField: "policyId",
+        foreignField: "_id",
+        as: "policyData",
+      },
+    },
+    { $unwind: { path: "$policyData" } },
   ])
     .limit(+limit)
     .skip(+page);
 };
 
-export const updateNotifications = async (query: INotifications) => {
-  const { _id, ...rest } = query;
-  const res = await Notification.findOneAndUpdate({ agentId: new Types.ObjectId(query.agentId) }, { ...rest });
+export const updateNotifications = async (query: Partial<INotifications>) => {
+  const { agentId, policyId } = query;
+  const res = await Notification.findOneAndUpdate({ agentId: new Types.ObjectId(agentId), policyId: new Types.ObjectId(policyId) }, { read: true });
   console.log("response: ", res);
   return res;
 };

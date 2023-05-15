@@ -1,3 +1,5 @@
+import { InsurancePolicy } from "./policy";
+
 export interface Notification {
   policyId: string;
   agentId: string;
@@ -5,6 +7,7 @@ export interface Notification {
   read: boolean;
   createdAt: Date;
   _id?: string;
+  policyData: InsurancePolicy;
 }
 
 export interface ExpiringPolicies {

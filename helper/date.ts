@@ -3,13 +3,17 @@ export const formatDate = (date: string) => {
   return moment(date).format("YYYY-MM-DD hh:mm a");
 };
 
+export const formatDateWithoutHours = (date: string) => {
+  return moment(date).format("YYYY-MM-DD");
+};
+
 export const convertDateToIso = (dateStr: string) => {
   let localDate;
   const excelDate = excelDateToJSDate(dateStr);
   if (excelDate) {
     return moment(excelDate).format();
   }
-  
+
   localDate = dateStr
     .replace(/([0-9]{2})(st|nd|rd|th)/g, "$1")
     .replace(/(\d{1,2})[ -](\d{1,2})[ -](\d{4})/, "$2/$1/$3")
@@ -31,3 +35,10 @@ function excelDateToJSDate(date: any) {
   if (parsedDate.toString() !== "Invalid Date") return parsedDate;
   return null;
 }
+
+export const getDaysBetweenDates = (endDate: Date) => {
+  const startDate = new Date();
+  const timeDiff = endDate.getTime() - startDate.getTime();
+  const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+  return `${daysDiff} ${daysDiff > 1 ? "days" : "day"}`;
+};

@@ -13,12 +13,17 @@ import { MenuList } from "./MenuList";
 import { useRouter } from "next/router";
 import UserDropDown from "./UserDropDown";
 import { NoSsr } from "@mui/material";
+import { useSession } from "next-auth/react";
+import { getNotificationsClient } from "@helper/client/notification";
+import Notification from "@components/Notification";
+
 const drawerWidth: number = 240;
 
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
 }
 interface ISideDrawer {
+  title?: string;
   children?: ReactNode;
 }
 
@@ -64,17 +69,20 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== "open" 
   },
 }));
 
-export const SideDrawer: FC<ISideDrawer> = ({ children }) => {
-  const [title, setTitle] = useState(document.title);
+export const SideDrawer: FC<ISideDrawer> = ({ title }) => {
+  const { data: session, status } = useSession({ required: true });
   const [open, setOpen] = useState(false);
+  const [notifications, setNotifications] = useState([]);
 
   const toggleDrawer = () => {
     setOpen(!open);
   };
 
   useEffect(() => {
-    if (document.title) setTitle(document.title);
-  }, [document.title]);
+    if (status == "authenticated") {
+      getNotificationsClient(session?.user._id!, session?.user.accessToken!, setNotifications);
+    }
+  }, [status]);
 
   return (
     <NoSsr>
@@ -99,6 +107,7 @@ export const SideDrawer: FC<ISideDrawer> = ({ children }) => {
           <Typography component="h1" variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }}>
             {title}
           </Typography>
+          <Notification data={notifications} />
           <IconButton color="inherit">
             <UserDropDown />
             {/* <Badge badgeContent={4} color="secondary">

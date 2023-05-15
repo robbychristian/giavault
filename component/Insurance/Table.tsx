@@ -108,7 +108,7 @@ const PolicyTable: FC<IPolicyTable> = ({ data, refetch }) => {
   );
 };
 
-const InsuranceModal = ({ open, onClose, data }: any) => {
+export const InsuranceModal = ({ open, onClose, data }: any) => {
   return (
     <Dialog open={open} onClose={onClose} maxWidth="lg">
       <DialogTitle>Edit Policy</DialogTitle>

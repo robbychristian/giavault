@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import NextLink, { LinkProps as NextLinkProps } from "next/link";
+import NextLink from "next/link";
 import { Avatar, Box, Button, Divider, Hidden, lighten, List, ListItem, ListItemText, Popover, Typography } from "@mui/material";
 import AccountBoxTwoToneIcon from "@mui/icons-material/AccountBoxTwoTone";
 import { styled } from "@mui/material/styles";
