@@ -56,7 +56,7 @@ const NotificationList: React.FC<Props> = ({ notifications }) => {
                       <Typography sx={{ display: "inline" }} component="span" variant="body2" color="text.primary">
                         {notification?.policyData?.assured}
                       </Typography>
-                      {`'s policy will expire on ${formatDateWithoutHours(notification?.policyData?.expiry)}`}
+                      {`'s policy will expire on ${formatDateWithoutHours(String(notification?.policyData?.expiry))}`}
                     </React.Fragment>
                   }
                 />

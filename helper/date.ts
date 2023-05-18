@@ -8,6 +8,7 @@ export const formatDateWithoutHours = (date: string) => {
 };
 
 export const convertDateToIso = (dateStr: string) => {
+  if (isDate(dateStr)) return dateStr;
   let localDate;
   const excelDate = excelDateToJSDate(dateStr);
   if (excelDate) {
@@ -41,4 +42,12 @@ export const getDaysBetweenDates = (endDate: Date) => {
   const timeDiff = endDate.getTime() - startDate.getTime();
   const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
   return `${daysDiff} ${daysDiff > 1 ? "days" : "day"}`;
+};
+
+export const isDate = (str: string) => {
+  const parsedDate = Date.parse(str);
+  if (!isNaN(parsedDate)) {
+    return true;
+  }
+  return false;
 };
