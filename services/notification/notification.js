@@ -27,7 +27,6 @@ const getExpiringPolicies = async (daysBeforeExpiry) => {
 
 const createExpiringPoliciesNotification = async () => {
   try {
-    console.log("called");
     const expiryDate = new Date(today.getTime() + 30 * 24 * 60 * 60 * 1000); // equal to 30 days
     const expiringPolicies = await getExpiringPolicies(expiryDate);
     console.log("expiringPolicies", expiringPolicies.length);

@@ -1,263 +1,138 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PolicySchema = void 0;
 var mongoose_1 = require("mongoose");
-
-exports.PolicySchema = new mongoose_1.Schema(
+var fireSchema = new mongoose_1.Schema(
   {
-    creator: {
-      type: mongoose_1.Types.ObjectId,
-      required: true,
+    fields: {
+      type: Map,
+      of: mongoose_1.Schema.Types.Mixed,
     },
-    updatedByAgent: {
-      type: mongoose_1.Types.ObjectId,
-      required: true,
-    },
-    updatedByAgentName: {
-      type: String,
-      required: true,
-    },
-    giaArNo: {
-      type: String,
-      required: true,
-    },
-    giaArDate: {
-      type: Date,
-      required: true,
-    },
-    insurerOrNo: {
-      type: String,
-      required: true,
-    },
-    insurerOrDate: {
-      type: Date,
-      required: true,
-    },
-    giaOrNo: {
-      type: String,
-      required: true,
-    },
-    giaOrDate: {
-      type: Date,
-      required: true,
-    },
-    saNo: {
-      type: String,
-      required: true,
-    },
-    insurer: {
-      type: String,
-      required: true,
-    },
-    assured: {
-      type: String,
-      required: true,
-    },
-    mailingAddress: {
-      type: String,
-      required: true,
-    },
-    locationOfRisk: {
-      type: String,
-      required: true,
-    },
-    policy: {
-      type: String,
-      required: true,
-    },
-    issueDate: {
-      type: Date,
-      required: true,
-    },
-    inception: {
-      type: Date,
-      required: true,
-    },
-    expiry: {
-      type: Date,
-      required: true,
-    },
-    particulars: {
-      type: String,
-      required: true,
-    },
-    plate: {
-      type: String,
-      required: true,
-    },
-    sumInsured: {
-      type: Number,
-      required: true,
-    },
-    premium: {
-      type: Number,
-      required: true,
-    },
-    lgt: {
-      type: Number,
-      required: true,
-    },
-    vat: {
-      type: Number,
-      required: true,
-    },
-    dst: {
-      type: Number,
-      required: true,
-    },
-    otherCharges: {
-      type: Number,
-      required: true,
-    },
-    totalAmount: {
-      type: Number,
-      required: true,
-    },
-    line: {
-      type: String,
-      required: true,
-    },
-    deductible: {
-      type: Number,
-      required: true,
-    },
-    serial: {
-      type: String,
-      required: true,
-    },
-    chassisNo: {
-      type: String,
-      required: true,
-    },
-    mvFile: {
-      type: String,
-      required: true,
-    },
-    mortgagee: {
-      type: String,
-      required: true,
-    },
-    color: {
-      type: String,
-      required: true,
-    },
+  },
+  { _id: false }
+);
+var motorSchema = new mongoose_1.Schema(
+  {
+    issueDate: String,
+    inception: String,
+    expiry: String,
+    insurer: String,
+    assured: String,
+    address: String,
+    modelMakeRisk: String,
+    plate: String,
+    totalPrem: Number,
+    grossPrem: Number,
+    deductible: Number,
+    motor: String,
+    mvFile: String,
     od: {
-      type: Number,
-      required: true,
+      type: mongoose_1.Schema.Types.Mixed,
     },
     theft: {
-      type: Number,
-      required: true,
+      type: mongoose_1.Schema.Types.Mixed,
     },
-    vBi: {
-      type: Number,
-      required: true,
+    vbi: String,
+    vpd: String,
+    autoPa: String,
+    aog: String,
+    aogPrem: Number,
+    lossOfUse: String,
+    chassisNo: String,
+    color: String,
+  },
+  { _id: false }
+);
+var cglSchema = new mongoose_1.Schema(
+  {
+    fields: {
+      type: Map,
+      of: mongoose_1.Schema.Types.Mixed,
     },
-    vPd: {
-      type: Number,
-      required: true,
+  },
+  { _id: false }
+);
+var bondSchema = new mongoose_1.Schema(
+  {
+    fields: {
+      type: Map,
+      of: mongoose_1.Schema.Types.Mixed,
     },
-    autoPA: {
-      type: Number,
-      required: true,
+  },
+  { _id: false }
+);
+var marineSchema = new mongoose_1.Schema(
+  {
+    fields: {
+      type: Map,
+      of: mongoose_1.Schema.Types.Mixed,
     },
-    aog: {
-      type: Number,
-      required: true,
+  },
+  { _id: false }
+);
+var personalAccidentSchema = new mongoose_1.Schema(
+  {
+    fields: {
+      type: Map,
+      of: mongoose_1.Schema.Types.Mixed,
     },
-    rscc: {
-      type: Number,
-      required: true,
+  },
+  { _id: false }
+);
+var endorsementSchema = new mongoose_1.Schema(
+  {
+    fields: {
+      type: Map,
+      of: mongoose_1.Schema.Types.Mixed,
     },
-    lossOfUse: {
-      type: Number,
-      required: true,
-    },
-    odPrem: {
-      type: Number,
-      required: true,
-    },
-    theftPrem: {
-      type: Number,
-      required: true,
-    },
-    vBiPrem: {
-      type: Number,
-      required: true,
-    },
-    vPdPrem: {
-      type: Number,
-      required: true,
-    },
-    autoPAPrem: {
-      type: Number,
-      required: true,
-    },
-    aogPrem: {
-      type: Number,
-      required: true,
-    },
-    lossOfUseOrPrem: {
-      type: Number,
-      required: true,
-    },
-    accidentalDeathOrDismemberment: {
-      type: Number,
-      required: true,
-    },
-    medicalExpenses: {
-      type: Number,
-      required: true,
-    },
-    uma: {
-      type: Number,
-      required: true,
-    },
-    building1: {
-      type: Number,
-      required: true,
-    },
-    building2: {
-      type: Number,
-      required: true,
-    },
-    contents1: {
-      type: Number,
-      required: true,
-    },
-    contents2: {
-      type: Number,
-      required: true,
-    },
-    others: {
-      type: Number,
-      required: true,
-    },
-    invoiceNoMarineOnly: {
+  },
+  { _id: false }
+);
+var remarksSchema = new mongoose_1.Schema(
+  {
+    note: String,
+  },
+  { _id: false }
+);
+var PolicySchema = new mongoose_1.Schema(
+  {
+    type: {
       type: String,
+      require: true,
     },
-    blNoMarineOnly: {
-      type: String,
+    insurer: String,
+    line: String,
+    giaIssuedDate: {
+      type: Date,
     },
-    remarks1: {
-      type: String,
+    policyNo: String,
+    inception: {
+      type: Date,
     },
-    remarks2: {
-      type: String,
+    assured: String,
+    expiry: {
+      type: Date,
     },
-    remarks3: {
-      type: String,
+    mailingAddress: String,
+    giaAr: String,
+    giaDate: {
+      type: Date,
     },
-    remarks4: {
-      type: String,
+    giaOr: String,
+    insuranceOrNo: String,
+    insuranceOrNoDate: {
+      type: Date,
     },
-    etc1: {
-      type: String,
+    remarks: {
+      type: [remarksSchema],
     },
-    etc2: {
-      type: String,
-    },
+    motor: motorSchema,
+    fire: fireSchema,
+    cgl: cglSchema,
+    bond: bondSchema,
+    marine: marineSchema,
+    personalAccident: personalAccidentSchema,
+    endorsement: endorsementSchema,
   },
   { timestamps: true, versionKey: false }
 );
-exports.Policy = mongoose_1.models.Policy || (0, mongoose_1.model)("Policy", exports.PolicySchema);
+exports.Policy = mongoose_1.models.Policy || (0, mongoose_1.model)("Policy", PolicySchema);
