@@ -1,402 +1,551 @@
-import { Schema, Types, model, models } from "mongoose";
+// import { Schema, Types, model, models } from "mongoose";
+
+// // export const PolicySchema = new Schema(
+// //   {
+// //     creator: {
+// //       type: Types.ObjectId,
+// //
+// //     },
+// //     updatedByAgent: {
+// //       type: Types.ObjectId,
+// //
+// //     },
+// // updatedByAgentName: {
+// //   type: String,
+// //
+// // },
+// //     sa: {
+// //       type: String,
+// //
+// //     },
+// //     insurer: {
+// //       type: String,
+// //
+// //     },
+// //     assured: {
+// //       type: String,
+// //
+// //     },
+// //     address: {
+// //       type: String,
+// //
+// //     },
+// //     policy: {
+// //       type: String,
+// //
+// //     },
+// //     issueDate: {
+// //       type: Date,
+// //
+// //     },
+// //     inception: {
+// //       type: Date,
+// //
+// //     },
+// //     expiry: {
+// //       type: Date,
+// //
+// //     },
+// //     modelMakeRisk: {
+// //       type: String,
+// //
+// //     },
+// //     plate: {
+// //       type: String,
+// //
+// //     },
+// //     sumInsured: {
+// //       type: String,
+// //
+// //     },
+// //     totalPrem: {
+// //       type: String,
+// //
+// //     },
+// //     grossPrem: {
+// //       type: String,
+// //
+// //     },
+// //     deductible: {
+// //       type: String,
+// //
+// //     },
+// //     serial: {
+// //       type: String,
+// //
+// //       unique: true,
+// //     },
+// //     motor: {
+// //       type: String,
+// //
+// //     },
+// //     mvFile: {
+// //       type: String,
+// //
+// //     },
+// //     od: {
+// //       type: String,
+// //
+// //     },
+// //     theft: {
+// //       type: String,
+// //
+// //     },
+// //     vbi: {
+// //       type: String,
+// //
+// //     },
+// //     vpd: {
+// //       type: String,
+// //
+// //     },
+// //     autoPa: {
+// //       type: String,
+// //
+// //     },
+// //     aog: {
+// //       type: String,
+// //
+// //     },
+// //     lossOfUse: {
+// //       type: String,
+// //
+// //     },
+// //     odPrem: {
+// //       type: String,
+// //
+// //     },
+// //     theftPrem: {
+// //       type: String,
+// //
+// //     },
+// //     vBiOrPrem: {
+// //       type: String,
+// //
+// //     },
+// //     vPdOrPrem: {
+// //       type: String,
+// //
+// //     },
+// //     autoPaOrPrem: {
+// //       type: String,
+// //
+// //     },
+// //     aogOrPrem: {
+// //       type: String,
+// //
+// //     },
+// //     lossOfUseOrPrem: {
+// //       type: String,
+// //
+// //     },
+// //   },
+// //   { timestamps: true, versionKey: false }
+// // );
 
 // export const PolicySchema = new Schema(
 //   {
 //     creator: {
 //       type: Types.ObjectId,
-//       required: true,
+//
 //     },
 //     updatedByAgent: {
 //       type: Types.ObjectId,
-//       required: true,
+//
 //     },
-// updatedByAgentName: {
-//   type: String,
-//   required: true,
-// },
-//     sa: {
+//     updatedByAgentName: {
 //       type: String,
-//       required: true,
+//
+//     },
+//     giaArNo: {
+//       type: String,
+//
+//     },
+//     giaArDate: {
+//       type: Date,
+//
+//     },
+//     insurerOrNo: {
+//       type: String,
+//
+//     },
+//     insurerOrDate: {
+//       type: Date,
+//
+//     },
+//     giaOrNo: {
+//       type: String,
+//
+//     },
+//     giaOrDate: {
+//       type: Date,
+//
+//     },
+//     saNo: {
+//       type: String,
+//
 //     },
 //     insurer: {
 //       type: String,
-//       required: true,
+//
 //     },
 //     assured: {
 //       type: String,
-//       required: true,
+//
 //     },
-//     address: {
+//     mailingAddress: {
 //       type: String,
-//       required: true,
+//
+//     },
+//     locationOfRisk: {
+//       type: String,
+//
 //     },
 //     policy: {
 //       type: String,
-//       required: true,
+//
 //     },
 //     issueDate: {
 //       type: Date,
-//       required: true,
+//
 //     },
 //     inception: {
 //       type: Date,
-//       required: true,
+//
 //     },
 //     expiry: {
 //       type: Date,
-//       required: true,
+//
 //     },
-//     modelMakeRisk: {
+//     particulars: {
 //       type: String,
-//       required: true,
+//
 //     },
 //     plate: {
 //       type: String,
-//       required: true,
+//
 //     },
 //     sumInsured: {
-//       type: String,
-//       required: true,
+//       type: Number,
+//
 //     },
-//     totalPrem: {
-//       type: String,
-//       required: true,
+//     premium: {
+//       type: Number,
+//
 //     },
-//     grossPrem: {
+//     lgt: {
+//       type: Number,
+//
+//     },
+//     vat: {
+//       type: Number,
+//
+//     },
+//     dst: {
+//       type: Number,
+//
+//     },
+//     otherCharges: {
+//       type: Number,
+//
+//     },
+//     totalAmount: {
+//       type: Number,
+//
+//     },
+//     line: {
 //       type: String,
-//       required: true,
+//
 //     },
 //     deductible: {
-//       type: String,
-//       required: true,
+//       type: Number,
+//
 //     },
 //     serial: {
 //       type: String,
-//       required: true,
-//       unique: true,
+//
 //     },
-//     motor: {
+//     chassisNo: {
 //       type: String,
-//       required: true,
+//
 //     },
 //     mvFile: {
 //       type: String,
-//       required: true,
+//
+//     },
+//     mortgagee: {
+//       type: String,
+//
+//     },
+//     color: {
+//       type: String,
+//
 //     },
 //     od: {
-//       type: String,
-//       required: true,
+//       type: Number,
+//
 //     },
 //     theft: {
-//       type: String,
-//       required: true,
+//       type: Number,
+//
 //     },
-//     vbi: {
-//       type: String,
-//       required: true,
+//     vBi: {
+//       type: Number,
+//
 //     },
-//     vpd: {
-//       type: String,
-//       required: true,
+//     vPd: {
+//       type: Number,
+//
 //     },
-//     autoPa: {
-//       type: String,
-//       required: true,
+//     autoPA: {
+//       type: Number,
+//
 //     },
 //     aog: {
-//       type: String,
-//       required: true,
+//       type: Number,
+//
+//     },
+//     rscc: {
+//       type: Number,
+//
 //     },
 //     lossOfUse: {
-//       type: String,
-//       required: true,
+//       type: Number,
+//
 //     },
 //     odPrem: {
-//       type: String,
-//       required: true,
+//       type: Number,
+//
 //     },
 //     theftPrem: {
-//       type: String,
-//       required: true,
+//       type: Number,
+//
 //     },
-//     vBiOrPrem: {
-//       type: String,
-//       required: true,
+//     vBiPrem: {
+//       type: Number,
+//
 //     },
-//     vPdOrPrem: {
-//       type: String,
-//       required: true,
+//     vPdPrem: {
+//       type: Number,
+//
 //     },
-//     autoPaOrPrem: {
-//       type: String,
-//       required: true,
+//     autoPAPrem: {
+//       type: Number,
+//
 //     },
-//     aogOrPrem: {
-//       type: String,
-//       required: true,
+//     aogPrem: {
+//       type: Number,
+//
 //     },
 //     lossOfUseOrPrem: {
+//       type: Number,
+//
+//     },
+//     accidentalDeathOrDismemberment: {
+//       type: Number,
+//
+//     },
+//     medicalExpenses: {
+//       type: Number,
+//
+//     },
+//     uma: {
+//       type: Number,
+//
+//     },
+//     building1: {
+//       type: Number,
+//
+//     },
+//     building2: {
+//       type: Number,
+//
+//     },
+//     contents1: {
+//       type: Number,
+//
+//     },
+//     contents2: {
+//       type: Number,
+//
+//     },
+//     others: {
+//       type: Number,
+//
+//     },
+//     invoiceNoMarineOnly: {
 //       type: String,
-//       required: true,
+//     },
+//     blNoMarineOnly: {
+//       type: String,
+//     },
+//     remarks1: {
+//       type: String,
+//     },
+//     remarks2: {
+//       type: String,
+//     },
+//     remarks3: {
+//       type: String,
+//     },
+//     remarks4: {
+//       type: String,
+//     },
+//     etc1: {
+//       type: String,
+//     },
+//     etc2: {
+//       type: String,
 //     },
 //   },
 //   { timestamps: true, versionKey: false }
 // );
 
-export const PolicySchema = new Schema(
+// const Policy = models.Policy || model("Policy", PolicySchema);
+
+// export default Policy;
+
+import { Schema, model, Document, models } from "mongoose";
+
+const fireSchema = new Schema(
   {
-    creator: {
-      type: Types.ObjectId,
-      required: true,
+    fields: {
+      type: Map,
+      of: Schema.Types.Mixed,
     },
-    updatedByAgent: {
-      type: Types.ObjectId,
-      required: true,
-    },
-    updatedByAgentName: {
-      type: String,
-      required: true,
-    },
-    giaArNo: {
-      type: String,
-      required: true,
-    },
-    giaArDate: {
-      type: Date,
-      required: true,
-    },
-    insurerOrNo: {
-      type: String,
-      required: true,
-    },
-    insurerOrDate: {
-      type: Date,
-      required: true,
-    },
-    giaOrNo: {
-      type: String,
-      required: true,
-    },
-    giaOrDate: {
-      type: Date,
-      required: true,
-    },
-    saNo: {
-      type: String,
-      required: true,
-    },
-    insurer: {
-      type: String,
-      required: true,
-    },
-    assured: {
-      type: String,
-      required: true,
-    },
-    mailingAddress: {
-      type: String,
-      required: true,
-    },
-    locationOfRisk: {
-      type: String,
-      required: true,
-    },
-    policy: {
-      type: String,
-      required: true,
-    },
-    issueDate: {
-      type: Date,
-      required: true,
-    },
-    inception: {
-      type: Date,
-      required: true,
-    },
-    expiry: {
-      type: Date,
-      required: true,
-    },
-    particulars: {
-      type: String,
-      required: true,
-    },
-    plate: {
-      type: String,
-      required: true,
-    },
-    sumInsured: {
-      type: Number,
-      required: true,
-    },
-    premium: {
-      type: Number,
-      required: true,
-    },
-    lgt: {
-      type: Number,
-      required: true,
-    },
-    vat: {
-      type: Number,
-      required: true,
-    },
-    dst: {
-      type: Number,
-      required: true,
-    },
-    otherCharges: {
-      type: Number,
-      required: true,
-    },
-    totalAmount: {
-      type: Number,
-      required: true,
-    },
-    line: {
-      type: String,
-      required: true,
-    },
-    deductible: {
-      type: Number,
-      required: true,
-    },
-    serial: {
-      type: String,
-      required: true,
-    },
-    chassisNo: {
-      type: String,
-      required: true,
-    },
-    mvFile: {
-      type: String,
-      required: true,
-    },
-    mortgagee: {
-      type: String,
-      required: true,
-    },
-    color: {
-      type: String,
-      required: true,
-    },
+  },
+  { _id: false }
+);
+
+const motorSchema = new Schema(
+  {
+    issueDate: String,
+    inception: String,
+    expiry: String,
+    insurer: String,
+    assured: String,
+    address: String,
+    modelMakeRisk: String,
+    plate: String,
+    totalPrem: Number,
+    grossPrem: Number,
+    deductible: Number,
+    motor: String,
+    mvFile: String,
     od: {
-      type: Number,
-      required: true,
+      type: Schema.Types.Mixed,
     },
     theft: {
-      type: Number,
-      required: true,
+      type: Schema.Types.Mixed,
     },
-    vBi: {
-      type: Number,
-      required: true,
+    vbi: String,
+    vpd: String,
+    autoPa: String,
+    aog: String,
+    aogPrem: Number,
+    lossOfUse: String,
+    chassisNo: String,
+    color: String,
+  },
+  { _id: false }
+);
+
+const cglSchema = new Schema(
+  {
+    fields: {
+      type: Map,
+      of: Schema.Types.Mixed,
     },
-    vPd: {
-      type: Number,
-      required: true,
+  },
+  { _id: false }
+);
+
+const bondSchema = new Schema(
+  {
+    fields: {
+      type: Map,
+      of: Schema.Types.Mixed,
     },
-    autoPA: {
-      type: Number,
-      required: true,
+  },
+  { _id: false }
+);
+
+const marineSchema = new Schema(
+  {
+    fields: {
+      type: Map,
+      of: Schema.Types.Mixed,
     },
-    aog: {
-      type: Number,
-      required: true,
+  },
+  { _id: false }
+);
+
+const personalAccidentSchema = new Schema(
+  {
+    fields: {
+      type: Map,
+      of: Schema.Types.Mixed,
     },
-    rscc: {
-      type: Number,
-      required: true,
+  },
+  { _id: false }
+);
+
+const endorsementSchema = new Schema(
+  {
+    fields: {
+      type: Map,
+      of: Schema.Types.Mixed,
     },
-    lossOfUse: {
-      type: Number,
-      required: true,
-    },
-    odPrem: {
-      type: Number,
-      required: true,
-    },
-    theftPrem: {
-      type: Number,
-      required: true,
-    },
-    vBiPrem: {
-      type: Number,
-      required: true,
-    },
-    vPdPrem: {
-      type: Number,
-      required: true,
-    },
-    autoPAPrem: {
-      type: Number,
-      required: true,
-    },
-    aogPrem: {
-      type: Number,
-      required: true,
-    },
-    lossOfUseOrPrem: {
-      type: Number,
-      required: true,
-    },
-    accidentalDeathOrDismemberment: {
-      type: Number,
-      required: true,
-    },
-    medicalExpenses: {
-      type: Number,
-      required: true,
-    },
-    uma: {
-      type: Number,
-      required: true,
-    },
-    building1: {
-      type: Number,
-      required: true,
-    },
-    building2: {
-      type: Number,
-      required: true,
-    },
-    contents1: {
-      type: Number,
-      required: true,
-    },
-    contents2: {
-      type: Number,
-      required: true,
-    },
-    others: {
-      type: Number,
-      required: true,
-    },
-    invoiceNoMarineOnly: {
+  },
+  { _id: false }
+);
+
+const remarksSchema = new Schema(
+  {
+    note: String,
+  },
+  { _id: false }
+);
+
+const PolicySchema = new Schema(
+  {
+    type: {
       type: String,
+      require: true,
     },
-    blNoMarineOnly: {
-      type: String,
+    insurer: String,
+    line: String,
+    giaIssuedDate: {
+      type: Date,
     },
-    remarks1: {
-      type: String,
+    policyNo: String,
+    inception: {
+      type: Date,
     },
-    remarks2: {
-      type: String,
+    assured: String,
+    expiry: {
+      type: Date,
     },
-    remarks3: {
-      type: String,
+    mailingAddress: String,
+    giaAr: String,
+    giaDate: {
+      type: Date,
     },
-    remarks4: {
-      type: String,
+    giaOr: String,
+    insuranceOrNo: String,
+    insuranceOrNoDate: {
+      type: Date,
     },
-    etc1: {
-      type: String,
+    remarks: {
+      type: [remarksSchema],
     },
-    etc2: {
-      type: String,
-    },
+    motor: motorSchema,
+    fire: fireSchema,
+    cgl: cglSchema,
+    bond: bondSchema,
+    marine: marineSchema,
+    personalAccident: personalAccidentSchema,
+    endorsement: endorsementSchema,
   },
   { timestamps: true, versionKey: false }
 );
