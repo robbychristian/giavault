@@ -14,18 +14,17 @@ export const savePolicy = async (insurancePolicy: InsurancePolicy | InsurancePol
   try {
     const policy = (Array.isArray(insurancePolicy) ? insurancePolicy : [insurancePolicy]).map((e: InsurancePolicy) => ({
       updateOne: {
-        filter: { serial: e.serial, issueDate: convertDateToIso(e.issueDate) },
+        filter: { giaOr: e.giaOr, giaIssuedDate: convertDateToIso(String(e.giaIssuedDate)) },
         update: {
           ...e,
           creator: _id,
           updatedByAgent: _id,
           updatedByAgentName: username,
-          issueDate: convertDateToIso(e.issueDate),
-          inception: convertDateToIso(e.inception),
-          expiry: convertDateToIso(e.expiry),
-          giaArDate: convertDateToIso(e.giaArDate),
-          insurerOrDate: convertDateToIso(e.insurerOrDate),
-          giaOrDate: convertDateToIso(e.giaOrDate),
+          giaIssuedDate: convertDateToIso(String(e.giaIssuedDate)),
+          inception: convertDateToIso(String(e.inception)),
+          expiry: convertDateToIso(String(e.expiry)),
+          giaDate: convertDateToIso(String(e.giaDate)),
+          insuranceOrNoDate: convertDateToIso(String(e.insuranceOrNoDate)),
         },
         upsert: true,
       },
@@ -47,13 +46,10 @@ export const getPolicies = async (query: Query) => {
       {
         $match: {
           $or: [
-            { serial: { $regex: search ?? "", $options: "i" } },
-            { plate: { $regex: search ?? "", $options: "i" } },
-            { modelMakeRisk: { $regex: search ?? "", $options: "i" } },
-            { theft: { $regex: search ?? "", $options: "i" } },
-            { autoPa: { $regex: search ?? "", $options: "i" } },
-            { aog: { $regex: search ?? "", $options: "i" } },
-            { lossOfUse: { $regex: search ?? "", $options: "i" } },
+            { insurer: { $regex: search ?? "", $options: "i" } },
+            { policyNo: { $regex: search ?? "", $options: "i" } },
+            { giaOr: { $regex: search ?? "", $options: "i" } },
+            { insuranceOrNo: { $regex: search ?? "", $options: "i" } },
           ],
         },
       },
@@ -73,12 +69,11 @@ export const updatePolicy = async (insurancePolicy: InsurancePolicy | InsuranceP
       return {
         updateOne: {
           filter: { _id: new Types.ObjectId(_id) },
-          update: { rest, updatedByAgentName: username, updatedByAgent: new Types.ObjectId(agentId) },
+          update: { ...rest, updatedByAgentName: username, updatedByAgent: new Types.ObjectId(agentId) },
         },
         upsert: true,
       };
     });
-    console.log("policy", JSON.stringify(policy));
     // const response = await Policy.bulkWrite(policy, { session: mongoSession }); // use this for session
     const response = await Policy.bulkWrite(policy);
     console.log("response", response);

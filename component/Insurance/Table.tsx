@@ -7,7 +7,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { FC, useEffect, useState } from "react";
 import { formatDate } from "@helper/date";
-import { InsurancePolicy } from "@typedefs/user";
+import { InsurancePolicy } from "@typedefs/policy";
 import { Roles } from "@typedefs/roles";
 import Pagination from "../Pagination";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -16,19 +16,7 @@ import { useSession } from "next-auth/react";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import InsuranceForm from "@components/Agent/InsuranceForm";
 import { DeletePolicy } from "@helper/client/policy";
-
-const style = {
-  position: "absolute" as "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 600,
-  bgcolor: "background.paper",
-  boxShadow: 24,
-  p: 4,
-  borderRadius: 2,
-  height: 500,
-};
+import moment from "moment";
 
 interface IPolicyTable {
   data: InsurancePolicy[];
@@ -70,8 +58,10 @@ const PolicyTable: FC<IPolicyTable> = ({ data, refetch }) => {
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>Serial</TableCell>
-            <TableCell align="right">Issue Date</TableCell>
+            <TableCell>Insurer</TableCell>
+            <TableCell align="right">Policy Number</TableCell>
+            <TableCell align="right">GIA OR</TableCell>
+            <TableCell align="right">GIA Issue Date</TableCell>
             <TableCell align="right">Expiry</TableCell>
             <TableCell align="center">View</TableCell>
             {session?.user.role == Roles.ADMIN ? <TableCell align="center">Delete</TableCell> : null}
@@ -81,10 +71,12 @@ const PolicyTable: FC<IPolicyTable> = ({ data, refetch }) => {
           {dataIndexed?.data?.map((row: InsurancePolicy) => (
             <TableRow key={row?._id} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
               <TableCell component="th" scope="row">
-                {row?.serial}
+                {row?.insurer}
               </TableCell>
-              <TableCell align="right">{formatDate(row?.issueDate)}</TableCell>
-              <TableCell align="right">{formatDate(row?.expiry)}</TableCell>
+              <TableCell align="right">{row?.policyNo}</TableCell>
+              <TableCell align="right">{row?.giaOr}</TableCell>
+              <TableCell align="right">{String(moment(row?.giaIssuedDate).format("MMM DD, YYYY"))}</TableCell>
+              <TableCell align="right">{String(moment(row?.expiry).format("MMM DD, YYYY"))}</TableCell>
               <TableCell align="center">
                 <IconButton onClick={() => setSelectedData({ ...selectedData, selectedData: row as any, isUpdate: true })}>
                   <VisibilityIcon />
