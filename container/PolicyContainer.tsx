@@ -1,7 +1,7 @@
 import { FC, useState } from "react";
 import TableContainer from "@containers/TableContainer";
 import { TableTypes } from "@typedefs/components/Table.type";
-import { InsurancePolicy } from "@typedefs/user";
+import { InsurancePolicy } from "@typedefs/policy";
 import { useSession } from "next-auth/react";
 import { refetchPolicies } from "@helper/client/policy";
 import MemoizedComponent from "@helper/hooks/memoization";

@@ -1,6 +1,6 @@
 import { API } from "@libs/api";
 import { Query } from "@typedefs/query";
-import { InsurancePolicy } from "@typedefs/user";
+import { InsurancePolicy } from "@typedefs/policy";
 
 export const AddPolicy = async (policy: Partial<InsurancePolicy>, accessToken: string, setSnackbar: (snackbar: any) => void) => {
   try {
