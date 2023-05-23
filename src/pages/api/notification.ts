@@ -17,8 +17,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse<any>) {
       const response = await updateNotifications(query as any);
       return res.status(200).json({ success: true, message: response });
     }
-    default:
+    default: {
       return res.status(405).json({ error: ERROR_TYPES.METHOD_NOT_ALLOWED });
+    }
   }
 }
 

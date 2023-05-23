@@ -105,7 +105,7 @@ export const InsuranceModal = ({ open, onClose, data }: any) => {
     <Dialog open={open} onClose={onClose} maxWidth="lg">
       <DialogTitle>Edit Policy</DialogTitle>
       <DialogContent>
-        <InsuranceForm data={data.selectedData} onClose={onClose} />
+        <InsuranceForm data={data?.selectedData} onClose={onClose} />
       </DialogContent>
       <DialogActions>
         {data?.selectedData?.updatedByAgent ? (

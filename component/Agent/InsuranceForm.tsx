@@ -1,6 +1,6 @@
-import { Box, Button, Grid, MenuItem, TextField, Typography } from "@mui/material";
+import { Box, Button, Divider, Grid, MenuItem, TextField, Typography } from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers";
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import { InsurancePolicy, PolicyTypes } from "@typedefs/policy";
 import { AddPolicy, UpdatePolicy } from "@helper/client/policy";
@@ -8,6 +8,8 @@ import { useSession } from "next-auth/react";
 import SnackBarComponent from "@components/Snackbar";
 import GiaForm from "./GiaForm";
 import FormRenderer from "./FormRenderer";
+import Remarks from "./Remarks";
+import { useRouter } from "next/router";
 
 interface IInsuranceForm {
   data?: InsurancePolicy;
@@ -15,6 +17,7 @@ interface IInsuranceForm {
 }
 
 const InsuranceForm: FC<IInsuranceForm> = ({ data, onClose }) => {
+  const router = useRouter();
   const [entries, setEntries] = useState<Partial<InsurancePolicy>>(
     data ?? {
       giaDate: new Date(),
@@ -22,6 +25,7 @@ const InsuranceForm: FC<IInsuranceForm> = ({ data, onClose }) => {
       expiry: new Date(),
       giaIssuedDate: new Date(),
       insuranceOrNoDate: new Date(),
+      type: PolicyTypes.MOTOR, // default
     }
   );
   const { data: session } = useSession({ required: true });
@@ -38,7 +42,8 @@ const InsuranceForm: FC<IInsuranceForm> = ({ data, onClose }) => {
       UpdatePolicy({ ...entries, _id }, session?.user.accessToken!, setSnackbar);
       return onClose && onClose();
     }
-    return AddPolicy({ ...entries }, session?.user.accessToken!, setSnackbar);
+    AddPolicy({ ...entries }, session?.user.accessToken!, setSnackbar);
+    return router.push("/insurance/list");
   };
 
   // useEffect(() => {
@@ -104,7 +109,26 @@ const InsuranceForm: FC<IInsuranceForm> = ({ data, onClose }) => {
                 </TextField>
               </Grid>
               <Grid item xs={12}>
+                <Divider />
+              </Grid>
+              <Grid item xs={12}>
+                <Typography id="premium" key={`prem`} component="h3" variant="h6" sx={{ fontStyle: "bold" }}>
+                  Details *
+                </Typography>
+              </Grid>
+              <Grid item xs={12}>
                 <FormRenderer data={entries} setData={setEntries} type={entries?.type as PolicyTypes} />
+              </Grid>
+              <Grid item xs={12}>
+                <Divider />
+              </Grid>
+              <Grid item xs={12}>
+                <Typography id="premium" key={`prem`} component="h3" variant="h6" sx={{ fontStyle: "bold" }}>
+                  Remarks *
+                </Typography>
+              </Grid>
+              <Grid item xs={12}>
+                <Remarks data={entries} setData={setEntries} />
               </Grid>
               <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
                 {data?._id ? "Update" : "Submit"}

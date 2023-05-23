@@ -95,6 +95,15 @@ var remarksSchema = new mongoose_1.Schema(
 );
 var PolicySchema = new mongoose_1.Schema(
   {
+    creator: {
+      type: mongoose_1.Types.ObjectId,
+    },
+    updatedByAgent: {
+      type: mongoose_1.Types.ObjectId,
+    },
+    updatedByAgentName: {
+      type: String,
+    },
     type: {
       type: String,
       require: true,

@@ -1,68 +1,56 @@
-import * as React from "react";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import CssBaseline from "@mui/material/CssBaseline";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
-import Copyright from "@components/Copyright";
-import { SideDrawer } from "@components/Drawer";
-
-const mdTheme = createTheme();
+import { Button, Card, CardActions, CardContent, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
+import { getNotificationsClient } from "@helper/client/notification";
 
 const Dashboard = () => {
+  const { data: session, status } = useSession({ required: true });
+  const [policies, setPolicies] = useState([]);
+
+  useEffect(() => {
+    if (status == "authenticated") {
+      getNotificationsClient(session?.user._id!, session?.user.accessToken!, setPolicies);
+    }
+  }, [status]);
+
   return (
-    <Box sx={{ display: "flex" }}>
-      <CssBaseline />
-      <SideDrawer />
-      <Box
-        component="main"
-        sx={{
-          backgroundColor: (theme) => (theme.palette.mode === "light" ? theme.palette.grey[100] : theme.palette.grey[900]),
-          flexGrow: 1,
-          height: "100vh",
-          overflow: "auto",
-        }}
-      >
-        <Toolbar />
-        <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-          <Grid container spacing={3}>
-            {/* Chart */}
-            <Grid item xs={12} md={8} lg={9}>
-              <Paper
-                sx={{
-                  p: 2,
-                  display: "flex",
-                  flexDirection: "column",
-                  height: 240,
-                }}
-              >
-                {/* <Chart /> */}
-              </Paper>
-            </Grid>
-            {/* Recent Deposits */}
-            <Grid item xs={12} md={4} lg={3}>
-              <Paper
-                sx={{
-                  p: 2,
-                  display: "flex",
-                  flexDirection: "column",
-                  height: 240,
-                }}
-              >
-                {/* <Deposits /> */}
-              </Paper>
-            </Grid>
-            {/* Recent Orders */}
-            <Grid item xs={12}>
-              <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>{/* <Orders /> */}</Paper>
-            </Grid>
-          </Grid>
-        </Container>
-      </Box>
-      <Copyright />
-    </Box>
+    <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+      <Grid container spacing={3}>
+        {/* Chart */}
+        <Grid item sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+          <Card sx={{ minWidth: 275 }}>
+            <CardContent sx={{ textAlign: "center" }}>
+              <Typography variant="h5" component="div">
+                Expiring Policies
+              </Typography>
+              <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                {`${policies.length} (within 30 days)`}
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+        {/* Recent Deposits */}
+        <Grid item xs={12} md={4} lg={3}>
+          <Paper
+            sx={{
+              p: 2,
+              display: "flex",
+              flexDirection: "column",
+              height: 240,
+            }}
+          >
+            {/* <Deposits /> */}
+          </Paper>
+        </Grid>
+        {/* Recent Orders */}
+        <Grid item xs={12}>
+          <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>{/* <Orders /> */}</Paper>
+        </Grid>
+      </Grid>
+    </Container>
   );
 };
 

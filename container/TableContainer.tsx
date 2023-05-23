@@ -10,7 +10,7 @@ import { useSession } from "next-auth/react";
 import { searchLogsClient } from "@helper/userLog";
 import { TableTypes } from "@typedefs/components/Table.type";
 import { TableSwitch } from "@components/TableSwitch";
-import { Box, IconButton, Modal, Tooltip, Typography } from "@mui/material";
+import { Box, Dialog, DialogContent, IconButton, Modal, Tooltip, Typography } from "@mui/material";
 import { searchUsersClient } from "@helper/client/user/userClient";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import { searchPolicyClient } from "@helper/client/policy";
@@ -24,19 +24,6 @@ interface ITable {
   modalChildren?: React.ReactNode;
   refetch?: () => void;
 }
-
-const style = {
-  position: "absolute" as "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 600,
-  bgcolor: "background.paper",
-  boxShadow: 24,
-  p: 4,
-  borderRadius: 2,
-  height: 500,
-};
 
 const TableContainer: FC<ITable> = ({ placeholder, data, hasButton, buttonText, type, modalChildren, refetch }) => {
   const { data: session } = useSession({ required: true });
@@ -105,9 +92,9 @@ const TableContainer: FC<ITable> = ({ placeholder, data, hasButton, buttonText, 
         </Toolbar>
       </AppBar>
       <TableSwitch tableType={type} data={data} searchData={searchData} refetch={refetch} />
-      <Modal open={isModalOpen} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
-        <Box sx={style}>{modalChildren}</Box>
-      </Modal>
+      <Dialog open={isModalOpen} onClose={handleClose} maxWidth="lg">
+        <DialogContent>{modalChildren}</DialogContent>
+      </Dialog>
     </Paper>
   );
 };

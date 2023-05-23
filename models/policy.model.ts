@@ -405,7 +405,7 @@
 
 // export default Policy;
 
-import { Schema, model, Document, models } from "mongoose";
+import { Schema, model, Document, models, Types } from "mongoose";
 
 const fireSchema = new Schema(
   {
@@ -509,6 +509,15 @@ const remarksSchema = new Schema(
 
 const PolicySchema = new Schema(
   {
+    creator: {
+      type: Types.ObjectId,
+    },
+    updatedByAgent: {
+      type: Types.ObjectId,
+    },
+    updatedByAgentName: {
+      type: String,
+    },
     type: {
       type: String,
       require: true,

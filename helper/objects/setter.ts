@@ -1,4 +1,4 @@
-export const handleChange = (event: React.ChangeEvent<HTMLInputElement> | any, data: any, setData: React.Dispatch<React.SetStateAction<any>>) => {
+export const handleChange = (event: React.ChangeEvent<HTMLInputElement> | any, data: any, setData: React.Dispatch<React.SetStateAction<any>>, isChildForm?: boolean) => {
   const { name, value } = event.target;
   let parsedValue: any = value;
 
@@ -7,7 +7,8 @@ export const handleChange = (event: React.ChangeEvent<HTMLInputElement> | any, d
     parsedValue = new Date(parsedDate);
   }
 
-  setData({ ...data, [name]: value });
+  if (isChildForm) return setData({ ...data, [data?.type.toLowerCase()]: { ...data[data?.type?.toLowerCase()], [name]: value } });
+  return setData({ ...data, [name]: value });
 };
 
 export const arrayToObject = (arr: []) => {

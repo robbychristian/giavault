@@ -1,3 +1,4 @@
+import NumberTextField from "@components/NumberTextField";
 import { arrayToObject, objectToArray } from "@helper/objects/setter";
 import { Button, Grid, TextField } from "@mui/material";
 import { InsurancePolicy } from "@typedefs/policy";
@@ -30,7 +31,7 @@ export const DynamicForm: FC<IDynamicForm> = ({ data, setData }) => {
     setEntries([...entries, { key: "", value: "" }]);
   };
 
-  const handleChange = (index: number, field: string, value: string) => {
+  const handleChange = (index: number, field: string, value: string | number) => {
     const updatedFields = [...entries];
     updatedFields[index][field] = value;
     setEntries(updatedFields);
@@ -44,16 +45,16 @@ export const DynamicForm: FC<IDynamicForm> = ({ data, setData }) => {
             return (
               <>
                 <Grid item xs={6}>
-                  <TextField fullWidth label="Header" name={`${e.key}`} value={e.key} onChange={(e) => handleChange(index, "key", e.target.value)} />
+                  <TextField fullWidth label="Header/Particulars" name={`${e.key}`} value={e.key} onChange={(e) => handleChange(index, "key", e.target.value)} />
                 </Grid>
                 <Grid item xs={6}>
-                  <TextField label="Value" name={`${e.value}`} fullWidth value={e.value} onChange={(e) => handleChange(index, "value", e.target.value)} />
+                  <NumberTextField type="number" index={index} label="Value" name={`${e.value}`} value={parseFloat(e.value)} onChange={handleChange} />
                 </Grid>
               </>
             );
           })}
           <Grid item xs={12} textAlign="right">
-            <Button variant="contained" onClick={handleAddField}>
+            <Button variant="contained" onClick={handleAddField} size="medium">
               Add more field
             </Button>
           </Grid>
