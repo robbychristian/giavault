@@ -13,13 +13,16 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Copyright from "@components/Copyright";
 import Router from "next/router";
-import { isEmptyNoSec } from "@helper/objects";
-import { IconButton } from "@mui/material";
+import SnackBarComponent from "@components/Snackbar";
+import { isEmptyNoSec } from "../helper/objects";
+import { IconButton, InputAdornment } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { signIn } from "next-auth/react";
-import SnackBarComponent from "@components/Snackbar";
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 const Login = () => {
+  const [isPasswordVisible, setIsPasswordVisible] = React.useState(false);
   const [snackbar, setSnackbar] = React.useState<any>({
     isOpen: false,
     isError: false,
@@ -75,7 +78,29 @@ const Login = () => {
           Sign in
         </Typography>
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-          <TextField margin="normal" required fullWidth id="username" label="Username" name="username" autoComplete="username" autoFocus />
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            name="password"
+            label="Password"
+            type={isPasswordVisible ? "text" : "password"}
+            id="password"
+            autoComplete="current-password"
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    onClick={() => {
+                      setIsPasswordVisible(!isPasswordVisible);
+                    }}
+                  >
+                    {isPasswordVisible ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+          />
           <TextField margin="normal" required fullWidth name="password" label="Password" type="password" id="password" autoComplete="current-password" />
           <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="Remember me" />
           <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>

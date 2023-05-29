@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -10,18 +11,20 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Copyright from "@components/Copyright";
 import Router from "next/router";
-import { IconButton, InputLabel } from "@mui/material";
+import { IconButton, InputLabel, InputAdornment } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { RegisterClient } from "@helper/client/user/userClient";
 import { isEmpty } from "@helper/objects";
 import { shuffle } from "lodash";
-import React, { useState } from "react";
 import { SecurityQuestions } from "@constants/securityQuestions";
 import { User } from "@typedefs/user";
 import SecurityQuestionList from "@components/SecurityQuestion";
 import SnackBarComponent from "@components/Snackbar";
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 export default function Registration() {
+  const [isPasswordVisible, setIsPasswordVisible] = React.useState(false);
   const [shuffledQuestions, setShuffledQuestions] = useState<any>(shuffle(SecurityQuestions));
   const [userData, setUserData] = useState<Partial<User> | any>({
     firstName: "",
@@ -93,7 +96,29 @@ export default function Registration() {
               <TextField required fullWidth id="username" label="Username" name="username" onChange={(e) => setUserData({ ...userData, username: e.target.value })} />
             </Grid>
             <Grid item xs={12}>
-              <TextField required fullWidth name="password" label="Password" type="password" id="password" autoComplete="new-password" onChange={(e) => setUserData({ ...userData, password: e.target.value })} />
+              <TextField
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type={isPasswordVisible ? "text" : "password"}
+                id="password"
+                autoComplete="new-password"
+                onChange={(e) => setUserData({ ...userData, password: e.target.value })}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        onClick={() => {
+                          setIsPasswordVisible(!isPasswordVisible);
+                        }}
+                      >
+                        {isPasswordVisible ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+              />
             </Grid>
             {userData.securityQuestions.map((e: any, index: any) => {
               return (
