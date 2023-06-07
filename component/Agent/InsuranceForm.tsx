@@ -67,7 +67,12 @@ const InsuranceForm: FC<IInsuranceForm> = ({ data, onClose }) => {
               Add Form
             </Typography>
           )}
-          <form onSubmit={handleSubmit}>
+          <form
+            onSubmit={handleSubmit}
+            onKeyDown={(e) => {
+              e.key === "Enter" && e.preventDefault();
+            }}
+          >
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <Typography id="premium" key={`prem`} component="h3" variant="h6" sx={{ fontStyle: "bold" }}>

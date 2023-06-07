@@ -8,7 +8,7 @@ export const handleChange = (event: React.ChangeEvent<HTMLInputElement> | any, d
   }
 
   if (isChildForm) return setData({ ...data, [data?.type.toLowerCase()]: { ...data[data?.type?.toLowerCase()], [name]: value } });
-  return setData({ ...data, [name]: value });
+  return setData({ ...data, [name]: value?.toUpperCase() });
 };
 
 export const arrayToObject = (arr: []) => {
