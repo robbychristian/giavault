@@ -20,11 +20,6 @@ const InsuranceForm: FC<IInsuranceForm> = ({ data, onClose }) => {
   const router = useRouter();
   const [entries, setEntries] = useState<Partial<InsurancePolicy>>(
     data ?? {
-      giaDate: new Date(),
-      inception: new Date(),
-      expiry: new Date(),
-      giaIssuedDate: new Date(),
-      insuranceOrNoDate: new Date(),
       type: PolicyTypes.MOTOR, // default
     }
   );
@@ -46,9 +41,9 @@ const InsuranceForm: FC<IInsuranceForm> = ({ data, onClose }) => {
     return router.push("/insurance/list");
   };
 
-  // useEffect(() => {
-  //   console.log("entries", entries);
-  // }, [entries]);
+  useEffect(() => {
+    console.log("entries", entries);
+  }, [entries]);
 
   return (
     <>

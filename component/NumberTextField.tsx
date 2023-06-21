@@ -4,39 +4,45 @@ import { NumericFormat } from "react-number-format";
 
 interface INumberTextField {
   type: React.InputHTMLAttributes<unknown>["type"];
-  label: string;
   name: string;
   value: any;
   onChange: any;
   index: any;
+  label?: string;
+  placeholder?: string;
 }
 
-const NumberTextField: FC<INumberTextField> = ({ type, label, name, value, onChange, index }) => {
+const NumberTextField: FC<INumberTextField> = ({ type, label, name, value, onChange, index, placeholder }) => {
   const [inputValue, setInputValue] = useState(value ?? 0);
 
   useEffect(() => {
     console.log("inputValue: ", inputValue);
   }, [inputValue]);
 
-  const handleChange = (value: number) => {
-    setInputValue(value);
-    onChange(index, "value", value);
+  const handleChange = (e: any, values: number) => {
+    const { value } = e.target;
+    console.log("name target: ", name);
+    if (!name) return;
+    setInputValue(values);
+    onChange(index, name, value);
   };
 
   return (
     <NumericFormat
       fullWidth
+      label={label ?? ""}
       value={inputValue}
       customInput={TextField}
       thousandSeparator=","
-      prefix="₱"
+      // prefix="₱"
+      placeholder={placeholder ?? ""}
       inputProps={{
         style: { textAlign: "right" },
         step: "any",
       }}
       onValueChange={(values, sourceInfo) => {
         console.log(values, sourceInfo);
-        handleChange(values.floatValue!);
+        handleChange(sourceInfo?.event, values.floatValue!);
       }}
     />
     // <TextField

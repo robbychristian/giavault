@@ -244,6 +244,7 @@ export interface InsurancePolicy {
   expiry: Date;
   mailingAddress: string;
   giaAr: string;
+  giaArDate: string;
   giaDate: Date;
   giaOr: string;
   insuranceOrNo: string;
@@ -252,12 +253,12 @@ export interface InsurancePolicy {
   etc: string[];
   type: PolicyTypes;
   motor?: Motor;
-  fire?: Fire;
-  cgl?: CGL;
-  bond?: Bond;
-  marine?: Marine;
-  personalAccident: PersonalAccident;
-  endorsement: Endorsement;
+  fire?: DynamicField[];
+  cgl?: DynamicField[];
+  bond?: DynamicField[];
+  marine?: DynamicField[];
+  personalAccident: DynamicField[];
+  endorsement: DynamicField[];
 }
 
 export interface Motor {
@@ -282,51 +283,18 @@ export interface Motor {
   autoPa?: string;
   aog?: string;
   aogPrem?: number;
-  lossOfUse?: string;
+  other?: {
+    fieldName: string;
+    value: string;
+  };
   chassisNo?: string;
   color?: string;
 }
 
-export interface Fire {
-  fields: {
-    [key: string]: string;
-  };
-}
-
-export interface Building {
-  fields: {
-    [key: string]: string;
-  };
-}
-
-export interface CGL {
-  fields: {
-    [key: string]: string;
-  };
-}
-
-export interface Bond {
-  fields: {
-    [key: string]: string;
-  };
-}
-
-export interface Marine {
-  fields: {
-    [key: string]: string;
-  };
-}
-
-export interface PersonalAccident {
-  fields: {
-    [key: string]: string;
-  };
-}
-
-export interface Endorsement {
-  fields: {
-    [key: string]: string;
-  };
+export interface DynamicField {
+  particularHeaderName: string;
+  particular: string;
+  premium: string;
 }
 
 export interface Remarks {

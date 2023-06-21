@@ -2,6 +2,7 @@ import { FC } from "react";
 import { Grid, TextField } from "@mui/material";
 import { InsurancePolicy } from "@typedefs/policy";
 import { handleChange } from "@helper/objects/setter";
+import { NumericFormat } from "react-number-format";
 
 interface IMotorForm {
   data: Partial<InsurancePolicy>;
@@ -19,7 +20,7 @@ const MotorForm: FC<IMotorForm> = ({ data, setData }) => {
           <TextField label="Motor" name="motor" fullWidth defaultValue={data?.motor?.motor} onChange={(e) => handleChange(e, data, setData, true)} />
         </Grid>
         <Grid item xs={3}>
-          <TextField label="Model/Make Risk" name="modelMakeRisk" fullWidth defaultValue={data?.motor?.modelMakeRisk} onChange={(e) => handleChange(e, data, setData, true)} />
+          <TextField label="Year/Model" name="modelMakeRisk" fullWidth defaultValue={data?.motor?.modelMakeRisk} onChange={(e) => handleChange(e, data, setData, true)} />
         </Grid>
         <Grid item xs={3}>
           <TextField label="Plate" name="plate" fullWidth defaultValue={data?.motor?.plate} onChange={(e) => handleChange(e, data, setData, true)} />
@@ -45,8 +46,27 @@ const MotorForm: FC<IMotorForm> = ({ data, setData }) => {
         <Grid item xs={6}>
           <TextField label="AOG" name="aog" fullWidth defaultValue={data?.motor?.aog} onChange={(e) => handleChange(e, data, setData, true)} />
         </Grid>
-        <Grid item xs={6}>
-          <TextField label="Loss of Use" name="lossOfUse" fullWidth defaultValue={data?.motor?.lossOfUse} onChange={(e) => handleChange(e, data, setData, true)} />
+        <Grid item xs={3}>
+          <TextField placeholder="Name" name="fieldName" fullWidth defaultValue={data?.motor?.other?.fieldName} onChange={(e) => handleChange(e, data, setData, true, true)} />
+        </Grid>
+        <Grid item xs={3}>
+          <NumericFormat
+            fullWidth
+            placeholder="Value" name="value"
+            value={data?.motor?.other?.value}
+            customInput={TextField}
+            thousandSeparator=","
+            // prefix="₱"
+            inputProps={{
+              style: { textAlign: "right" },
+              step: "any",
+            }}
+            onValueChange={(values, sourceInfo) => {
+              console.log(values, sourceInfo);
+              // handleChange(values.floatValue!);
+              handleChange(sourceInfo.event, data, setData, true, true, values)
+            }}
+          />
         </Grid>
       </Grid>
     </Grid>

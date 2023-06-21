@@ -18,8 +18,8 @@ import { isEmptyNoSec } from "../helper/objects";
 import { IconButton, InputAdornment } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { signIn } from "next-auth/react";
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 
 const Login = () => {
   const [isPasswordVisible, setIsPasswordVisible] = React.useState(false);
@@ -78,6 +78,7 @@ const Login = () => {
           Sign in
         </Typography>
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <TextField margin="normal" required fullWidth name="username" label="Username" type="text" id="username" autoComplete="current-username" />
           <TextField
             margin="normal"
             required
@@ -101,7 +102,7 @@ const Login = () => {
               ),
             }}
           />
-          <TextField margin="normal" required fullWidth name="password" label="Password" type="password" id="password" autoComplete="current-password" />
+
           <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="Remember me" />
           <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
             Sign In
