@@ -235,6 +235,7 @@
 
 export interface InsurancePolicy {
   _id?: string;
+  soaNo: string;
   insurer: string;
   line: string;
   giaIssuedDate: Date;
@@ -259,6 +260,12 @@ export interface InsurancePolicy {
   marine?: DynamicField[];
   personalAccident: DynamicField[];
   endorsement: DynamicField[];
+
+
+  docStamp: string;
+  govtTax: string;
+  others: string;
+  amountDue: string;
 }
 
 export interface Motor {
@@ -276,16 +283,22 @@ export interface Motor {
   deductible?: string | number;
   motor?: string;
   mvFile?: string;
-  od?: string | number;
-  theft?: string | number;
+  od?: string;
+  odP?: string;
   vbi?: string;
+  vbiP?: string;
   vpd?: string;
+  vpdP?: string;
+  theft?: string;
+  theftP?: string;
   autoPa?: string;
+  autoPaP?: string;
   aog?: string;
-  aogPrem?: number;
+  aogP?: string;
   other?: {
     fieldName: string;
-    value: string;
+    sumIssued: string | number;
+    premium: string | number;
   };
   chassisNo?: string;
   color?: string;

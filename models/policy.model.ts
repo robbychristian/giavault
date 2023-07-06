@@ -18,14 +18,39 @@ const motorSchema = new Schema(
     od: {
       type: Schema.Types.Mixed,
     },
+    odP: {
+      type: Schema.Types.Mixed,
+    },
+    vbi: {
+      type: Schema.Types.Mixed,
+    },
+    vbiP: {
+      type: Schema.Types.Mixed,
+    },
+    vpd: {
+      type: Schema.Types.Mixed,
+    },
+    vpdP: {
+      type: Schema.Types.Mixed,
+    },
     theft: {
       type: Schema.Types.Mixed,
     },
-    vbi: String,
-    vpd: String,
-    autoPa: String,
-    aog: String,
-    aogPrem: Number,
+    theftP: {
+      type: Schema.Types.Mixed,
+    },
+    autoPa: {
+      type: Schema.Types.Mixed,
+    },
+    autoPaP: {
+      type: Schema.Types.Mixed,
+    },
+    aog: {
+      type: Schema.Types.Mixed,
+    },
+    aogP: {
+      type: Schema.Types.Mixed,
+    },
     // lossOfUse: String,
     other: {
       fieldName: String,
@@ -55,6 +80,10 @@ const particularDynamicFieldSchema = new Schema(
 
 const PolicySchema = new Schema(
   {
+    soaNo: {
+      type: String,
+      unique: true,
+    },
     creator: {
       type: Types.ObjectId,
     },
@@ -95,6 +124,10 @@ const PolicySchema = new Schema(
     insuranceOrNoDate: {
       type: Date,
     },
+    serial: {
+      type: String,
+      unique: true,
+    },
     remarks: {
       type: [remarksSchema],
     },
@@ -105,6 +138,10 @@ const PolicySchema = new Schema(
     marine: [particularDynamicFieldSchema],
     personalAccident: [particularDynamicFieldSchema],
     endorsement: [particularDynamicFieldSchema],
+    docStamp: { type: String },
+    govtTax: { type: String },
+    others: { type: String },
+    amountDue: { type: String },
   },
   { timestamps: true, versionKey: false }
 );

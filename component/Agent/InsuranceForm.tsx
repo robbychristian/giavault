@@ -10,6 +10,7 @@ import GiaForm from "./GiaForm";
 import FormRenderer from "./FormRenderer";
 import Remarks from "./Remarks";
 import { useRouter } from "next/router";
+import Computation from "./Computation";
 
 interface IInsuranceForm {
   data?: InsurancePolicy;
@@ -111,16 +112,26 @@ const InsuranceForm: FC<IInsuranceForm> = ({ data, onClose }) => {
               <Grid item xs={12}>
                 <Divider />
               </Grid>
-              <Grid item xs={12}>
-                <Typography id="premium" key={`prem`} component="h3" variant="h6" sx={{ fontStyle: "bold" }}>
-                  Details *
-                </Typography>
-              </Grid>
+              {entries.type !== PolicyTypes.MOTOR ? (
+                <Grid item xs={12}>
+                  <Typography id="premium" key={`prem`} component="h3" variant="h6" sx={{ fontStyle: "bold" }}>
+                    Details *
+                  </Typography>
+                </Grid>
+              ) : null}
               <Grid item xs={12}>
                 <FormRenderer data={entries} setData={setEntries} type={entries?.type as PolicyTypes} />
               </Grid>
               <Grid item xs={12}>
                 <Divider />
+              </Grid>
+              <Grid item xs={12}>
+                <Typography id="premium" key={`prem`} component="h3" variant="h6" sx={{ fontStyle: "bold" }}>
+                  Compuations *
+                </Typography>
+              </Grid>
+              <Grid item xs={12}>
+                <Computation data={entries} setData={setEntries} />
               </Grid>
               <Grid item xs={12}>
                 <Typography id="premium" key={`prem`} component="h3" variant="h6" sx={{ fontStyle: "bold" }}>

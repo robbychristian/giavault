@@ -1,13 +1,20 @@
-export const handleChange = (event: React.ChangeEvent<HTMLInputElement> | any, data: any, setData: React.Dispatch<React.SetStateAction<any>>, isChildForm?: boolean, isOther?: boolean, values?: any) => {
+import moment from "moment";
+
+export const handleChangeDate = (event: React.ChangeEvent<HTMLInputElement> | any, data: any, setData: React.Dispatch<React.SetStateAction<any>>, isChildForm?: boolean, isOther?: boolean, values?: any) => {
   const { name, value } = event.target;
   let parsedValue: any = value;
-
   const parsedDate = Date.parse(value);
-  if (!isNaN(parsedDate)) {
+  if (isValidDateFormat(value) && !isNaN(parsedDate)) {
     parsedValue = new Date(parsedDate);
+    return setData({ ...data, [name]: parsedValue });
   }
+};
+
+export const handleChange = (event: React.ChangeEvent<HTMLInputElement> | any, data: any, setData: React.Dispatch<React.SetStateAction<any>>, isChildForm?: boolean, isOther?: boolean, values?: any) => {
+  const { name, value } = event.target;
+
   if (isOther) {
-    if(values) {
+    if (values) {
       return setData({ ...data, motor: { ...data?.motor, other: { ...data?.motor?.other, [name]: values?.floatValue } } });
     }
     return setData({ ...data, motor: { ...data?.motor, other: { ...data?.motor?.other, [name]: value } } });
@@ -31,3 +38,7 @@ export const objectToArray = (obj: any) => {
     value,
   }));
 };
+
+function isValidDateFormat(value: any) {
+  return moment(value, moment.ISO_8601, true).isValid();
+}

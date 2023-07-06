@@ -46,6 +46,7 @@ export const getPolicies = async (query: Query) => {
       {
         $match: {
           $or: [
+            { soaNo: { $regex: search ?? "", $options: "i" } },
             { insurer: { $regex: search ?? "", $options: "i" } },
             { policyNo: { $regex: search ?? "", $options: "i" } },
             { giaOr: { $regex: search ?? "", $options: "i" } },
