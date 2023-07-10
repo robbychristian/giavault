@@ -1,5 +1,6 @@
 import { handleChange } from "@helper/objects/setter";
 import { Grid, TextField, Typography } from "@mui/material";
+import { DynamicField } from "@typedefs/policy";
 import { InsurancePolicy, PolicyTypes } from "@typedefs/policy";
 import { FC, useEffect, useState } from "react";
 import { NumericFormat } from "react-number-format";
@@ -13,10 +14,20 @@ const Computation: FC<IComputation> = ({ data, setData }) => {
   const [totalPrem, setTotalPrem] = useState<any>();
 
   useEffect(() => {
+    console.log("computation");
     if (data && data.soaNo && data.type === PolicyTypes.MOTOR) {
       const { odP, vbiP, vpdP, theftP, autoPaP, aogP } = data?.motor!;
       let sum: number = parseFloat(odP ?? "0") + parseFloat(vbiP ?? "0") + parseFloat(vpdP ?? "0") + parseFloat(theftP ?? "0") + parseFloat(autoPaP ?? "0") + parseFloat(aogP ?? "0");
       console.log("sum", sum);
+      setTotalPrem(sum);
+    } else if (data && data.soaNo && data.type !== PolicyTypes.MOTOR) {
+      const dataOthers: any[] = data[data?.type?.toLowerCase() as keyof InsurancePolicy] as any;
+      console.log("dataOthers: ", dataOthers);
+      let sum: number = 0;
+      dataOthers.forEach((e: DynamicField, i: number) => {
+        console.log("parseFloat(e.premium)", parseFloat(e.premium.replace(",", "")));
+        sum += parseFloat(e.premium.replace(",", ""));
+      });
       setTotalPrem(sum);
     }
   }, []);

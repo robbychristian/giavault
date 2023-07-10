@@ -15,6 +15,10 @@ const motorSchema = new Schema(
     deductible: Number,
     motor: String,
     mvFile: String,
+    serial: {
+      type: String,
+      unique: true,
+    },
     od: {
       type: Schema.Types.Mixed,
     },
@@ -54,7 +58,8 @@ const motorSchema = new Schema(
     // lossOfUse: String,
     other: {
       fieldName: String,
-      value: String,
+      sumIssued: String,
+      premium: String,
     },
     chassisNo: String,
     color: String,
@@ -124,10 +129,7 @@ const PolicySchema = new Schema(
     insuranceOrNoDate: {
       type: Date,
     },
-    serial: {
-      type: String,
-      unique: true,
-    },
+
     remarks: {
       type: [remarksSchema],
     },
