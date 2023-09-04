@@ -145,7 +145,7 @@ const PolicySchema = new Schema(
     others: { type: String },
     amountDue: { type: String },
   },
-  { timestamps: true, versionKey: false }
+  { timestamps: true, versionKey: false, _id: true }
 );
 
 const Policy = models.Policy || model("Policy", PolicySchema);

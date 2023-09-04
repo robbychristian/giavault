@@ -127,7 +127,7 @@ const InsuranceForm: FC<IInsuranceForm> = ({ data, onClose }) => {
               </Grid>
               <Grid item xs={12}>
                 <Typography id="premium" key={`prem`} component="h3" variant="h6" sx={{ fontStyle: "bold" }}>
-                  Compuations *
+                  Computations *
                 </Typography>
               </Grid>
               <Grid item xs={12}>

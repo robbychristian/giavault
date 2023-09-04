@@ -5,18 +5,22 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useState, useRef } from "react";
 import { formatDate } from "@helper/date";
 import { InsurancePolicy } from "@typedefs/policy";
 import { Roles } from "@typedefs/roles";
 import Pagination from "../Pagination";
 import DeleteIcon from "@mui/icons-material/Delete";
+import LocalPrintshopIcon from "@mui/icons-material/LocalPrintshop";
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Typography } from "@mui/material";
 import { useSession } from "next-auth/react";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import InsuranceForm from "@components/Agent/InsuranceForm";
 import { DeletePolicy } from "@helper/client/policy";
 import moment from "moment";
+import { printPolicy } from "@helper/client/printing";
+import { getNotificationsClient } from "@helper/client/notification";
+import { useReactToPrint } from "react-to-print";
 
 interface IPolicyTable {
   data: InsurancePolicy[];
@@ -25,11 +29,15 @@ interface IPolicyTable {
 
 const PolicyTable: FC<IPolicyTable> = ({ data, refetch }) => {
   // to-do: range date
-  const { data: session } = useSession({ required: true });
-  const [selectedData, setSelectedData] = useState({
+  const { data: session, status } = useSession({ required: true });
+  const [componentRef, setComponentRef] = useState(useRef<HTMLDivElement | null>(null));
+  const currentImage = useRef<any>();
+  const [policies, setPolicies] = useState([]);
+  const [selectedData, setSelectedData] = useState<any>({
     selectedData: null,
     isUpdate: false,
     isDelete: false,
+    isPrint: false,
   });
 
   const [dataIndexed, setDataIndexed] = useState({
@@ -39,10 +47,17 @@ const PolicyTable: FC<IPolicyTable> = ({ data, refetch }) => {
   });
 
   useEffect(() => {
+    if (status == "authenticated") {
+      getNotificationsClient(session?.user._id!, session?.user.accessToken!, setPolicies);
+    }
+  }, [status]);
+  useEffect(() => {
     console.log("data changing", data);
     setDataIndexed({ ...dataIndexed, data: data.slice(0, dataIndexed.offset) });
   }, [data]);
-
+  useEffect(() => {
+    console.log("changinng: currentImage", currentImage);
+  }, [currentImage]);
   // useEffect(() => {
   //   if (selectedData.selectedData && selectedData.isView) setIsModalOpen({ ...isModalOpen, updateModal: !isModalOpen.updateModal });
   //   if (selectedData.selectedData && !selectedData.isView) setIsModalOpen({ ...isModalOpen, deleteModal: !isModalOpen.deleteModal });
@@ -50,9 +65,19 @@ const PolicyTable: FC<IPolicyTable> = ({ data, refetch }) => {
 
   const handleClose = () => {
     refetch && refetch();
-    setSelectedData({ selectedData: null, isUpdate: false, isDelete: false });
+    setSelectedData({ selectedData: null, isUpdate: false, isDelete: false, isPrint: false });
   };
+  const handlePrintProceed = useReactToPrint({
+    content: () => componentRef.current,
+  });
+  const handlePrint = async () => {
+    setSelectedData({ selectedData: selectedData.selectedData, isUpdate: false, isDelete: false, isPrint: true });
 
+    await printPolicy(selectedData?.selectedData?._id ?? "", session?.user.accessToken!, currentImage);
+
+    console.log("Printing ", currentImage);
+    //setSelectedData({ selectedData: selectedData, isUpdate: false, isDelete: false });
+  };
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -94,13 +119,14 @@ const PolicyTable: FC<IPolicyTable> = ({ data, refetch }) => {
         </TableBody>
       </Table>
       <Pagination data={data} dataIndexed={dataIndexed} setDataIndexed={setDataIndexed} />
-      <InsuranceModal open={selectedData.isUpdate} onClose={handleClose} data={selectedData} />
+      <InsuranceModal open={selectedData.isUpdate} onClose={handleClose} onPrint={handlePrint} data={selectedData} />
+      <SoaModal open={selectedData.isPrint} onClose={handleClose} componentRef={componentRef} onPrint={handlePrintProceed} data={selectedData} currentImage={currentImage} />
       <InsuranceModalDelete open={selectedData.isDelete} onClose={handleClose} data={selectedData} onConfirm={DeletePolicy} />
     </TableContainer>
   );
 };
 
-export const InsuranceModal = ({ open, onClose, data }: any) => {
+export const InsuranceModal = ({ open, onClose, onPrint, data }: any) => {
   return (
     <Dialog open={open} onClose={onClose} maxWidth="lg">
       <DialogTitle>Edit Policy</DialogTitle>
@@ -108,11 +134,31 @@ export const InsuranceModal = ({ open, onClose, data }: any) => {
         <InsuranceForm data={data?.selectedData} onClose={onClose} />
       </DialogContent>
       <DialogActions>
+        <Button variant="contained" onClick={onPrint}>
+          <LocalPrintshopIcon /> Print
+        </Button>
+        <Button onClick={onClose}>Cancel</Button>
         {data?.selectedData?.updatedByAgent ? (
-          <Typography display="flex" alignItems="start" sx={{ textAlign: "left" }}>
+          <Typography display="flex" alignItems="start" sx={{ textAlign: "left" }} mr={4}>
             Updated by {data?.selectedData?.updatedByAgentName} on {formatDate(data?.selectedData?.updatedAt!)}
           </Typography>
-        ) : null}
+        ) : (
+          <></>
+        )}
+      </DialogActions>
+    </Dialog>
+  );
+};
+
+export const SoaModal = ({ open, onClose, onPrint, componentRef, currentImage, data }: any) => {
+  return (
+    <Dialog open={open} onClose={onClose} maxWidth="lg">
+      <DialogTitle>Statement of Account</DialogTitle>
+      <DialogContent>
+        <img ref={componentRef} src={currentImage.current} style={{ maxHeight: "600px", alignSelf: "center", objectFit: "contain" }} />
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={onPrint}>Proceed</Button>
         <Button onClick={onClose}>Cancel</Button>
       </DialogActions>
     </Dialog>

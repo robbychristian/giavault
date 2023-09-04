@@ -260,8 +260,6 @@ export interface InsurancePolicy {
   marine?: DynamicField[];
   personalAccident: DynamicField[];
   endorsement: DynamicField[];
-
-
   docStamp: string;
   govtTax: string;
   others: string;
@@ -298,7 +296,7 @@ export interface Motor {
   other?: {
     fieldName: string;
     sumIssued: string | number;
-    premium: string | number;
+    premium: string;
   };
   chassisNo?: string;
   color?: string;
