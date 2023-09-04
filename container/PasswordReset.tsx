@@ -7,14 +7,16 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import Copyright from "../component/Copyright";
+import Copyright from "@components/Copyright";
 import { InputLabel } from "@mui/material";
 import React, { useState } from "react";
-import { SecurityQuestionType, User } from "../typedefs/user";
-import { CheckForResetClient, ResetClient } from "../helper/userClient";
-import SecurityQuestionList from "../component/SecurityQuestion";
+import { SecurityQuestionType, User } from "@typedefs/user";
+import { CheckForResetClient, ResetClient } from "@helper/client/user/userClient";
+import SecurityQuestionList from "@components/SecurityQuestion";
+import { useRouter } from "next/router";
 
 const PasswordReset = () => {
+  const router = useRouter();
   const [isLoading, setisLoading] = useState(false);
   const [isValid, setIsValid] = useState(false);
   const [userData, setUserData] = useState<Partial<User> | any>({
@@ -47,7 +49,7 @@ const PasswordReset = () => {
           component="form"
           onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
             event.preventDefault();
-            !isValid ? CheckForResetClient(userData, setUserData, setIsValid) : ResetClient(userData);
+            !isValid ? CheckForResetClient(userData, setUserData, setIsValid) : ResetClient(userData, router);
           }}
           noValidate
           sx={{ mt: 3 }}

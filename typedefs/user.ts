@@ -1,14 +1,20 @@
+import { Roles } from "./roles";
+
 export type SecurityQuestionType = {
   question: string;
   answer: string;
 };
 
 export interface User {
+  _id: string;
   firstName: string;
   lastName: string;
   username: string;
+  role: Roles;
   password: string;
   securityQuestions: SecurityQuestionType[];
+  createdAt: string;
+  lastLogin: string;
 }
 
 export interface InsurancePolicy {
@@ -43,4 +49,9 @@ export interface InsurancePolicy {
   autoPaOrPrem: string;
   aogOrPrem: string;
   lossOfUseOrPrem: string;
+  _id?: string;
+  updatedAt?: string;
+  creator?: string;
+  updatedByAgent?: string;
+  updatedByAgentName?: string;
 }

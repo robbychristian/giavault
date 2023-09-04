@@ -1,133 +1,153 @@
-import mongoose from "mongoose";
-import { Schema, model, models, Document, Model } from "mongoose";
+import { Schema, model, Document, models, Types } from "mongoose";
 
-const PolicySchema = new mongoose.Schema({
-  sa: {
-    type: String,
-    required: true,
+const motorSchema = new Schema(
+  {
+    issueDate: String,
+    inception: String,
+    expiry: String,
+    insurer: String,
+    assured: String,
+    address: String,
+    modelMakeRisk: String,
+    plate: String,
+    totalPrem: Number,
+    grossPrem: Number,
+    deductible: Number,
+    motor: String,
+    mvFile: String,
+    serial: {
+      type: String,
+      unique: true,
+    },
+    od: {
+      type: Schema.Types.Mixed,
+    },
+    odP: {
+      type: Schema.Types.Mixed,
+    },
+    vbi: {
+      type: Schema.Types.Mixed,
+    },
+    vbiP: {
+      type: Schema.Types.Mixed,
+    },
+    vpd: {
+      type: Schema.Types.Mixed,
+    },
+    vpdP: {
+      type: Schema.Types.Mixed,
+    },
+    theft: {
+      type: Schema.Types.Mixed,
+    },
+    theftP: {
+      type: Schema.Types.Mixed,
+    },
+    autoPa: {
+      type: Schema.Types.Mixed,
+    },
+    autoPaP: {
+      type: Schema.Types.Mixed,
+    },
+    aog: {
+      type: Schema.Types.Mixed,
+    },
+    aogP: {
+      type: Schema.Types.Mixed,
+    },
+    // lossOfUse: String,
+    other: {
+      fieldName: String,
+      sumIssued: String,
+      premium: String,
+    },
+    chassisNo: String,
+    color: String,
   },
-  insurer: {
-    type: String,
-    required: true,
-  },
-  assured: {
-    type: String,
-    required: true,
-  },
-  address: {
-    type: String,
-    required: true,
-  },
-  policy: {
-    type: String,
-    required: true,
-  },
-  issueDate: {
-    type: String,
-    required: true,
-  },
-  inception: {
-    type: String,
-    required: true,
-  },
-  expiry: {
-    type: String,
-    required: true,
-  },
-  modelMakeRisk: {
-    type: String,
-    required: true,
-  },
-  plate: {
-    type: String,
-    required: true,
-  },
-  sumInsured: {
-    type: String,
-    required: true,
-  },
-  totalPrem: {
-    type: String,
-    required: true,
-  },
-  grossPrem: {
-    type: String,
-    required: true,
-  },
-  deductible: {
-    type: String,
-    required: true,
-  },
-  serial: {
-    type: String,
-    required: true,
-  },
-  motor: {
-    type: String,
-    required: true,
-  },
-  mvFile: {
-    type: String,
-    required: true,
-  },
-  od: {
-    type: String,
-    required: true,
-  },
-  theft: {
-    type: String,
-    required: true,
-  },
-  vbi: {
-    type: String,
-    required: true,
-  },
-  vpd: {
-    type: String,
-    required: true,
-  },
-  autoPa: {
-    type: String,
-    required: true,
-  },
-  aog: {
-    type: String,
-    required: true,
-  },
-  lossOfUse: {
-    type: String,
-    required: true,
-  },
-  odPrem: {
-    type: String,
-    required: true,
-  },
-  theftPrem: {
-    type: String,
-    required: true,
-  },
-  vBiOrPrem: {
-    type: String,
-    required: true,
-  },
-  vPdOrPrem: {
-    type: String,
-    required: true,
-  },
-  autoPaOrPrem: {
-    type: String,
-    required: true,
-  },
-  aogOrPrem: {
-    type: String,
-    required: true,
-  },
-  lossOfUseOrPrem: {
-    type: String,
-    required: true,
-  },
-});
+  { _id: false }
+);
 
-const Policy = models.PolicySchema || model("policy", PolicySchema);
+const remarksSchema = new Schema(
+  {
+    note: String,
+  },
+  { _id: false }
+);
+
+const particularDynamicFieldSchema = new Schema(
+  {
+    particularHeaderName: { type: String },
+    particular: { type: String },
+    premium: { type: String },
+  },
+  { _id: false }
+);
+
+const PolicySchema = new Schema(
+  {
+    soaNo: {
+      type: String,
+      unique: true,
+    },
+    creator: {
+      type: Types.ObjectId,
+    },
+    updatedByAgent: {
+      type: Types.ObjectId,
+    },
+    updatedByAgentName: {
+      type: String,
+    },
+    type: {
+      type: String,
+      require: true,
+    },
+    insurer: String,
+    line: String,
+    giaIssuedDate: {
+      type: Date,
+    },
+    policyNo: {
+      type: String,
+      unique: true,
+    },
+    inception: {
+      type: Date,
+    },
+    assured: String,
+    expiry: {
+      type: Date,
+    },
+    mailingAddress: String,
+    giaAr: String,
+    giaDate: {
+      type: Date,
+    },
+    giaOr: String,
+    giaARDate: Date,
+    insuranceOrNo: String,
+    insuranceOrNoDate: {
+      type: Date,
+    },
+
+    remarks: {
+      type: [remarksSchema],
+    },
+    motor: motorSchema,
+    fire: [particularDynamicFieldSchema],
+    cgl: [particularDynamicFieldSchema],
+    bond: [particularDynamicFieldSchema],
+    marine: [particularDynamicFieldSchema],
+    personalAccident: [particularDynamicFieldSchema],
+    endorsement: [particularDynamicFieldSchema],
+    docStamp: { type: String },
+    govtTax: { type: String },
+    others: { type: String },
+    amountDue: { type: String },
+  },
+  { timestamps: true, versionKey: false, _id: true }
+);
+
+const Policy = models.Policy || model("Policy", PolicySchema);
 
 export default Policy;

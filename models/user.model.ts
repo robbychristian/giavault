@@ -1,5 +1,10 @@
 import { Schema, model, models, Document, Model } from "mongoose";
-import { Roles } from "../typedefs/roles";
+import { Roles } from "@typedefs/roles";
+
+const SecurityQuestionsSchema = new Schema({
+  question: { type: String, required: true },
+  answer: { type: String, required: true },
+});
 
 export const UserSchema = new Schema(
   {
@@ -24,7 +29,10 @@ export const UserSchema = new Schema(
     lastName: {
       type: String,
     },
-    securityQuestions: [{ question: { type: String, required: true }, answer: { type: String, required: true } }],
+    securityQuestions: {
+      type: [SecurityQuestionsSchema],
+      required: false,
+    },
     lastLogin: Date,
   },
   { timestamps: true, versionKey: false }

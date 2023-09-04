@@ -1,5 +1,13 @@
-import PasswordReset from "../../container/PasswordReset";
+import Head from "next/head";
+import PasswordReset from "@containers/PasswordReset";
 
 export default function Reset() {
-  return <PasswordReset />;
+  return (
+    <>
+      <Head>
+        <title>Reset Password</title>
+      </Head>
+      <PasswordReset />
+    </>
+  );
 }

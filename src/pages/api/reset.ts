@@ -1,10 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { isEmpty } from "../../../helper/objects";
-import { FindApiForReset, ResetApi } from "../../../helper/reset";
-import { LoginApi, RegisterApi } from "../../../helper/user";
-import connectMongo from "../../../lib/database";
-import { ERROR_TYPES } from "../../../typedefs/errors";
-import { User } from "../../../typedefs/user";
+import { FindApiForReset, ResetApi } from "@helper/reset";
+import connectMongo from "@libs/database";
+import { ERROR_TYPES } from "@typedefs/errors";
+import { User } from "@typedefs/user";
+import { withAuth } from "@libs/guard";
 
 async function handler(req: NextApiRequest, res: NextApiResponse<any>) {
   switch (req.method) {
@@ -25,4 +24,4 @@ async function handler(req: NextApiRequest, res: NextApiResponse<any>) {
   }
 }
 
-export default connectMongo(handler);
+export default withAuth(connectMongo(handler));

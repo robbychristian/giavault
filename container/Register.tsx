@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -8,17 +9,17 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import Copyright from "../component/Copyright";
+import Copyright from "@components/Copyright";
 import Router from "next/router";
-import { IconButton, InputAdornment, InputLabel, MenuItem, Select, SelectChangeEvent, Snackbar } from "@mui/material";
+import { IconButton, InputLabel, InputAdornment } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { RegisterClient } from "../helper/userClient";
-import { isEmpty } from "../helper/objects";
+import { RegisterClient } from "@helper/client/user/userClient";
+import { isEmpty } from "@helper/objects";
 import { shuffle } from "lodash";
-import React, { useEffect, useState } from "react";
-import { SecurityQuestions } from "../constants/securityQuestions";
-import { User } from "../typedefs/user";
-import SecurityQuestionList from "../component/SecurityQuestion";
+import { SecurityQuestions } from "@constants/securityQuestions";
+import { User } from "@typedefs/user";
+import SecurityQuestionList from "@components/SecurityQuestion";
+import SnackBarComponent from "@components/Snackbar";
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 
@@ -47,6 +48,7 @@ export default function Registration() {
     if (isEmpty(userData)) return setSnackbar({ isOpen: true, isError: true, message: "Check your fields" });
     const res = await RegisterClient(userData);
     setSnackbar(res);
+    Router.push("/");
   };
 
   const handleClose = (event: React.SyntheticEvent | Event, reason?: string) => {
@@ -64,29 +66,9 @@ export default function Registration() {
     </React.Fragment>
   );
 
-  // const SecurityQ = ({ indexSec }: any) => (
-  //   <Select
-  //     key={`sel-${indexSec}`}
-  //     labelId={`security-question-label-${indexSec}`}
-  //     fullWidth
-  //     value={userData?.securityQuestions[indexSec].question}
-  //     onChange={(event: SelectChangeEvent) => {
-  //       const setSelectedQuestion = [...(userData?.securityQuestions || [])];
-  //       setSelectedQuestion[indexSec] = { ...userData?.securityQuestions[indexSec], question: event.target.value };
-  //       setUserData({ ...userData, securityQuestions: setSelectedQuestion });
-  //     }}
-  //   >
-  //     {shuffledQuestions.map((question: any, index: any) => (
-  //       <MenuItem key={`${question}-${index}`} value={question}>
-  //         <Typography key={`typog-${index}`}>{question}</Typography>
-  //       </MenuItem>
-  //     ))}
-  //   </Select>
-  // );
-
   return (
     <Container component="main" maxWidth="xs">
-      <Snackbar open={snackbar.isOpen} autoHideDuration={6000} onClose={handleClose} message={snackbar.message} action={action} />
+      <SnackBarComponent setSnackbar={setSnackbar} snackbar={snackbar} />
       <CssBaseline />
       <Box
         sx={{
@@ -138,40 +120,38 @@ export default function Registration() {
                 }}
               />
             </Grid>
-            {Array(3)
-              .fill(null)
-              .map((e, index) => {
-                return (
-                  <>
-                    <Grid item xs={12}>
-                      <InputLabel id="security-question-label" key={`sec-label-${index}`}>
-                        Security Question {index + 1}
-                      </InputLabel>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <SecurityQuestionList indexSec={index} key={`seq-${index}`} userData={userData} setUserData={setUserData} shuffledQuestions={shuffledQuestions}></SecurityQuestionList>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <TextField
-                        autoFocus
-                        key={`field-${index}`}
-                        required
-                        fullWidth
-                        name={`answer-${index}`}
-                        label={`Answer ${index + 1}`}
-                        type="answer"
-                        id={`answer-${index}`}
-                        value={userData?.securityQuestions[index].answer || ""}
-                        onChange={(e) => {
-                          const setSelectedQuestion = [...(userData?.securityQuestions || [])];
-                          setSelectedQuestion[index] = { ...userData?.securityQuestions[index], answer: e.target.value };
-                          setUserData({ ...userData, securityQuestions: setSelectedQuestion });
-                        }}
-                      />
-                    </Grid>
-                  </>
-                );
-              })}
+            {userData.securityQuestions.map((e: any, index: any) => {
+              return (
+                <>
+                  <Grid item xs={12}>
+                    <InputLabel id="security-question-label" key={`sec-label-${index}`}>
+                      Security Question {index + 1}
+                    </InputLabel>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <SecurityQuestionList indexSec={index} key={`seq-${index}`} userData={userData} setUserData={setUserData} shuffledQuestions={shuffledQuestions}></SecurityQuestionList>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      autoFocus
+                      key={`field-${index}`}
+                      required
+                      fullWidth
+                      name={`answer-${index}`}
+                      label={`Answer ${index + 1}`}
+                      type="answer"
+                      id={`answer-${index}`}
+                      value={userData?.securityQuestions[index].answer || ""}
+                      onChange={(e) => {
+                        const setSelectedQuestion = [...(userData?.securityQuestions || [])];
+                        setSelectedQuestion[index] = { ...userData?.securityQuestions[index], answer: e.target.value };
+                        setUserData({ ...userData, securityQuestions: setSelectedQuestion });
+                      }}
+                    />
+                  </Grid>
+                </>
+              );
+            })}
           </Grid>
 
           <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>

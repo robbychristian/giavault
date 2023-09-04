@@ -1,8 +1,8 @@
 import jwt from "jsonwebtoken";
 
 import { NextApiRequest, NextApiResponse } from "next/types";
-import { ERROR_TYPES } from "../../typedefs/errors";
-import { getCookie } from "../cookies";
+import { ERROR_TYPES } from "@typedefs/errors";
+import { getCookie } from "@libs/cookies";
 const pkey = Buffer.from(`${process.env.NEXTAUTH_SECRET}`, "base64").toString();
 
 interface JWTResponse {
