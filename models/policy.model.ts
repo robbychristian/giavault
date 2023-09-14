@@ -55,6 +55,18 @@ const motorSchema = new Schema(
     aogP: {
       type: Schema.Types.Mixed,
     },
+    docStamp: {
+      type: Schema.Types.Mixed,
+    },
+    vat: {
+      type: Schema.Types.Mixed,
+    },
+    others: {
+      type: Schema.Types.Mixed,
+    },
+    govtTax: {
+      type: Schema.Types.Mixed,
+    },
     // lossOfUse: String,
     other: {
       fieldName: String,
@@ -140,9 +152,18 @@ const PolicySchema = new Schema(
     marine: [particularDynamicFieldSchema],
     personalAccident: [particularDynamicFieldSchema],
     endorsement: [particularDynamicFieldSchema],
-    docStamp: { type: String },
-    govtTax: { type: String },
-    others: { type: String },
+    docStamp: {
+      type: String,
+    },
+    vat: {
+      type: String,
+    },
+    others: {
+      type: String,
+    },
+    govtTax: {
+      type: String,
+    },
     amountDue: { type: String },
   },
   { timestamps: true, versionKey: false, _id: true }

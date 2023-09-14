@@ -232,8 +232,10 @@
 //   deductible: number;
 //   mortgage: number;
 // }
-
-export interface InsurancePolicy {
+interface DocumentResult<T> {
+  _doc: T;
+}
+export interface InsurancePolicy extends DocumentResult<InsurancePolicy> {
   _id?: string;
   soaNo: string;
   insurer: string;
@@ -261,12 +263,13 @@ export interface InsurancePolicy {
   personalAccident: DynamicField[];
   endorsement: DynamicField[];
   docStamp: string;
+  vat: string;
   govtTax: string;
   others: string;
   amountDue: string;
 }
 
-export interface Motor {
+export interface Motor extends DocumentResult<Motor> {
   issueDate: string;
   inception: string;
   expiry: string;
@@ -300,9 +303,14 @@ export interface Motor {
   };
   chassisNo?: string;
   color?: string;
+  docStamp?: string;
+  vat?: string;
+  govtTax?: string;
+  others?: string;
+  amountDue?: string;
 }
 
-export interface DynamicField {
+export interface DynamicField extends DocumentResult<DynamicField> {
   particularHeaderName: string;
   particular: string;
   premium: string;
@@ -320,4 +328,13 @@ export enum PolicyTypes {
   MARINE = "MARINE",
   PERSONAL_ACCIDENT = "PERSONAL_ACCIDENT",
   ENDORSEMENT = "ENDORSEMENT",
+}
+
+export enum MotorLabels {
+  od = "OD",
+  vbi = "V-BI",
+  vpd = "V-PD",
+  theft = "THEFT",
+  autoPa = "AUTO PA",
+  aog = "AOG",
 }

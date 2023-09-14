@@ -152,10 +152,10 @@ export const InsuranceModal = ({ open, onClose, onPrint, data }: any) => {
 
 export const SoaModal = ({ open, onClose, onPrint, componentRef, currentImage, data }: any) => {
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="lg">
+    <Dialog open={open} onClose={onClose} fullWidth={true} maxWidth={"xl"}>
       <DialogTitle>Statement of Account</DialogTitle>
       <DialogContent>
-        <img ref={componentRef} src={currentImage.current} style={{ maxHeight: "600px", alignSelf: "center", objectFit: "contain" }} />
+        <img ref={componentRef} src={currentImage.current} style={{ alignSelf: "center", objectFit: "contain" }} />
       </DialogContent>
       <DialogActions>
         <Button onClick={onPrint}>Proceed</Button>
