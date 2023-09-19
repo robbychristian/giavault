@@ -7,11 +7,13 @@ interface IFormRenderer {
   type: PolicyTypes;
   data: Partial<InsurancePolicy>;
   setData: any;
+  totalPrem: any;
+  setTotalPrem: any;
 }
-const FormRenderer: FC<IFormRenderer> = ({ type, data, setData }) => {
+const FormRenderer: FC<IFormRenderer> = ({ type, data, setData, totalPrem, setTotalPrem }) => {
   switch (type) {
     case PolicyTypes.MOTOR: {
-      return <MotorForm data={data} setData={setData} />;
+      return <MotorForm data={data} setData={setData} totalPrem={totalPrem} setTotalPrem={setTotalPrem} />;
     }
     case null: {
       return null;
@@ -20,7 +22,7 @@ const FormRenderer: FC<IFormRenderer> = ({ type, data, setData }) => {
       return null;
     }
     default: {
-      return <DynamicForm data={data} setData={setData} />;
+      return <DynamicForm data={data} setData={setData} totalPrem={totalPrem} setTotalPrem={setTotalPrem} />;
     }
   }
 };

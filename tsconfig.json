@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    //"types": ["cypress", "node"],
     "target": "es5",
     "lib": [
       "dom",
@@ -55,10 +56,12 @@
   },
   "include": [
     "next-env.d.ts",
+    "../../node_modules/cypress",
     "**/*.ts",
-    "**/*.tsx"
-, "server.ts", "next.config.js"  ],
+    "**/*.tsx",
+"server.ts", "next.config.js"  ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+"./cypress.config.ts"
   ]
 }

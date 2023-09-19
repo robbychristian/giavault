@@ -8,9 +8,11 @@ import CloseIcon from "@mui/icons-material/Close";
 interface IDynamicForm {
   data: Partial<InsurancePolicy>;
   setData: (formData: Partial<InsurancePolicy>) => void;
+  totalPrem: any;
+  setTotalPrem: any;
 }
 
-export const DynamicForm: FC<IDynamicForm> = ({ data, setData }) => {
+export const DynamicForm: FC<IDynamicForm> = ({ data, setData, totalPrem, setTotalPrem }) => {
   const [entries, setEntries] = useState<any>([]);
 
   const removeFieldEntry = (index: number) => {

@@ -11,17 +11,18 @@ import { Roles } from "@typedefs/roles";
 import { Divider } from "@mui/material";
 import ListAltIcon from "@mui/icons-material/ListAlt";
 import PolicyIcon from "@mui/icons-material/Policy";
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 
 export const MenuList = () => {
   const { data: session } = useSession({ required: true });
+  console.log("Rendered User: ", session);
   switch (session?.user.role) {
     case Roles.ADMIN:
       return <Admin />;
     case Roles.AGENT:
       return <Agent />;
     default:
-      return <Admin />;
+      return <Agent />;
   }
 };
 

@@ -17,11 +17,13 @@ export const AddPolicy = async (policy: Partial<InsurancePolicy>, accessToken: s
 
     return { isOpen: true, message: res?.data?.message, isError: true };
   } catch (e: any) {
+    console.log(e);
     const {
       response: {
         data: { error },
       },
     } = e;
+    setSnackbar({ isOpen: true, message: e.message, isError: true });
     return { isOpen: true, message: error, isError: true };
   }
 };
@@ -94,7 +96,6 @@ export const UpdatePolicy = async (policy: Partial<InsurancePolicy>, accessToken
     return { isOpen: true, message: error, isError: true };
   }
 };
-
 
 export const searchPolicyClient = async (input: string, accessToken: string, setData: (data: any) => void) => {
   const { data } = await API.get("/api/policy", {

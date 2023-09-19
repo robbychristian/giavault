@@ -25,6 +25,11 @@ const InsuranceForm: FC<IInsuranceForm> = ({ data, onClose }) => {
     }
   );
   const { data: session } = useSession({ required: true });
+  const [loading, setLoading] = useState<any>(false);
+
+  const [totalPrem, setTotalPrem] = useState<any>();
+  const [amtDue, setAmtDue] = useState<any>();
+
   const [snackbar, setSnackbar] = useState<any>({
     isOpen: false,
     isError: false,
@@ -32,13 +37,22 @@ const InsuranceForm: FC<IInsuranceForm> = ({ data, onClose }) => {
   });
 
   const handleSubmit = (e: any) => {
+    setLoading(true);
     e.preventDefault();
     if (data?._id) {
       const { _id } = data;
       UpdatePolicy({ ...entries, _id }, session?.user.accessToken!, setSnackbar);
+      setLoading(false);
       return onClose && onClose();
     }
-    AddPolicy({ ...entries }, session?.user.accessToken!, setSnackbar);
+    if (entries.soaNo !== undefined) {
+      console.log("Inputted SOA", entries);
+      AddPolicy({ ...entries }, session?.user.accessToken!, setSnackbar);
+    } else {
+      setSnackbar({ isOpen: true, message: "Check inputs", isError: false });
+    }
+    setLoading(false);
+    onClose && onClose();
     return router.push("/insurance/list");
   };
 
@@ -72,14 +86,6 @@ const InsuranceForm: FC<IInsuranceForm> = ({ data, onClose }) => {
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <Typography id="premium" key={`prem`} component="h3" variant="h6" sx={{ fontStyle: "bold" }}>
-                  GIA Details *
-                </Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <GiaForm data={entries} setData={setEntries} />
-              </Grid>
-              <Grid item xs={12}>
-                <Typography id="premium" key={`prem`} component="h3" variant="h6" sx={{ fontStyle: "bold" }}>
                   Policy Type *
                 </Typography>
               </Grid>
@@ -110,6 +116,14 @@ const InsuranceForm: FC<IInsuranceForm> = ({ data, onClose }) => {
                 </TextField>
               </Grid>
               <Grid item xs={12}>
+                <Typography id="premium" key={`prem`} component="h3" variant="h6" sx={{ fontStyle: "bold" }}>
+                  GIA Details *
+                </Typography>
+              </Grid>
+              <Grid item xs={12}>
+                <GiaForm data={entries} setData={setEntries} />
+              </Grid>
+              <Grid item xs={12}>
                 <Divider />
               </Grid>
               {entries.type !== PolicyTypes.MOTOR ? (
@@ -120,7 +134,7 @@ const InsuranceForm: FC<IInsuranceForm> = ({ data, onClose }) => {
                 </Grid>
               ) : null}
               <Grid item xs={12}>
-                <FormRenderer data={entries} setData={setEntries} type={entries?.type as PolicyTypes} />
+                <FormRenderer data={entries} setData={setEntries} type={entries?.type as PolicyTypes} totalPrem={totalPrem} setTotalPrem={setTotalPrem} />
               </Grid>
               <Grid item xs={12}>
                 <Divider />
@@ -131,7 +145,7 @@ const InsuranceForm: FC<IInsuranceForm> = ({ data, onClose }) => {
                 </Typography>
               </Grid>
               <Grid item xs={12}>
-                <Computation data={entries} setData={setEntries} />
+                <Computation data={entries} setData={setEntries} totalPrem={totalPrem} setTotalPrem={setTotalPrem} amtDue={amtDue} setAmtDue={setAmtDue} />
               </Grid>
               <Grid item xs={12}>
                 <Typography id="premium" key={`prem`} component="h3" variant="h6" sx={{ fontStyle: "bold" }}>
@@ -141,7 +155,7 @@ const InsuranceForm: FC<IInsuranceForm> = ({ data, onClose }) => {
               <Grid item xs={12}>
                 <Remarks data={entries} setData={setEntries} />
               </Grid>
-              <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+              <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} disabled={loading}>
                 {data?._id ? "Update" : "Submit"}
               </Button>
             </Grid>

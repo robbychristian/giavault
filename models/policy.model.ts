@@ -17,7 +17,6 @@ const motorSchema = new Schema(
     mvFile: String,
     serial: {
       type: String,
-      unique: true,
     },
     od: {
       type: Schema.Types.Mixed,

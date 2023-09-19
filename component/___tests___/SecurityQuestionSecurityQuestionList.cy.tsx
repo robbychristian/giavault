@@ -1,4 +1,4 @@
-import { mount } from "@cypress/react";
+import { mount } from "@cypress/react18";
 import SecurityQuestionList from "@components/SecurityQuestion";
 import { User } from "@typedefs/user";
 import { Roles } from "@typedefs/roles";

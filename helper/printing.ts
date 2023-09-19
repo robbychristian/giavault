@@ -100,7 +100,7 @@ export const getPolicy = async (policyId: string) => {
       jimpImage.print(font, premiumX, premiumY, { text: String(totalPremium), alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
     } else {
       var selectedKeys = ["od", "theft", "vbi", "vpd", "autoPa", "aog", "vat", "govtTax"];
-      var selectedKeysValues = ["od", "theft", "vbi", "vpd", "autoPa", "aog", "vat", "govtTax"];
+      var selectedKeysValues = ["odP", "theftP", "vbiP", "vpdP", "autoPaP", "aogP"];
       for (const [key, value] of Object.entries(dynamicPolicy._doc)) {
         //console.log(`${key}: ${value}`);
         if (selectedKeys.includes(key)) {

@@ -9,7 +9,7 @@ import { convertDateToIso } from "@helper/date";
 import { InsurancePolicy } from "@typedefs/policy";
 
 export const savePolicy = async (insurancePolicy: InsurancePolicy | InsurancePolicy[], agentDetails: Partial<User>) => {
-  const mongoSession = await session();
+  //const mongoSession = await session();
   const { username, _id } = agentDetails;
   try {
     const policy = (Array.isArray(insurancePolicy) ? insurancePolicy : [insurancePolicy]).map((e: InsurancePolicy) => ({
@@ -29,13 +29,13 @@ export const savePolicy = async (insurancePolicy: InsurancePolicy | InsurancePol
         upsert: true,
       },
     }));
-    // const response = await Policy.bulkWrite(policy, { session: mongoSession }); // use this for session
+    //const response = await Policy.bulkWrite(policy, { session: mongoSession }); // use this for session
     const response = await Policy.bulkWrite(policy);
     return response;
   } catch (e) {
     console.log("error", e);
-    // mongoSession.abortTransaction();
-    return null;
+    //mongoSession.abortTransaction();
+    return e;
   }
 };
 
@@ -45,13 +45,7 @@ export const getPolicies = async (query: Query) => {
     return await Policy.aggregate([
       {
         $match: {
-          $or: [
-            { soaNo: { $regex: search ?? "", $options: "i" } },
-            { insurer: { $regex: search ?? "", $options: "i" } },
-            { policyNo: { $regex: search ?? "", $options: "i" } },
-            { giaOr: { $regex: search ?? "", $options: "i" } },
-            { insuranceOrNo: { $regex: search ?? "", $options: "i" } },
-          ],
+          $or: [{ soaNo: { $regex: search ?? "", $options: "i" } }, { insurer: { $regex: search ?? "", $options: "i" } }, { policyNo: { $regex: search ?? "", $options: "i" } }, { giaOr: { $regex: search ?? "", $options: "i" } }, { insuranceOrNo: { $regex: search ?? "", $options: "i" } }],
         },
       },
     ])

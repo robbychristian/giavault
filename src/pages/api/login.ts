@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { isEmptyNoSec } from "@helper/objects";
-import { LoginApi, RegisterApi, UserUpdateApi } from "@helper/user";
+import { LoginApi, UserUpdateApi, RegisterApi } from "@helper/user";
 import connectMongo from "@libs/database";
 import { ERROR_TYPES } from "@typedefs/errors";
 import { User } from "@typedefs/user";

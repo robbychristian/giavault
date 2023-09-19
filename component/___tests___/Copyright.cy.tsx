@@ -1,5 +1,5 @@
 import React from "react";
-import { mount } from "@cypress/react";
+import { mount } from "@cypress/react18";
 import Copyright from "@components/Copyright";
 
 describe("Copyright component", () => {
@@ -10,7 +10,7 @@ describe("Copyright component", () => {
 
   it("should render with the correct text", () => {
     cy.mount(<Copyright />);
-    cy.contains("Copyright © Gibraltar")
+    cy.contains("Copyright © Gibraltar");
     cy.contains(new Date().getFullYear().toString());
   });
 
