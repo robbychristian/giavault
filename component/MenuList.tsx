@@ -16,7 +16,7 @@ import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 export const MenuList = () => {
   const { data: session } = useSession({ required: true });
   console.log("Rendered User: ", session);
-  switch (session?.user.role) {
+  switch (Number(session?.user.role)) {
     case Roles.ADMIN:
       return <Admin />;
     case Roles.AGENT:

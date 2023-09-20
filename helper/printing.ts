@@ -99,22 +99,30 @@ export const getPolicy = async (policyId: string) => {
       premiumY += 20;
       jimpImage.print(font, premiumX, premiumY, { text: String(totalPremium), alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
     } else {
-      var selectedKeys = ["od", "theft", "vbi", "vpd", "autoPa", "aog", "vat", "govtTax"];
+      var selectedKeys = ["od", "theft", "vbi", "vpd", "autoPa", "aog"];
       var selectedKeysValues = ["odP", "theftP", "vbiP", "vpdP", "autoPaP", "aogP"];
       for (const [key, value] of Object.entries(dynamicPolicy._doc)) {
-        //console.log(`${key}: ${value}`);
         if (selectedKeys.includes(key)) {
           const selectedValue = dynamicPolicy._doc[key];
-          console.log(`${key}: ${selectedValue}`);
+          console.log(`Label ${key}: ${selectedValue}`);
           if (MotorLabels[key as keyof typeof MotorLabels] ? true : false) {
             jimpImage.print(font, particularX, particularY, { text: MotorLabels[key as keyof typeof MotorLabels], alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
-            particularY += 10;
+            particularX += 120;
+            jimpImage.print(font, particularX, particularY, { text: selectedValue, alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
+            particularX -= 120;
           }
         }
+
+        if (selectedKeysValues.includes(key)) {
+          particularX += 240;
+          const selectedValue = dynamicPolicy._doc[key];
+          console.log(`Value ${key}: ${selectedValue}`);
+          jimpImage.print(font, particularX, particularY, { text: selectedValue, alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
+
+          particularX -= 240;
+          particularY += 10;
+        }
       }
-      jimpImage.print(font, headerStartX, headerStartY, { text: policy?.motor?.modelMakeRisk ?? "", alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
-      jimpImage.print(font, particularX, particularY, { text: policy?.motor?.od ?? "", alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
-      jimpImage.print(font, premiumX, premiumY, { text: policy?.motor?.odP ?? "", alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
       // modelMakeRisk: 2017 SUBARU FORESTER
       // plate: TBA
       // motor: Y596926
