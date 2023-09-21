@@ -18,18 +18,21 @@ const Computation: FC<IComputation> = ({ data, setData, totalPrem, setTotalPrem,
   useEffect(() => {
     if (data.type === PolicyTypes.MOTOR) {
       const { odP, vbiP, vpdP, theftP, autoPaP, aogP, other, vat, docStamp, others, govtTax } = data?.motor! ?? {};
-      const { premium } = other! ?? 0;
+      let { premium } = other! ?? 0;
       let sum: number = parseFloat(odP ?? "0") + parseFloat(vbiP ?? "0") + parseFloat(vpdP ?? "0") + parseFloat(theftP ?? "0") + parseFloat(autoPaP ?? "0") + parseFloat(aogP ?? "0") + parseFloat(premium ?? "0");
       let amtdue: number = sum + parseFloat(docStamp ?? "0") + parseFloat(vat ?? "0") + parseFloat(others ?? "0") + parseFloat(govtTax ?? "0");
       setAmtDue(amtdue);
       setTotalPrem(sum);
+      premium = String(sum);
     } else {
+      console.log("COMPUTATING ", data);
       const dataOthers: any[] = data[data?.type?.toLowerCase() as keyof InsurancePolicy] as any;
       let sum: number = 0;
       if (Array.isArray(dataOthers)) {
         dataOthers?.forEach((e: DynamicField, i: number) => {
           sum += parseFloat(e.premium?.replace(",", ""));
         });
+
         setTotalPrem(sum);
       }
     }
