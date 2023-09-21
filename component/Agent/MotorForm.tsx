@@ -50,44 +50,44 @@ const MotorForm: FC<IMotorForm> = ({ data, setData, totalPrem, setTotalPrem }) =
           <TextField label="OD Premium" name="odP" fullWidth value={data?.motor?.odP} defaultValue={0.0} onChange={(e) => handleChange(e, data, setData, true)} />
         </Grid>
         <Grid item xs={6}>
-          <TextField label="V-BI Sum Insured" name="vbi" fullWidth value={data?.motor?.vbi} defaultValue={0.0} onChange={(e) => handleChange(e, data, setData, true)} />
+          <TextField label="THEFT Sum Insured" name="theft" fullWidth value={Number(data?.motor?.theft) ?? 0} defaultValue={0.0} onChange={(e) => handleChange(e, data, setData, true)} />
         </Grid>
         <Grid item xs={6}>
-          <TextField label="V-BI Premium" name="vbiP" fullWidth value={data?.motor?.vbiP} defaultValue={0.0} onChange={(e) => handleChange(e, data, setData, true)} />
+          <TextField label="THEFT Premium" name="theftP" fullWidth value={Number(data?.motor?.theftP) ?? 0} defaultValue={0.0} onChange={(e) => handleChange(e, data, setData, true)} />
         </Grid>
         <Grid item xs={6}>
-          <TextField label="V-PD Sum Insured" name="vpd" fullWidth value={data?.motor?.vpd} defaultValue={0.0} onChange={(e) => handleChange(e, data, setData, true)} />
+          <TextField label="V-BI Sum Insured" name="vbi" fullWidth value={Number(data?.motor?.vbi) ?? 0} defaultValue={0.0} onChange={(e) => handleChange(e, data, setData, true)} />
         </Grid>
         <Grid item xs={6}>
-          <TextField label="V-PD Premium" name="vpdP" fullWidth value={data?.motor?.vpdP} defaultValue={0.0} onChange={(e) => handleChange(e, data, setData, true)} />
+          <TextField label="V-BI Premium" name="vbiP" fullWidth value={Number(data?.motor?.vbiP) ?? 0} defaultValue={0.0} onChange={(e) => handleChange(e, data, setData, true)} />
         </Grid>
         <Grid item xs={6}>
-          <TextField label="THEFT Sum Insured" name="theft" fullWidth value={data?.motor?.theft} defaultValue={0.0} onChange={(e) => handleChange(e, data, setData, true)} />
+          <TextField label="V-PD Sum Insured" name="vpd" fullWidth value={Number(data?.motor?.vpd) ?? 0} defaultValue={0.0} onChange={(e) => handleChange(e, data, setData, true)} />
         </Grid>
         <Grid item xs={6}>
-          <TextField label="THEFT Premium" name="theftP" fullWidth value={data?.motor?.theftP} defaultValue={0.0} onChange={(e) => handleChange(e, data, setData, true)} />
+          <TextField label="V-PD Premium" name="vpdP" fullWidth value={Number(data?.motor?.vpdP) ?? 0} defaultValue={0.0} onChange={(e) => handleChange(e, data, setData, true)} />
         </Grid>
         <Grid item xs={6}>
-          <TextField label="Auto PA Sum Insured" name="autoPa" fullWidth value={data?.motor?.autoPa} defaultValue={0.0} onChange={(e) => handleChange(e, data, setData, true)} />
+          <TextField label="Auto PA Sum Insured" name="autoPa" fullWidth value={Number(data?.motor?.autoPa) ?? 0} defaultValue={0.0} onChange={(e) => handleChange(e, data, setData, true)} />
         </Grid>
         <Grid item xs={6}>
-          <TextField label="Auto PA Premium" name="autoPaP" fullWidth value={data?.motor?.autoPaP} defaultValue={0.0} onChange={(e) => handleChange(e, data, setData, true)} />
+          <TextField label="Auto PA Premium" name="autoPaP" fullWidth value={Number(data?.motor?.autoPaP) ?? 0} defaultValue={0.0} onChange={(e) => handleChange(e, data, setData, true)} />
         </Grid>
         <Grid item xs={6}>
-          <TextField label="AOG Sum Insured" name="aog" fullWidth value={data?.motor?.aog} defaultValue={0.0} onChange={(e) => handleChange(e, data, setData, true)} />
+          <TextField label="AOG Sum Insured" name="aog" fullWidth value={Number(data?.motor?.aog) ?? 0} defaultValue={0.0} onChange={(e) => handleChange(e, data, setData, true)} />
         </Grid>
         <Grid item xs={6}>
-          <TextField label="AOG Premium" name="aogP" fullWidth value={data?.motor?.aogP} defaultValue={0.0} onChange={(e) => handleChange(e, data, setData, true)} />
+          <TextField label="AOG Premium" name="aogP" fullWidth value={Number(data?.motor?.aogP) ?? 0} defaultValue={0.0} onChange={(e) => handleChange(e, data, setData, true)} />
         </Grid>
         <Grid item xs={4}>
-          <TextField placeholder="Others" name="fieldName" fullWidth value={data?.motor?.other?.fieldName} defaultValue={0.0} onChange={(e) => handleChange(e, data, setData, true, true)} />
+          <TextField placeholder="Others" name="fieldName" fullWidth value={Number(data?.motor?.other?.fieldName) ?? 0} defaultValue={0.0} onChange={(e) => handleChange(e, data, setData, true, true)} />
         </Grid>
         <Grid item xs={4}>
           <NumericFormat
             fullWidth
             placeholder="Sum Insured"
             name="sumIssued"
-            value={data?.motor?.other?.sumIssued}
+            value={Number(data?.motor?.other?.sumIssued) ?? 0}
             customInput={TextField}
             thousandSeparator=","
             // prefix="₱"
@@ -107,7 +107,7 @@ const MotorForm: FC<IMotorForm> = ({ data, setData, totalPrem, setTotalPrem }) =
             fullWidth
             placeholder="Premium"
             name="premium"
-            value={data?.motor?.other?.premium}
+            value={Number(data?.motor?.other?.premium) ?? 0}
             customInput={TextField}
             thousandSeparator=","
             // prefix="₱"

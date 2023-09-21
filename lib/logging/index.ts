@@ -5,7 +5,6 @@ import { Query } from "@typedefs/query";
 
 export const LogAction = async (data: LogType) => {
   const res = await Logs.create(data);
-  console.log("res", res);
   return res;
 };
 
@@ -19,13 +18,7 @@ export const searchLogs = async (query: Query) => {
   return await Logs.aggregate([
     {
       $match: {
-        $or: [
-          { username: { $regex: search ?? "", $options: "i" } },
-          { IP: { $regex: search ?? "", $options: "i" } },
-          { method: { $regex: search ?? "", $options: "i" } },
-          { action: { $regex: search ?? "", $options: "i" } },
-          { role: { $regex: search ?? "", $options: "i" } },
-        ],
+        $or: [{ username: { $regex: search ?? "", $options: "i" } }, { IP: { $regex: search ?? "", $options: "i" } }, { method: { $regex: search ?? "", $options: "i" } }, { action: { $regex: search ?? "", $options: "i" } }, { role: { $regex: search ?? "", $options: "i" } }],
       },
     },
     {

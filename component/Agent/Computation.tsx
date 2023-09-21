@@ -16,23 +16,18 @@ interface IComputation {
 
 const Computation: FC<IComputation> = ({ data, setData, totalPrem, setTotalPrem, amtDue, setAmtDue }) => {
   useEffect(() => {
-    console.log("computation", data);
     if (data.type === PolicyTypes.MOTOR) {
       const { odP, vbiP, vpdP, theftP, autoPaP, aogP, other, vat, docStamp, others, govtTax } = data?.motor! ?? {};
       const { premium } = other! ?? 0;
       let sum: number = parseFloat(odP ?? "0") + parseFloat(vbiP ?? "0") + parseFloat(vpdP ?? "0") + parseFloat(theftP ?? "0") + parseFloat(autoPaP ?? "0") + parseFloat(aogP ?? "0") + parseFloat(premium ?? "0");
       let amtdue: number = sum + parseFloat(docStamp ?? "0") + parseFloat(vat ?? "0") + parseFloat(others ?? "0") + parseFloat(govtTax ?? "0");
-      console.log("sum", sum);
-      console.log("amtdue", amtdue);
       setAmtDue(amtdue);
       setTotalPrem(sum);
     } else {
       const dataOthers: any[] = data[data?.type?.toLowerCase() as keyof InsurancePolicy] as any;
-      console.log("dataOthers: ", dataOthers);
       let sum: number = 0;
       if (Array.isArray(dataOthers)) {
         dataOthers?.forEach((e: DynamicField, i: number) => {
-          console.log("parseFloat(e.premium)", parseFloat(e.premium?.replace(",", "")));
           sum += parseFloat(e.premium?.replace(",", ""));
         });
         setTotalPrem(sum);
@@ -64,11 +59,12 @@ const Computation: FC<IComputation> = ({ data, setData, totalPrem, setTotalPrem,
       <Grid item xs={12}>
         <TextField label="VAT" name="vat" fullWidth defaultValue={data.motor?.vat} onChange={(e) => handleChange(e, data, setData, true)} />
       </Grid>
-      <Grid item xs={12}>
-        <TextField label="Others" name="others" fullWidth defaultValue={data.motor?.others} onChange={(e) => handleChange(e, data, setData, true)} />
-      </Grid>
+
       <Grid item xs={12}>
         <TextField label="Local Gov't Tax" name="govtTax" fullWidth defaultValue={data.motor?.govtTax} onChange={(e) => handleChange(e, data, setData, true)} />
+      </Grid>
+      <Grid item xs={12}>
+        <TextField label="Others" name="others" fullWidth defaultValue={data.motor?.others} onChange={(e) => handleChange(e, data, setData, true)} />
       </Grid>
       <Grid item xs={12}>
         <NumericFormat
