@@ -42,6 +42,12 @@ const Agent = () => {
         </ListItemIcon>
         <ListItemText primary="Insurance Policy" />
       </ListItemButton>
+      <ListItemButton onClick={() => router.push("/insurance/list")}>
+        <ListItemIcon>
+          <ListAltIcon />
+        </ListItemIcon>
+        <ListItemText primary="Insurance Policy List" />
+      </ListItemButton>
     </React.Fragment>
   );
 };
