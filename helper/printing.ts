@@ -134,27 +134,6 @@ export const getPolicy = async (policyId: string) => {
         }
       }
       const totalPremiumGvt: Number = (Number(dynamicPolicy?._doc["govtTax"]) ?? 0) + (totalPremium ?? 0);
-      // modelMakeRisk: 2017 SUBARU FORESTER
-      // plate: TBA
-      // motor: Y596926
-      // mvFile: -
-      // serial: JF1SJ5LCHG321720
-      // od: 889200
-      // odP: 6669
-      // vbi: 200000
-      // vbiP: 420
-      // vpd: 200000
-      // vpdP: 1245
-      // theft: 889200
-      // theftP: 4446
-      // autoPa: 55000
-      // autoPaP: 500
-      // aog: 889200
-      // aogP: 4446
-      // docStamp: 887
-      // vat: 66
-      // others: 564
-      // govtTax: 88
       headerStartY += 10;
       particularY += 10;
       premiumY += 10;
