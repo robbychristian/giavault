@@ -17,24 +17,33 @@ interface IComputation {
 const Computation: FC<IComputation> = ({ data, setData, totalPrem, setTotalPrem, amtDue, setAmtDue }) => {
   useEffect(() => {
     if (data.type === PolicyTypes.MOTOR) {
-      const { odP, vbiP, vpdP, theftP, autoPaP, aogP, other, vat, docStamp, others, govtTax } = data?.motor! ?? {};
+      const { odP, vbiP, vpdP, theftP, autoPaP, aogP, other } = data?.motor! ?? {};
       let { premium } = other! ?? 0;
       let sum: number = parseFloat(odP ?? "0") + parseFloat(vbiP ?? "0") + parseFloat(vpdP ?? "0") + parseFloat(theftP ?? "0") + parseFloat(autoPaP ?? "0") + parseFloat(aogP ?? "0") + parseFloat(premium ?? "0");
-      let amtdue: number = sum + parseFloat(docStamp ?? "0") + parseFloat(vat ?? "0") + parseFloat(others ?? "0") + parseFloat(govtTax ?? "0");
+      let amtdue: number = sum + parseFloat(data?.docStamp ?? "0") + parseFloat(data?.vat ?? "0") + parseFloat(data?.others ?? "0") + parseFloat(data?.govtTax ?? "0");
       setAmtDue(amtdue);
       setTotalPrem(sum);
       premium = String(sum);
     } else {
-      console.log("COMPUTATING ", data);
-      const dataOthers: any[] = data[data?.type?.toLowerCase() as keyof InsurancePolicy] as any;
+      console.log(" Compute ", data);
+      const dataOthers: any = data[data?.type?.toLowerCase() as keyof InsurancePolicy];
       let sum: number = 0;
-      if (Array.isArray(dataOthers)) {
-        dataOthers?.forEach((e: DynamicField, i: number) => {
-          sum += parseFloat(e.premium?.replace(",", ""));
-        });
-
-        setTotalPrem(sum);
+      let amtdue: number = 0;
+      for (const key in dataOthers) {
+        if (dataOthers.hasOwnProperty(key) && typeof dataOthers[key] === "object" && "premium" in dataOthers[key]) {
+          const value = parseFloat(dataOthers[key]["premium"].replace(",", ""));
+          if (!isNaN(value)) {
+            sum += value;
+          }
+        } else {
+          const value = parseFloat(dataOthers[key]);
+          if (!isNaN(value)) {
+            amtdue += value;
+          }
+        }
       }
+      setAmtDue(sum + parseFloat(data?.docStamp ?? "0") + parseFloat(data?.vat ?? "0") + parseFloat(data?.others ?? "0") + parseFloat(data?.govtTax ?? "0"));
+      setTotalPrem(sum);
     }
   }, [data]);
 
@@ -57,17 +66,16 @@ const Computation: FC<IComputation> = ({ data, setData, totalPrem, setTotalPrem,
         {/* <TextField label="Total Premium" name="prem" disabled fullWidth value={totalPrem} /> */}
       </Grid>
       <Grid item xs={12}>
-        <TextField label="Doc. Stamp" name="docStamp" fullWidth defaultValue={data.motor?.docStamp} onChange={(e) => handleChange(e, data, setData, true)} />
+        <TextField label="Doc. Stamp" name="docStamp" fullWidth defaultValue={0.0} value={data?.docStamp} onChange={(e) => handleChange(e, data, setData)} />
       </Grid>
       <Grid item xs={12}>
-        <TextField label="VAT" name="vat" fullWidth defaultValue={data.motor?.vat} onChange={(e) => handleChange(e, data, setData, true)} />
-      </Grid>
-
-      <Grid item xs={12}>
-        <TextField label="Local Gov't Tax" name="govtTax" fullWidth defaultValue={data.motor?.govtTax} onChange={(e) => handleChange(e, data, setData, true)} />
+        <TextField label="VAT" name="vat" fullWidth defaultValue={0.0} value={data?.vat} onChange={(e) => handleChange(e, data, setData)} />
       </Grid>
       <Grid item xs={12}>
-        <TextField label="Others" name="others" fullWidth defaultValue={data.motor?.others} onChange={(e) => handleChange(e, data, setData, true)} />
+        <TextField label="Local Gov't Tax" name="govtTax" fullWidth defaultValue={0.0} value={data?.govtTax} onChange={(e) => handleChange(e, data, setData)} />
+      </Grid>
+      <Grid item xs={12}>
+        <TextField label="Others" name="others" fullWidth defaultValue={0.0} value={data?.others} onChange={(e) => handleChange(e, data, setData)} />
       </Grid>
       <Grid item xs={12}>
         <NumericFormat

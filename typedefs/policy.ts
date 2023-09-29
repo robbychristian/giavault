@@ -303,11 +303,6 @@ export interface Motor extends DocumentResult<Motor> {
   };
   chassisNo?: string;
   color?: string;
-  docStamp?: string;
-  vat?: string;
-  govtTax?: string;
-  others?: string;
-  amountDue?: string;
 }
 
 export interface DynamicField extends DocumentResult<DynamicField> {
