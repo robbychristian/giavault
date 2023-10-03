@@ -26,7 +26,6 @@ interface IPolicyTable {
   data: InsurancePolicy[];
   refetch?: () => void;
 }
-
 const PolicyTable: FC<IPolicyTable> = ({ data, refetch }) => {
   // to-do: range date
   const { data: session, status } = useSession({ required: true });

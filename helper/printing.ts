@@ -14,6 +14,7 @@ const formatNumber = (value: any) => {
 };
 export const getPolicy = async (policyId: string) => {
   try {
+    console.log("Policy ID: ", policyId);
     const policy: InsurancePolicy = (await Policy.findById(policyId)) as any;
     // console.log("policy: ", policy);
     const filename = `${policyId}-soa.png`;
@@ -28,7 +29,6 @@ export const getPolicy = async (policyId: string) => {
     const font = await Jimp.loadFont(Jimp.FONT_SANS_10_BLACK);
     const font_insurer = await Jimp.loadFont(Jimp.FONT_SANS_10_BLACK);
     const dateToday = moment(new Date());
-    console.log(dateToday);
     jimpImage.background(0x00000000);
     // jimpImage.scan(0, 0, jimpImage.bitmap.width, jimpImage.bitmap.height, function (x, y, idx) {
     //   this.bitmap.data[idx + 3] = 0;
@@ -54,16 +54,18 @@ export const getPolicy = async (policyId: string) => {
       }) ?? ""
     );
     //BASIC INFO
-    jimpImage.print(font_insurer, 250, 200, policy.assured);
-    jimpImage.print(font_insurer, 250, 220, policy.mailingAddress);
-    jimpImage.print(font_insurer, 70, 280, policy.insurer);
-    jimpImage.print(font_insurer, 800, 280, policy.line);
-    jimpImage.print(font_insurer, 1000, 280, policy.soaNo);
+    jimpImage.print(font_insurer, 250, 200, policy.assured ?? "");
+    jimpImage.print(font_insurer, 250, 220, policy.mailingAddress ?? "");
+    jimpImage.print(font_insurer, 70, 280, policy.insurer ?? "");
+    jimpImage.print(font_insurer, 70, 300, "WITHHOLDING TAX (BIR 2307) SHOULD BE IN FAVOR OF THE INSURANCE COMPANY");
+    jimpImage.print(font_insurer, 800, 280, policy.line ?? "");
+    jimpImage.print(font_insurer, 1000, 280, policy.soaNo ?? "");
     jimpImage.print(font_insurer, 950, 220, now.format("ll"));
     jimpImage.print(font_insurer, 800, 810, "ADRIAN MOGUL");
 
     // console.log("dynamicPolicy: ", dynamicPolicy);
     const imagePathResult = path.join(process.cwd(), "public", "static", "images", "printing", filename);
+    console.log("Policy Image: ", imagePathResult);
     //PARTICULARS
     // 1433,2113
     let headerStartX = 300;
@@ -78,7 +80,6 @@ export const getPolicy = async (policyId: string) => {
     let totalParticular = 0;
     let textLine = "__________";
     const dynamicPolicy: any = policyBuilder(policy);
-    console.log(font, premiumX, premiumY, { text: String(policy) });
     if (policy.type !== PolicyTypes.MOTOR) {
       // console.log("Policy Type: ", policy.type);
       dynamicPolicy.map((e: DynamicField) => {
@@ -110,7 +111,6 @@ export const getPolicy = async (policyId: string) => {
       particularX -= 500;
       jimpImage.print(font, particularX, particularY, { text: dynamicPolicy?._doc["modelMakeRisk"], alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
       particularX += 500;
-      console.log(String(dynamicPolicy._doc));
       var selectedKeys = ["od", "theft", "vbi", "vpd", "autoPa", "aog"];
       var selectedKeysValues = ["odP", "theftP", "vbiP", "vpdP", "autoPaP", "aogP"];
       for (const [key, value] of Object.entries(dynamicPolicy._doc)) {
@@ -146,7 +146,7 @@ export const getPolicy = async (policyId: string) => {
       particularY += 10;
       jimpImage.print(font, particularX, particularY, { text: "Gov't Taxes", alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
       particularX += 140;
-      jimpImage.print(font, particularX, particularY, { text: String(formatNumber(dynamicPolicy?._doc["govtTax"] ?? 0)), alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
+      jimpImage.print(font, particularX, particularY, { text: String(formatNumber(dynamicPolicy?._doc["govtTax"] ?? "0")), alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
       particularX -= 140;
       particularY += 10;
       jimpImage.print(font, particularX, particularY, { text: "Total Premium", alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
