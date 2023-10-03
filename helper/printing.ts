@@ -21,7 +21,7 @@ export const getPolicy = async (policyId: string) => {
     // Get the directory of the current module's file
     const currentDir = path.resolve(__dirname, "../../../../helper");
     // Generate the full image path using path.join
-    const imagePath = path.join(currentDir, "images", "layout.png"); // Adjust the path as needed
+    const imagePath = path.join(currentDir, "images", "layout_88cmx112cm_HD.png"); // Adjust the path as needed
     // Read the image using fs
     const imageBuffer = await fs.readFile(imagePath);
     const jimpImage = await Jimp.read(imageBuffer);
