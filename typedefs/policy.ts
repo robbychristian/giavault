@@ -240,6 +240,7 @@ export interface InsurancePolicy extends DocumentResult<InsurancePolicy> {
   soaNo: string;
   insurer: string;
   line: string;
+  producer: string;
   giaIssuedDate: Date;
   policyNo: string;
   inception: Date;

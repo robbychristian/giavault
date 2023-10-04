@@ -30,8 +30,11 @@ const GiaForm: FC<IGiaForm> = ({ data, setData }) => {
   return (
     <LocalizationProvider dateAdapter={AdapterMoment}>
       <Grid container spacing={2}>
-        <Grid item xs={12}>
+        <Grid item xs={6}>
           <TextField fullWidth label="SOA No." value={data?.soaNo} name="soaNo" onChange={(e) => handleChange(e, data, setData)} />
+        </Grid>
+        <Grid item xs={6}>
+          <TextField fullWidth label="Producer" value={data?.producer} name="producer" onChange={(e) => handleChange(e, data, setData)} />
         </Grid>
         <Grid item xs={6}>
           <Select key={"insurer"} fullWidth name="insurer" labelId={"insurer-select"} value={data?.insurer ?? insurer[0]} onChange={(e) => handleChange(e, data, setData)}>

@@ -109,6 +109,9 @@ const PolicySchema = new Schema(
     updatedByAgentName: {
       type: String,
     },
+    producer: {
+      type: String,
+    },
     type: {
       type: String,
       require: true,
