@@ -38,6 +38,6 @@ app.prepare().then(() => {
         createNotifs();
       })
       .catch((err) => console.log(err));
-    console.log(`> Ready on http://localhost:${port}`);
+    console.log(`> Ready on ${NEXT_API_URL}:${port}`);
   });
 });

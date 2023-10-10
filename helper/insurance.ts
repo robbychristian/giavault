@@ -11,7 +11,9 @@ import { InsurancePolicy } from "@typedefs/policy";
 export const savePolicy = async (insurancePolicy: InsurancePolicy | InsurancePolicy[], agentDetails: Partial<User>) => {
   //const mongoSession = await session();
   const { username, _id } = agentDetails;
+  
   try {
+    console.log("POLICY SENT: ", insurancePolicy);
     const policy = (Array.isArray(insurancePolicy) ? insurancePolicy : [insurancePolicy]).map((e: InsurancePolicy) => ({
       updateOne: {
         filter: { giaOr: e.giaOr, giaIssuedDate: convertDateToIso(String(e.giaIssuedDate)) },
@@ -56,7 +58,8 @@ export const getPolicies = async (query: Query) => {
 };
 
 export const updatePolicy = async (insurancePolicy: InsurancePolicy | InsurancePolicy[], agentDetails: Partial<User>) => {
-  const mongoSession = await session();
+  //const mongoSession = await session();
+  console.log("POLICY SENT: ", insurancePolicy);
   try {
     const policy = (Array.isArray(insurancePolicy) ? insurancePolicy : [insurancePolicy]).map((e: InsurancePolicy) => {
       const { _id, ...rest } = e;
@@ -75,7 +78,7 @@ export const updatePolicy = async (insurancePolicy: InsurancePolicy | InsuranceP
     return response;
   } catch (e) {
     console.log("error", e);
-    mongoSession.abortTransaction();
+    //mongoSession.abortTransaction();
     return null;
   }
 };

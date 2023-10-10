@@ -43,13 +43,17 @@ const InsuranceForm: FC<IInsuranceForm> = ({ data, onClose }) => {
       const { _id } = data;
       UpdatePolicy({ ...entries, _id }, session?.user.accessToken!, setSnackbar);
       setLoading(false);
-      return onClose && onClose();
+      onClose && onClose();
+      return router.push("/insurance/list");
     }
     if (entries.soaNo !== undefined) {
       console.log("Inputted SOA", entries);
       AddPolicy({ ...entries }, session?.user.accessToken!, setSnackbar);
+      setLoading(false);
+      return router.push("/insurance/list");
     } else {
       setSnackbar({ isOpen: true, message: "Check inputs", isError: false });
+      setLoading(false);
     }
     setLoading(false);
     onClose && onClose();

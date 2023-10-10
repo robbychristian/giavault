@@ -19,52 +19,52 @@ const motorSchema = new Schema(
       type: String,
     },
     od: {
-      type: Schema.Types.Mixed,
+      type: Schema.Types.Mixed, default: '0' 
     },
     odP: {
-      type: Schema.Types.Mixed,
+      type: Schema.Types.Mixed, default: '0' 
     },
     vbi: {
-      type: Schema.Types.Mixed,
+      type: Schema.Types.Mixed, default: '0' 
     },
     vbiP: {
-      type: Schema.Types.Mixed,
+      type: Schema.Types.Mixed, default: '0' 
     },
     vpd: {
-      type: Schema.Types.Mixed,
+      type: Schema.Types.Mixed, default: '0' 
     },
     vpdP: {
-      type: Schema.Types.Mixed,
+      type: Schema.Types.Mixed, default: '0' 
     },
     theft: {
-      type: Schema.Types.Mixed,
+      type: Schema.Types.Mixed, default: '0' 
     },
     theftP: {
-      type: Schema.Types.Mixed,
+      type: Schema.Types.Mixed, default: '0' 
     },
     autoPa: {
-      type: Schema.Types.Mixed,
+      type: Schema.Types.Mixed, default: '0' 
     },
     autoPaP: {
-      type: Schema.Types.Mixed,
+      type: Schema.Types.Mixed, default: '0' 
     },
     aog: {
-      type: Schema.Types.Mixed,
+      type: Schema.Types.Mixed, default: '0' 
     },
     aogP: {
-      type: Schema.Types.Mixed,
+      type: Schema.Types.Mixed, default: '0'
     },
     docStamp: {
-      type: Schema.Types.Mixed,
+      type: Schema.Types.Mixed, default: '0'
     },
     vat: {
-      type: Schema.Types.Mixed,
+      type: Schema.Types.Mixed, default: '0'
     },
     others: {
-      type: Schema.Types.Mixed,
+      type: Schema.Types.Mixed, default: '0'
     },
     govtTax: {
-      type: Schema.Types.Mixed,
+      type: Schema.Types.Mixed, default: '0'
     },
     // lossOfUse: String,
     other: {
@@ -123,7 +123,6 @@ const PolicySchema = new Schema(
     },
     policyNo: {
       type: String,
-      unique: true,
     },
     inception: {
       type: Date,
@@ -152,7 +151,7 @@ const PolicySchema = new Schema(
     cgl: [particularDynamicFieldSchema],
     bond: [particularDynamicFieldSchema],
     marine: [particularDynamicFieldSchema],
-    personalAccident: [particularDynamicFieldSchema],
+    personal_accident: [particularDynamicFieldSchema],
     endorsement: [particularDynamicFieldSchema],
     docStamp: {
       type: String,

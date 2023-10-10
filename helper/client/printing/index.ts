@@ -1,5 +1,5 @@
 import { API } from "@libs/api";
-export const printPolicy = async (_id: string, accessToken: string, currentImage: React.MutableRefObject<any>) => {
+export const printPolicy = async (_id: string, accessToken: string, setCurrentImage: any) => {
   try {
     console.log("Printing ID: ", _id);
     const res = await API.get("/api/printing", {
@@ -8,7 +8,9 @@ export const printPolicy = async (_id: string, accessToken: string, currentImage
       },
       params: { _id },
     });
-    currentImage.current = `${process.env.NEXT_API_URL}/static/images/printing/${res.data.url}`;
+    setTimeout(()=>{
+      setCurrentImage(`${process.env.NEXT_API_URL}/static/images/printing/${res.data.url}`);
+    },500)
     return { isOpen: true, message: res.data.url, isError: true };
   } catch (e: any) {
     const {

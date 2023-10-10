@@ -37,7 +37,7 @@ const GiaForm: FC<IGiaForm> = ({ data, setData }) => {
           <TextField fullWidth label="Producer" value={data?.producer} name="producer" onChange={(e) => handleChange(e, data, setData)} />
         </Grid>
         <Grid item xs={6}>
-          <Select key={"insurer"} fullWidth name="insurer" labelId={"insurer-select"} value={data?.insurer ?? insurer[0]} onChange={(e) => handleChange(e, data, setData)}>
+          <Select key={"insurer"} label="Insurer" fullWidth name="insurer" labelId={"insurer-select"} value={data?.insurer} onChange={(e) => handleChange(e, data, setData)}>
             {insurer.map((str: any) => {
               return (
                 <MenuItem key={str} value={str}>

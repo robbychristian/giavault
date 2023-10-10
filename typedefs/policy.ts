@@ -261,7 +261,7 @@ export interface InsurancePolicy extends DocumentResult<InsurancePolicy> {
   cgl?: DynamicField[];
   bond?: DynamicField[];
   marine?: DynamicField[];
-  personalAccident: DynamicField[];
+  personal_accident: DynamicField[];
   endorsement: DynamicField[];
   docStamp: string;
   vat: string;

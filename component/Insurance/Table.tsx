@@ -30,7 +30,7 @@ const PolicyTable: FC<IPolicyTable> = ({ data, refetch }) => {
   // to-do: range date
   const { data: session, status } = useSession({ required: true });
   const [componentRef, setComponentRef] = useState(useRef<HTMLDivElement | null>(null));
-  const currentImage = useRef<any>();
+  const [currentImage,setCurrentImage] = useState("");
   const [policies, setPolicies] = useState([]);
   const [selectedData, setSelectedData] = useState<any>({
     selectedData: null,
@@ -56,7 +56,7 @@ const PolicyTable: FC<IPolicyTable> = ({ data, refetch }) => {
   }, [data]);
   useEffect(() => {
     console.log("changinng: currentImage", currentImage);
-  }, [currentImage]);
+  }, [currentImage,componentRef]);
   // useEffect(() => {
   //   if (selectedData.selectedData && selectedData.isView) setIsModalOpen({ ...isModalOpen, updateModal: !isModalOpen.updateModal });
   //   if (selectedData.selectedData && !selectedData.isView) setIsModalOpen({ ...isModalOpen, deleteModal: !isModalOpen.deleteModal });
@@ -72,7 +72,7 @@ const PolicyTable: FC<IPolicyTable> = ({ data, refetch }) => {
   const handlePrint = async () => {
     setSelectedData({ selectedData: selectedData.selectedData, isUpdate: false, isDelete: false, isPrint: true });
 
-    await printPolicy(selectedData?.selectedData?._id ?? "", session?.user.accessToken!, currentImage);
+    await printPolicy(selectedData?.selectedData?._id ?? "", session?.user.accessToken!, setCurrentImage);
 
     console.log("Printing ", currentImage);
     //setSelectedData({ selectedData: selectedData, isUpdate: false, isDelete: false });
@@ -95,9 +95,9 @@ const PolicyTable: FC<IPolicyTable> = ({ data, refetch }) => {
           {dataIndexed?.data?.map((row: InsurancePolicy) => (
             <TableRow key={row?._id} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
               <TableCell component="th" scope="row">
-                {row?.insurer}
+                {row?.insurer??"Unknown"}
               </TableCell>
-              <TableCell align="right">{row?.policyNo}</TableCell>
+              <TableCell align="right">{row?.policyNo ?? "Not Included"}</TableCell>
               <TableCell align="right">{row?.giaOr}</TableCell>
               <TableCell align="right">{String(moment(row?.giaIssuedDate).format("MMM DD, YYYY"))}</TableCell>
               <TableCell align="right">{String(moment(row?.expiry).format("MMM DD, YYYY"))}</TableCell>
@@ -154,7 +154,7 @@ export const SoaModal = ({ open, onClose, onPrint, componentRef, currentImage, d
     <Dialog open={open} onClose={onClose} fullWidth={true} maxWidth={"xl"}>
       <DialogTitle>Statement of Account</DialogTitle>
       <DialogContent>
-        <img ref={componentRef} src={currentImage.current} style={{ alignSelf: "center", objectFit: "contain" }} />
+        <img ref={componentRef} src={currentImage} style={{ alignSelf: "center", objectFit: "contain" }} />
       </DialogContent>
       <DialogActions>
         <Button onClick={onPrint}>Proceed</Button>

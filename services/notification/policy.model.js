@@ -69,7 +69,7 @@ var marineSchema = new mongoose_1.Schema(
   },
   { _id: false }
 );
-var personalAccidentSchema = new mongoose_1.Schema(
+var personal_accidentSchema = new mongoose_1.Schema(
   {
     fields: {
       type: Map,
@@ -139,7 +139,7 @@ var PolicySchema = new mongoose_1.Schema(
     cgl: cglSchema,
     bond: bondSchema,
     marine: marineSchema,
-    personalAccident: personalAccidentSchema,
+    personal_accident: personal_accidentSchema,
     endorsement: endorsementSchema,
   },
   { timestamps: true, versionKey: false }
