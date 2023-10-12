@@ -6,9 +6,11 @@ import path from "path";
 const moment = require("moment");
 let now = moment();
 const formatNumber = (value: any) => {
-  if (!isNaN(value) && value !== "") {
-    const formattedValue = Number(value).toLocaleString("en-US", { maximumFractionDigits: 2, minimumFractionDigits: 2 });
-    return formattedValue;
+  if (value != null) {
+    if (!isNaN(value) && value !== "") {
+      const formattedValue = Number(value).toLocaleString("en-US", { maximumFractionDigits: 2, minimumFractionDigits: 2 });
+      return formattedValue;
+    }
   }
   return "0";
 };
@@ -98,7 +100,7 @@ export const getPolicy = async (policyId: string) => {
         jimpImage.print(font, particularX, particularY, { text: "PHP", alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
         particularX += 100;
         premiumX += 100;
-        jimpImage.print(font, premiumX, premiumY, { text: formatNumber(particular?.replaceAll(",", "") ?? 0), alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
+        jimpImage.print(font, premiumX, premiumY, { text: formatNumber(particular?.replace(/[, ]/g, "") ?? 0), alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
         premiumX -= 100;
         // jimpImage.print(font, premiumX, premiumY, { text: formatNumber(premium?.replaceAll(",", "") ?? 0), alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
         headerStartY += 20;

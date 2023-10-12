@@ -44,10 +44,13 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
 
 function Auth({ children }: any) {
   // if `{ required: true }` is supplied, `status` can only be "loading" or "authenticated"
-  const { status } = useSession({ required: true });
+  const { status, data } = useSession({ required: true });
 
   if (status === "loading") {
     return <Loader />;
+  }
+  if (data == null) {
+    return <>Please login</>;
   }
 
   return children;
