@@ -75,6 +75,7 @@ export const refetchPolicies = async (accessToken: string, setData: (data: any) 
 
 export const UpdatePolicy = async (policy: Partial<InsurancePolicy>, accessToken: string, setSnackbar: (snackbar: any) => void) => {
   try {
+    console.log("Updating... ", policy);
     const res = await API.patch("/api/policy", policy, {
       headers: {
         Authorization: `Bearer ${accessToken}`,

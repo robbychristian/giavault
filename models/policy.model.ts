@@ -19,52 +19,84 @@ const motorSchema = new Schema(
       type: String,
     },
     od: {
-      type: Schema.Types.Mixed, default: '0' 
+      type: Schema.Types.Mixed,
+      default: "0",
     },
     odP: {
-      type: Schema.Types.Mixed, default: '0' 
+      type: Schema.Types.Mixed,
+      default: "0",
     },
     vbi: {
-      type: Schema.Types.Mixed, default: '0' 
+      type: Schema.Types.Mixed,
+      default: "0",
     },
     vbiP: {
-      type: Schema.Types.Mixed, default: '0' 
+      type: Schema.Types.Mixed,
+      default: "0",
     },
     vpd: {
-      type: Schema.Types.Mixed, default: '0' 
+      type: Schema.Types.Mixed,
+      default: "0",
     },
     vpdP: {
-      type: Schema.Types.Mixed, default: '0' 
+      type: Schema.Types.Mixed,
+      default: "0",
     },
     theft: {
-      type: Schema.Types.Mixed, default: '0' 
+      type: Schema.Types.Mixed,
+      default: "0",
     },
     theftP: {
-      type: Schema.Types.Mixed, default: '0' 
+      type: Schema.Types.Mixed,
+      default: "0",
     },
     autoPa: {
-      type: Schema.Types.Mixed, default: '0' 
+      type: Schema.Types.Mixed,
+      default: "0",
     },
     autoPaP: {
-      type: Schema.Types.Mixed, default: '0' 
+      type: Schema.Types.Mixed,
+      default: "0",
     },
     aog: {
-      type: Schema.Types.Mixed, default: '0' 
+      type: Schema.Types.Mixed,
+      default: "0",
     },
     aogP: {
-      type: Schema.Types.Mixed, default: '0'
+      type: Schema.Types.Mixed,
+      default: "0",
     },
     docStamp: {
-      type: Schema.Types.Mixed, default: '0'
+      type: Schema.Types.Mixed,
+      default: "0",
     },
     vat: {
-      type: Schema.Types.Mixed, default: '0'
+      type: Schema.Types.Mixed,
+      default: "0",
     },
     others: {
-      type: Schema.Types.Mixed, default: '0'
+      type: Schema.Types.Mixed,
+      default: "0",
     },
     govtTax: {
-      type: Schema.Types.Mixed, default: '0'
+      type: Schema.Types.Mixed,
+      default: "0",
+    },
+    lu: {
+      type: Schema.Types.Mixed,
+      default: "0",
+    },
+    luP: {
+      type: Schema.Types.Mixed,
+      default: "0",
+    },
+    ld: {
+      type: Schema.Types.Mixed,
+      default: "0",
+    },
+    ldP: {
+      type: Schema.Types.Mixed,
+      default: "0",
     },
     // lossOfUse: String,
     other: {

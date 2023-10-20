@@ -41,6 +41,7 @@ const InsuranceForm: FC<IInsuranceForm> = ({ data, onClose }) => {
     e.preventDefault();
     if (data?._id) {
       const { _id } = data;
+
       UpdatePolicy({ ...entries, _id }, session?.user.accessToken!, setSnackbar);
       setLoading(false);
       onClose && onClose();

@@ -1,10 +1,8 @@
 import { handleChange } from "@helper/objects/setter";
-import { Grid, TextField, Typography } from "@mui/material";
-import { DynamicField } from "@typedefs/policy";
+import { Grid, TextField } from "@mui/material";
 import { InsurancePolicy, PolicyTypes } from "@typedefs/policy";
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect } from "react";
 import { NumericFormat } from "react-number-format";
-
 interface IComputation {
   data: Partial<InsurancePolicy>;
   setData: (data: InsurancePolicy) => void;
@@ -22,13 +20,14 @@ const formatNumber = (value: any) => {
     }
   }
 };
+
 function parseStringNumber(input: any): number {
-  if (input === "") {
+  if (input === "" || input === null) {
     return 0;
   }
 
   // Remove commas and parse to float
-  const sanitizedInput = input.replace(/,/g, "");
+  const sanitizedInput = String(input).replace(/,/g, "");
   const parsedFloat = parseFloat(sanitizedInput);
 
   // Check if parsing was successful
@@ -41,15 +40,13 @@ function parseStringNumber(input: any): number {
 const Computation: FC<IComputation> = ({ data, setData, totalPrem, setTotalPrem, amtDue, setAmtDue }) => {
   useEffect(() => {
     if (data.type === PolicyTypes.MOTOR) {
-      const { odP, vbiP, vpdP, theftP, autoPaP, aogP, other } = data?.motor! ?? {};
+      const { odP, theftP, vbiP, vpdP, autoPaP, aogP, other } = data?.motor! ?? {};
       let { premium } = other! ?? 0;
       let sum: number = parseFloat((odP ?? "0")?.replace(/[, ]/g, "")) + parseFloat((vbiP ?? "0")?.replace(/[, ]/g, "")) + parseFloat((vpdP ?? "0")?.replace(/[, ]/g, "")) + parseFloat((theftP ?? "0")?.replace(/[, ]/g, "")) + parseFloat((autoPaP ?? "0")?.replace(/[, ]/g, "")) + parseFloat((aogP ?? "0")?.replace(/[, ]/g, "")) + parseFloat((premium ?? "0")?.replace(/[, ]/g, ""));
-      console.log(" Compute Sum: ", sum);
       let amtdue: number = (sum ?? 0) + parseStringNumber(data?.docStamp) + parseStringNumber(data?.vat) + parseStringNumber(data?.others) + parseStringNumber(data?.govtTax);
       setAmtDue(amtdue);
       setTotalPrem(sum);
       premium = String(sum);
-      console.log(" Compute Amtdue: ", amtdue);
     } else {
       const dataOthers: any = data[data?.type?.toLowerCase() as keyof InsurancePolicy];
       let sum: number = 0;
@@ -69,8 +66,6 @@ const Computation: FC<IComputation> = ({ data, setData, totalPrem, setTotalPrem,
       }
       setAmtDue(sum + parseFloat((data?.docStamp?.replace(/[, ]/g, "") ?? "0")?.replace(/[, ]/g, "")) + parseFloat((data?.vat ?? "0")?.replace(/[, ]/g, "")) + parseFloat((data?.others ?? "0")?.replace(/[, ]/g, "")) + parseFloat((data?.govtTax ?? "0")?.replace(/[, ]/g, "")));
       setTotalPrem(sum);
-      console.log(" Compute Amtdue: ", amtdue);
-      console.log(" Compute Sum: ", sum);
     }
   }, [data]);
 
@@ -81,6 +76,7 @@ const Computation: FC<IComputation> = ({ data, setData, totalPrem, setTotalPrem,
           fullWidth
           label="Total Premium"
           value={totalPrem}
+          decimalScale={2}
           customInput={TextField}
           thousandSeparator=","
           // prefix="₱"
@@ -93,16 +89,18 @@ const Computation: FC<IComputation> = ({ data, setData, totalPrem, setTotalPrem,
         {/* <TextField label="Total Premium" name="prem" disabled fullWidth value={totalPrem} /> */}
       </Grid>
       <Grid item xs={12}>
-        <TextField label="Doc. Stamp" name="docStamp" fullWidth defaultValue={0.0} value={formatNumber(data?.docStamp)} onChange={(e) => handleChange(e, data, setData)} />
+        <NumericFormat customInput={TextField} thousandSeparator="," label="Doc. Stamp" name="docStamp" fullWidth value={data?.docStamp} onChange={(e) => handleChange(e, data, setData)} />
+        {/* <TextField variant="outlined" label="Doc. Stamp" name="docStamp" fullWidth defaultValue={formatNumber(data?.docStamp)} onChange={(e) => handleChange(e, data, setData)} /> */}
+        {/* <InputMask label="Doc. Stamp" name="docStamp" mask="999,999,999.99" maskChar="" alwaysShowMask={true} value={data?.docStamp} onChange={(e: any) => handleChange(e, data, setData)}></InputMask> */}
       </Grid>
       <Grid item xs={12}>
-        <TextField label="VAT" name="vat" fullWidth defaultValue={0.0} value={formatNumber(data?.vat)} onChange={(e) => handleChange(e, data, setData)} />
+        <NumericFormat customInput={TextField} thousandSeparator="," label="VAT" type="text" name="vat" fullWidth value={data?.vat} onChange={(e) => handleChange(e, data, setData)} />
       </Grid>
       <Grid item xs={12}>
-        <TextField label="Local Gov't Tax" name="govtTax" fullWidth defaultValue={0.0} value={formatNumber(data?.govtTax)} onChange={(e) => handleChange(e, data, setData)} />
+        <NumericFormat customInput={TextField} thousandSeparator="," label="Local Gov't Tax" name="govtTax" fullWidth value={data?.govtTax} onChange={(e) => handleChange(e, data, setData)} />
       </Grid>
       <Grid item xs={12}>
-        <TextField label="Others" name="others" fullWidth defaultValue={0.0} value={formatNumber(data?.others)} onChange={(e) => handleChange(e, data, setData)} />
+        <NumericFormat customInput={TextField} thousandSeparator="," label="Others" name="others" fullWidth value={data?.others} onChange={(e) => handleChange(e, data, setData)} />
       </Grid>
       <Grid item xs={12}>
         <NumericFormat
@@ -110,6 +108,7 @@ const Computation: FC<IComputation> = ({ data, setData, totalPrem, setTotalPrem,
           label="Amount Due"
           value={amtDue}
           customInput={TextField}
+          decimalScale={2}
           thousandSeparator=","
           // prefix="₱"
           inputProps={{

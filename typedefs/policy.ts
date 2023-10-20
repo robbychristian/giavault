@@ -287,16 +287,20 @@ export interface Motor extends DocumentResult<Motor> {
   mvFile?: string;
   od?: string;
   odP?: string;
+  theft?: string;
+  theftP?: string;
   vbi?: string;
   vbiP?: string;
   vpd?: string;
   vpdP?: string;
-  theft?: string;
-  theftP?: string;
   autoPa?: string;
   autoPaP?: string;
   aog?: string;
   aogP?: string;
+  ld?: string;
+  ldP?: string;
+  lu?: string;
+  luP?: string;
   other?: {
     fieldName: string;
     sumIssued: string | number;
@@ -328,9 +332,11 @@ export enum PolicyTypes {
 
 export enum MotorLabels {
   od = "OD",
+  theft = "THEFT",
   vbi = "V-BI",
   vpd = "V-PD",
-  theft = "THEFT",
   autoPa = "AUTO PA",
   aog = "AOG",
+  lu = "LU",
+  ld = "LD",
 }

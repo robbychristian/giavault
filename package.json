@@ -46,6 +46,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-dropzone": "^14.2.3",
+    "react-input-mask": "^2.0.4",
     "react-number-format": "^5.2.2",
     "react-to-print": "^2.14.13",
     "xlsx": "^0.18.5"
