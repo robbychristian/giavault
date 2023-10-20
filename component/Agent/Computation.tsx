@@ -37,12 +37,16 @@ function parseStringNumber(input: any): number {
 
   return parsedFloat;
 }
+// ld?: string;
+//   ldP?: string;
+//   lu?: string;
+//   luP?: string;
 const Computation: FC<IComputation> = ({ data, setData, totalPrem, setTotalPrem, amtDue, setAmtDue }) => {
   useEffect(() => {
     if (data.type === PolicyTypes.MOTOR) {
-      const { odP, theftP, vbiP, vpdP, autoPaP, aogP, other } = data?.motor! ?? {};
+      const { odP, theftP, vbiP, vpdP, autoPaP, aogP, other, ldP, luP } = data?.motor! ?? {};
       let { premium } = other! ?? 0;
-      let sum: number = parseFloat((odP ?? "0")?.replace(/[, ]/g, "")) + parseFloat((vbiP ?? "0")?.replace(/[, ]/g, "")) + parseFloat((vpdP ?? "0")?.replace(/[, ]/g, "")) + parseFloat((theftP ?? "0")?.replace(/[, ]/g, "")) + parseFloat((autoPaP ?? "0")?.replace(/[, ]/g, "")) + parseFloat((aogP ?? "0")?.replace(/[, ]/g, "")) + parseFloat((premium ?? "0")?.replace(/[, ]/g, ""));
+      let sum: number = parseStringNumber(odP) + parseStringNumber(vbiP) + parseStringNumber(vpdP) + parseStringNumber(theftP) + parseStringNumber(autoPaP) + parseStringNumber(aogP) + parseStringNumber(premium) + parseStringNumber(ldP) + parseStringNumber(luP);
       let amtdue: number = (sum ?? 0) + parseStringNumber(data?.docStamp) + parseStringNumber(data?.vat) + parseStringNumber(data?.others) + parseStringNumber(data?.govtTax);
       setAmtDue(amtdue);
       setTotalPrem(sum);
@@ -64,7 +68,7 @@ const Computation: FC<IComputation> = ({ data, setData, totalPrem, setTotalPrem,
           }
         }
       }
-      setAmtDue(sum + parseFloat((data?.docStamp?.replace(/[, ]/g, "") ?? "0")?.replace(/[, ]/g, "")) + parseFloat((data?.vat ?? "0")?.replace(/[, ]/g, "")) + parseFloat((data?.others ?? "0")?.replace(/[, ]/g, "")) + parseFloat((data?.govtTax ?? "0")?.replace(/[, ]/g, "")));
+      setAmtDue(sum + parseStringNumber(data?.docStamp) + parseStringNumber(data?.vat) + parseStringNumber(data?.others) + parseStringNumber(data?.govtTax));
       setTotalPrem(sum);
     }
   }, [data]);
