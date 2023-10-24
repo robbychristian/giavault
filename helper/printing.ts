@@ -171,17 +171,19 @@ export const getPolicy = async (policyId: string) => {
       for (let i = 0; i < selectedKeys.length; i++) {
         const selectedKey = dynamicPolicy._doc[selectedKeys[i]];
         const selectedKeyValue = dynamicPolicy._doc[selectedKeysValues[i]];
-        //Sum Insured Column
-        jimpImage.print(font, particularX, particularY, { text: MotorLabels[selectedKeys[i] as keyof typeof MotorLabels], alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
-        particularX += 100;
-        jimpImage.print(font, particularX, particularY, { text: parseForDisplay(selectedKey), alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
-        particularX -= 100;
-        //Premium Column
-        particularX += 280;
-        jimpImage.print(font, particularX, particularY, { text: parseForDisplay(selectedKeyValue), alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
-        totalPremium += parseForCompute(selectedKeyValue.toString());
-        particularX -= 280;
-        particularY += 20;
+        if (selectedKey != "0" && selectedKeyValue != "0") {
+          //Sum Insured Column
+          jimpImage.print(font, particularX, particularY, { text: MotorLabels[selectedKeys[i] as keyof typeof MotorLabels], alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
+          particularX += 100;
+          jimpImage.print(font, particularX, particularY, { text: parseForDisplay(selectedKey), alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
+          particularX -= 100;
+          //Premium Column
+          particularX += 280;
+          jimpImage.print(font, particularX, particularY, { text: parseForDisplay(selectedKeyValue), alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
+          totalPremium += parseForCompute(selectedKeyValue.toString());
+          particularX -= 280;
+          particularY += 20;
+        }
       }
       // for (const [key, value] of Object.entries(dynamicPolicy._doc)) {
       //   if (dynamicPolicy._doc[key] != 0 || dynamicPolicy._doc[key] != "0") {
