@@ -158,7 +158,7 @@ export const getPolicy = async (policyId: string) => {
       premiumY -= 20;
     } else {
       particularX -= 380;
-      jimpImage.print(font, particularX, particularY, { text: dynamicPolicy?._doc["modelMakeRisk"], alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 200, 200);
+      jimpImage.print(font, particularX, particularY, { text: dynamicPolicy?._doc["modelMakeRisk"], alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 300, 200);
       cardetailsY += 20;
       jimpImage.print(font, cardetailsX, cardetailsY, { text: dynamicPolicy?._doc["plate"], alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 200, 200);
       cardetailsY += 40;
