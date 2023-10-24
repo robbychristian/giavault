@@ -7,6 +7,7 @@ const moment = require("moment");
 let now = moment();
 function parseForCompute(value: string): number {
   if (value != null) {
+    console.log("parsed display:", value);
     const sanitizedInput = value.replace(/,/g, "");
     const parsedFloat = parseFloat(sanitizedInput);
     return parsedFloat;
@@ -14,7 +15,6 @@ function parseForCompute(value: string): number {
   return 0;
 }
 function parseForDisplay(input: string): string {
-  console.log("parsed display:", input);
   const parsed = parseFloat(input.replace(/,/g, "")).toLocaleString("en-US", { maximumFractionDigits: 2, minimumFractionDigits: 2 }).toString();
   return parsed;
 }
@@ -131,7 +131,7 @@ export const getPolicy = async (policyId: string) => {
       }
       //TOTALS
       // console.log("Dynmc : ", policy);
-      const totalPremiumGvt: number = Number(policy?.govtTax ?? 0) + (totalPremium ?? 0);
+      const totalPremiumGvt: number = Number(policy?.govtTax ?? 0) + (totalPremium ?? 0) + totalGovt;
       // headerStartY += 20;
       particularY -= 20;
       // premiumY += 20;
@@ -189,7 +189,7 @@ export const getPolicy = async (policyId: string) => {
           particularY += 20;
         }
       }
-      const totalPremiumGvt: number = (Number(dynamicPolicy?._doc["govtTax"]) ?? 0) + (totalPremium ?? 0);
+      const totalPremiumGvt: number = (Number(dynamicPolicy?._doc["govtTax"]) ?? 0) + (totalPremium ?? 0) + totalGovt;
       // headerStartY += 20;
       particularY -= 20;
       premiumY += 20;
