@@ -169,7 +169,7 @@ export const getPolicy = async (policyId: string) => {
       var selectedKeys = ["od", "theft", "vbi", "vpd", "autoPa", "aog", "lu", "ld"];
       var selectedKeysValues = ["odP", "theftP", "vbiP", "vpdP", "autoPaP", "aogP", "luP", "ldP"];
       for (const [key, value] of Object.entries(dynamicPolicy._doc)) {
-        if (dynamicPolicy._doc[key] != 0) {
+        if (dynamicPolicy._doc[key] != 0 || dynamicPolicy._doc[key] != "0") {
           if (selectedKeys.includes(key)) {
             const selectedValue = dynamicPolicy._doc[key];
             if (MotorLabels[key as keyof typeof MotorLabels] ? true : false) {
