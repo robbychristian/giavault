@@ -30,7 +30,7 @@ const PolicyTable: FC<IPolicyTable> = ({ data, refetch }) => {
   // to-do: range date
   const { data: session, status } = useSession({ required: true });
   const [componentRef, setComponentRef] = useState(useRef<HTMLDivElement | null>(null));
-  const [currentImage,setCurrentImage] = useState("");
+  const [currentImage, setCurrentImage] = useState("");
   const [policies, setPolicies] = useState([]);
   const [selectedData, setSelectedData] = useState<any>({
     selectedData: null,
@@ -56,7 +56,7 @@ const PolicyTable: FC<IPolicyTable> = ({ data, refetch }) => {
   }, [data]);
   useEffect(() => {
     console.log("changinng: currentImage", currentImage);
-  }, [currentImage,componentRef]);
+  }, [currentImage, componentRef]);
   // useEffect(() => {
   //   if (selectedData.selectedData && selectedData.isView) setIsModalOpen({ ...isModalOpen, updateModal: !isModalOpen.updateModal });
   //   if (selectedData.selectedData && !selectedData.isView) setIsModalOpen({ ...isModalOpen, deleteModal: !isModalOpen.deleteModal });
@@ -82,6 +82,7 @@ const PolicyTable: FC<IPolicyTable> = ({ data, refetch }) => {
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
+            <TableCell>Assured</TableCell>
             <TableCell>Insurer</TableCell>
             <TableCell align="right">Policy Number</TableCell>
             <TableCell align="right">GIA OR</TableCell>
@@ -95,7 +96,10 @@ const PolicyTable: FC<IPolicyTable> = ({ data, refetch }) => {
           {dataIndexed?.data?.map((row: InsurancePolicy) => (
             <TableRow key={row?._id} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
               <TableCell component="th" scope="row">
-                {row?.insurer??"Unknown"}
+                {row?.assured ?? "Unknown"}
+              </TableCell>
+              <TableCell component="th" scope="row">
+                {row?.insurer ?? "Unknown"}
               </TableCell>
               <TableCell align="right">{row?.policyNo ?? "Not Included"}</TableCell>
               <TableCell align="right">{row?.giaOr}</TableCell>
