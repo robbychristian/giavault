@@ -193,7 +193,7 @@ export const getPolicy = async (policyId: string) => {
       const totalPremiumGvt: number = (Number(dynamicPolicy?._doc["govtTax"]) ?? 0) + (totalPremium ?? 0);
       // headerStartY += 20;
       particularY -= 20;
-      // premiumY += 20;
+      premiumY += 20;
       //TOTALS
 
       jimpImage.print(font, particularX + 260, particularY, { text: textLine, alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
