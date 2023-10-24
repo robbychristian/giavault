@@ -11,7 +11,8 @@ import FormRenderer from "./FormRenderer";
 import Remarks from "./Remarks";
 import { useRouter } from "next/router";
 import Computation from "./Computation";
-
+import { NumericFormat } from "react-number-format";
+import { handleChange } from "@helper/objects/setter";
 interface IInsuranceForm {
   data?: InsurancePolicy;
   onClose?: () => void;
@@ -151,6 +152,20 @@ const InsuranceForm: FC<IInsuranceForm> = ({ data, onClose }) => {
               </Grid>
               <Grid item xs={12}>
                 <Computation data={entries} setData={setEntries} totalPrem={totalPrem} setTotalPrem={setTotalPrem} amtDue={amtDue} setAmtDue={setAmtDue} />
+              </Grid>
+              <Grid item xs={12}>
+                <Divider />
+              </Grid>
+              <Grid item xs={12}>
+                <Typography id="premium" key={`prem`} component="h3" variant="h6" sx={{ fontStyle: "bold" }}>
+                  Deductibles *
+                </Typography>
+              </Grid>
+              <Grid item xs={12}>
+                <NumericFormat customInput={TextField} thousandSeparator="," label="Deductibles" name="deductibles" fullWidth={true} value={data?.deductibles} onChange={(e) => handleChange(e, data, setEntries)} />
+              </Grid>
+              <Grid item xs={12}>
+                <Divider />
               </Grid>
               <Grid item xs={12}>
                 <Typography id="premium" key={`prem`} component="h3" variant="h6" sx={{ fontStyle: "bold" }}>

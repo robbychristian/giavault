@@ -264,6 +264,7 @@ export interface InsurancePolicy extends DocumentResult<InsurancePolicy> {
   personal_accident: DynamicField[];
   endorsement: DynamicField[];
   docStamp: string;
+  deductibles: string;
   vat: string;
   govtTax: string;
   others: string;

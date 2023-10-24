@@ -49,6 +49,7 @@ export interface InsurancePolicy {
   autoPaOrPrem: string;
   aogOrPrem: string;
   lossOfUseOrPrem: string;
+  deductibles: string;
   _id?: string;
   updatedAt?: string;
   creator?: string;

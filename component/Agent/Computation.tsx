@@ -1,5 +1,5 @@
 import { handleChange } from "@helper/objects/setter";
-import { Grid, TextField } from "@mui/material";
+import { Divider, Grid, TextField, Typography } from "@mui/material";
 import { InsurancePolicy, PolicyTypes } from "@typedefs/policy";
 import { FC, useEffect } from "react";
 import { NumericFormat } from "react-number-format";
@@ -74,55 +74,55 @@ const Computation: FC<IComputation> = ({ data, setData, totalPrem, setTotalPrem,
   }, [data]);
 
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={12}>
-        <NumericFormat
-          fullWidth
-          label="Total Premium"
-          value={totalPrem}
-          decimalScale={2}
-          customInput={TextField}
-          thousandSeparator=","
-          // prefix="₱"
-          inputProps={{
-            style: { textAlign: "right" },
-            step: "any",
-          }}
-          disabled
-        />
-        {/* <TextField label="Total Premium" name="prem" disabled fullWidth value={totalPrem} /> */}
+    <>
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <NumericFormat
+            fullWidth
+            label="Total Premium"
+            value={totalPrem}
+            decimalScale={2}
+            customInput={TextField}
+            thousandSeparator=","
+            // prefix="₱"
+            inputProps={{
+              style: { textAlign: "right" },
+              step: "any",
+            }}
+            disabled
+          />
+          {/* <TextField label="Total Premium" name="prem" disabled fullWidth value={totalPrem} /> */}
+        </Grid>
+        <Grid item xs={12}>
+          <NumericFormat customInput={TextField} thousandSeparator="," label="Doc. Stamp" name="docStamp" fullWidth value={data?.docStamp} onChange={(e) => handleChange(e, data, setData)} />
+        </Grid>
+        <Grid item xs={12}>
+          <NumericFormat customInput={TextField} thousandSeparator="," label="VAT" type="text" name="vat" fullWidth value={data?.vat} onChange={(e) => handleChange(e, data, setData)} />
+        </Grid>
+        <Grid item xs={12}>
+          <NumericFormat customInput={TextField} thousandSeparator="," label="Local Gov't Tax" name="govtTax" fullWidth value={data?.govtTax} onChange={(e) => handleChange(e, data, setData)} />
+        </Grid>
+        <Grid item xs={12}>
+          <NumericFormat customInput={TextField} thousandSeparator="," label="Others" name="others" fullWidth value={data?.others} onChange={(e) => handleChange(e, data, setData)} />
+        </Grid>
+        <Grid item xs={12}>
+          <NumericFormat
+            fullWidth
+            label="Amount Due"
+            value={amtDue}
+            customInput={TextField}
+            decimalScale={2}
+            thousandSeparator=","
+            // prefix="₱"
+            inputProps={{
+              style: { textAlign: "right" },
+              step: "any",
+            }}
+            disabled
+          />
+        </Grid>
       </Grid>
-      <Grid item xs={12}>
-        <NumericFormat customInput={TextField} thousandSeparator="," label="Doc. Stamp" name="docStamp" fullWidth value={data?.docStamp} onChange={(e) => handleChange(e, data, setData)} />
-        {/* <TextField variant="outlined" label="Doc. Stamp" name="docStamp" fullWidth defaultValue={formatNumber(data?.docStamp)} onChange={(e) => handleChange(e, data, setData)} /> */}
-        {/* <InputMask label="Doc. Stamp" name="docStamp" mask="999,999,999.99" maskChar="" alwaysShowMask={true} value={data?.docStamp} onChange={(e: any) => handleChange(e, data, setData)}></InputMask> */}
-      </Grid>
-      <Grid item xs={12}>
-        <NumericFormat customInput={TextField} thousandSeparator="," label="VAT" type="text" name="vat" fullWidth value={data?.vat} onChange={(e) => handleChange(e, data, setData)} />
-      </Grid>
-      <Grid item xs={12}>
-        <NumericFormat customInput={TextField} thousandSeparator="," label="Local Gov't Tax" name="govtTax" fullWidth value={data?.govtTax} onChange={(e) => handleChange(e, data, setData)} />
-      </Grid>
-      <Grid item xs={12}>
-        <NumericFormat customInput={TextField} thousandSeparator="," label="Others" name="others" fullWidth value={data?.others} onChange={(e) => handleChange(e, data, setData)} />
-      </Grid>
-      <Grid item xs={12}>
-        <NumericFormat
-          fullWidth
-          label="Amount Due"
-          value={amtDue}
-          customInput={TextField}
-          decimalScale={2}
-          thousandSeparator=","
-          // prefix="₱"
-          inputProps={{
-            style: { textAlign: "right" },
-            step: "any",
-          }}
-          disabled
-        />
-      </Grid>
-    </Grid>
+    </>
   );
 };
 

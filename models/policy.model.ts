@@ -197,6 +197,10 @@ const PolicySchema = new Schema(
     govtTax: {
       type: String,
     },
+    deductibles: {
+      type: String,
+      default: "0",
+    },
     amountDue: { type: String },
   },
   { timestamps: true, versionKey: false, _id: true }
