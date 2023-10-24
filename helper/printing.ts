@@ -162,9 +162,9 @@ export const getPolicy = async (policyId: string) => {
       cardetailsY += 20;
       jimpImage.print(font, cardetailsX, cardetailsY, { text: dynamicPolicy?._doc["plate"], alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 200, 200);
       cardetailsY += 40;
-      jimpImage.print(font, cardetailsX, cardetailsY, { text: "SERIAL NO: " + dynamicPolicy?._doc["serial"], alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 250, 100);
+      jimpImage.print(font, cardetailsX, cardetailsY, { text: "SERIAL NO: " + dynamicPolicy?._doc["serial"], alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 300, 100);
       cardetailsY += 20;
-      jimpImage.print(font, cardetailsX, cardetailsY, { text: "MOTOR NO: " + dynamicPolicy?._doc["motor"], alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 250, 100);
+      jimpImage.print(font, cardetailsX, cardetailsY, { text: "MOTOR NO: " + dynamicPolicy?._doc["motor"], alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 300, 100);
       particularX += 380;
       var selectedKeys = ["od", "theft", "vbi", "vpd", "autoPa", "aog", "lu", "ld"];
       var selectedKeysValues = ["odP", "theftP", "vbiP", "vpdP", "autoPaP", "aogP", "luP", "ldP"];
