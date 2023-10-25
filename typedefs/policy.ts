@@ -263,6 +263,8 @@ export interface InsurancePolicy extends DocumentResult<InsurancePolicy> {
   marine?: DynamicField[];
   personal_accident: DynamicField[];
   endorsement: DynamicField[];
+  hmo: DynamicField[];
+  ctpl: DynamicField[];
   docStamp: string;
   deductibles: string;
   vat: string;
@@ -329,6 +331,8 @@ export enum PolicyTypes {
   MARINE = "MARINE",
   PERSONAL_ACCIDENT = "PERSONAL_ACCIDENT",
   ENDORSEMENT = "ENDORSEMENT",
+  HMO = "HMO",
+  CTPL = "CTPL",
 }
 
 export enum MotorLabels {

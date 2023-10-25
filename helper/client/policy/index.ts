@@ -23,7 +23,6 @@ export const AddPolicy = async (policy: Partial<InsurancePolicy>, accessToken: s
         data: { error },
       },
     } = e;
-    setSnackbar({ isOpen: true, message: e.message, isError: true });
     return { isOpen: true, message: error, isError: true };
   }
 };

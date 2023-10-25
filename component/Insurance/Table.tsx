@@ -79,7 +79,7 @@ const PolicyTable: FC<IPolicyTable> = ({ data, refetch }) => {
   };
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+      <Table sx={{ minWidth: 850 }} aria-label="simple table">
         <TableHead>
           <TableRow>
             <TableCell>Assured</TableCell>
@@ -134,7 +134,7 @@ export const InsuranceModal = ({ open, onClose, onPrint, data }: any) => {
     <Dialog open={open} onClose={onClose} maxWidth="lg">
       <DialogTitle>Edit Policy</DialogTitle>
       <DialogContent>
-        <InsuranceForm data={data?.selectedData} onClose={onClose} />
+        <InsuranceForm open={open} data={data?.selectedData} onClose={onClose} />
       </DialogContent>
       <DialogActions>
         <Button variant="contained" onClick={onPrint}>

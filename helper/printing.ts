@@ -6,8 +6,8 @@ import path from "path";
 const moment = require("moment");
 let now = moment();
 function parseForCompute(value: string): number {
-  if (value != null) {
-    console.log("parsed display:", value);
+  if (value) {
+    console.log("parsed compute:", value);
     const sanitizedInput = value.replace(/,/g, "");
     const parsedFloat = parseFloat(sanitizedInput);
     return parsedFloat;
@@ -15,8 +15,12 @@ function parseForCompute(value: string): number {
   return 0;
 }
 function parseForDisplay(input: string): string {
-  const parsed = parseFloat(input.replace(/,/g, "")).toLocaleString("en-US", { maximumFractionDigits: 2, minimumFractionDigits: 2 }).toString();
-  return parsed;
+  if (input) {
+    console.log("parsed display:", input);
+    const parsed = parseFloat(input.replace(/,/g, "")).toLocaleString("en-US", { maximumFractionDigits: 2, minimumFractionDigits: 2 }).toString();
+    return parsed;
+  }
+  return "";
 }
 export const getPolicy = async (policyId: string) => {
   try {
@@ -110,20 +114,22 @@ export const getPolicy = async (policyId: string) => {
       // console.log("Policy Type: ", policy.type);
       dynamicPolicy.map((e: DynamicField) => {
         // console.log("e.premium", parseFloat(e.premium));
-        totalPremium += parseForCompute(e?.premium);
+        totalPremium += parseForCompute(e.premium);
         // console.log("e.particular", parseFloat(e.particular));
-        totalParticular += parseForCompute(e?.particular);
+        totalParticular += parseForCompute(e.particular);
       });
       //DYNAMIC POLILCY
       for (let entries of dynamicPolicy) {
         const { particularHeaderName, particular, premium } = entries;
         jimpImage.print(font, headerStartX, headerStartY, particularHeaderName ?? "Unknown");
-        particularX -= 100;
-        jimpImage.print(font, particularX, particularY, { text: "PHP", alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
-        particularX += 100;
-        premiumX += 100;
-        jimpImage.print(font, premiumX, premiumY, { text: parseForDisplay(particular), alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
-        premiumX -= 100;
+        if (particular && particular != "0") {
+          particularX -= 100;
+          jimpImage.print(font, particularX, particularY, { text: "PHP", alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
+          particularX += 100;
+          premiumX += 100;
+          jimpImage.print(font, premiumX, premiumY, { text: parseForDisplay(particular), alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
+          premiumX -= 100;
+        }
         // jimpImage.print(font, premiumX, premiumY, { text: formatNumber(premium?.replaceAll(",", "") ?? 0), alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
         headerStartY += 20;
         particularY += 20;

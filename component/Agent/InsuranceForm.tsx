@@ -14,11 +14,12 @@ import Computation from "./Computation";
 import { NumericFormat } from "react-number-format";
 import { handleChange } from "@helper/objects/setter";
 interface IInsuranceForm {
+  open: boolean;
   data?: InsurancePolicy;
   onClose?: () => void;
 }
 
-const InsuranceForm: FC<IInsuranceForm> = ({ data, onClose }) => {
+const InsuranceForm: FC<IInsuranceForm> = ({ open, data, onClose }) => {
   const router = useRouter();
   const [entries, setEntries] = useState<Partial<InsurancePolicy>>(
     data ?? {
@@ -37,29 +38,23 @@ const InsuranceForm: FC<IInsuranceForm> = ({ data, onClose }) => {
     message: null,
   });
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: any) => {
     setLoading(true);
     e.preventDefault();
     if (data?._id) {
       const { _id } = data;
-
-      UpdatePolicy({ ...entries, _id }, session?.user.accessToken!, setSnackbar);
+      await UpdatePolicy({ ...entries, _id }, session?.user.accessToken!, setSnackbar);
       setLoading(false);
       onClose && onClose();
-      return router.push("/insurance/list");
-    }
-    if (entries.soaNo !== undefined) {
-      console.log("Inputted SOA", entries);
-      AddPolicy({ ...entries }, session?.user.accessToken!, setSnackbar);
-      setLoading(false);
+      open = false;
       return router.push("/insurance/list");
     } else {
-      setSnackbar({ isOpen: true, message: "Check inputs", isError: false });
+      await AddPolicy({ ...entries }, session?.user.accessToken!, setSnackbar);
       setLoading(false);
+      onClose && onClose();
+      open = false;
+      return router.push("/insurance/list");
     }
-    setLoading(false);
-    onClose && onClose();
-    return router.push("/insurance/list");
   };
 
   useEffect(() => {
@@ -83,12 +78,7 @@ const InsuranceForm: FC<IInsuranceForm> = ({ data, onClose }) => {
               Add Form
             </Typography>
           )}
-          <form
-            onSubmit={handleSubmit}
-            onKeyDown={(e) => {
-              e.key === "Enter" && e.preventDefault();
-            }}
-          >
+          <form onSubmit={handleSubmit}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <Typography id="premium" key={`prem`} component="h3" variant="h6" sx={{ fontStyle: "bold" }}>
