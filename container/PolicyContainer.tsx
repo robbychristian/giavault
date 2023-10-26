@@ -19,15 +19,7 @@ export const PolicyContainer: FC<IPolicyContainer> = ({ data }) => {
 
   return (
     <MemoizedComponent dependency={[policyData, refetch]}>
-      <TableContainer
-        placeholder="Search by Insurer, Policy Number, GIA OR, Insurance OR No."
-        data={policyData}
-        type={TableTypes.POLICY}
-        refetch={refetch}
-        hasButton={true}
-        buttonText="Add Policy"
-        modalChildren={<InsuranceForm />}
-      />
+      <TableContainer placeholder="Search by Insurer, Policy Number, GIA OR, Insurance OR No." data={policyData} type={TableTypes.POLICY} refetch={refetch} hasButton={true} buttonText="Add Policy" modalChildren={<InsuranceForm open={false} />} />
     </MemoizedComponent>
   );
 };
