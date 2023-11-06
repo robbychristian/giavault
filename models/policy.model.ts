@@ -130,7 +130,6 @@ const PolicySchema = new Schema(
   {
     soaNo: {
       type: String,
-      unique: true,
     },
     creator: {
       type: Types.ObjectId,

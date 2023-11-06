@@ -37,6 +37,11 @@ const InsuranceForm: FC<IInsuranceForm> = ({ open, data, onClose }) => {
     isError: false,
     message: null,
   });
+  const handleKeyDown = (event: any) => {
+    if (event.keyCode === 13) {
+      event.preventDefault();
+    }
+  };
 
   const handleSubmit = async (e: any) => {
     setLoading(true);
@@ -78,7 +83,7 @@ const InsuranceForm: FC<IInsuranceForm> = ({ open, data, onClose }) => {
               Add Form
             </Typography>
           )}
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} onKeyDown={handleKeyDown}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <Typography id="premium" key={`prem`} component="h3" variant="h6" sx={{ fontStyle: "bold" }}>
