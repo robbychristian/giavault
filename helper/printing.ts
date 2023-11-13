@@ -3,6 +3,7 @@ import { InsurancePolicy, PolicyTypes, DynamicField, MotorLabels } from "@typede
 import Jimp from "jimp";
 import fs from "fs/promises"; // Import the fs module,{}
 import path from "path";
+import dynamic from "next/dynamic";
 const moment = require("moment");
 let now = moment();
 function parseForCompute(value: string): number {
@@ -111,7 +112,8 @@ export const getPolicy = async (policyId: string) => {
     const dynamicPolicy: any = policyBuilder(policy);
     const totalGovt = parseForCompute(policy?.govtTax) + parseForCompute(policy?.docStamp) + parseForCompute(policy?.vat) + parseForCompute(policy?.others);
     if (policy.type !== PolicyTypes.MOTOR) {
-      // console.log("Policy Type: ", policy.type);
+      if(dynamicPolicy){ 
+        // console.log("Policy Type: ", policy.type);
       dynamicPolicy.map((e: DynamicField) => {
         // console.log("e.premium", parseFloat(e.premium));
         totalPremium += parseForCompute(e.premium);
@@ -119,22 +121,25 @@ export const getPolicy = async (policyId: string) => {
         totalParticular += parseForCompute(e.particular);
       });
       //DYNAMIC POLILCY
-      for (let entries of dynamicPolicy) {
-        const { particularHeaderName, particular, premium } = entries;
-        jimpImage.print(font, headerStartX, headerStartY, particularHeaderName ?? "Unknown");
-        if (particular && particular != "0") {
-          particularX -= 100;
-          jimpImage.print(font, particularX, particularY, { text: "PHP", alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
-          particularX += 100;
-          premiumX += 100;
-          jimpImage.print(font, premiumX, premiumY, { text: parseForDisplay(particular), alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
-          premiumX -= 100;
+     
+        for (let entries of dynamicPolicy) {
+          const { particularHeaderName, particular, premium } = entries;
+          jimpImage.print(font, headerStartX, headerStartY, particularHeaderName ?? "Unknown");
+          if (particular && particular != "0") {
+            particularX -= 100;
+            jimpImage.print(font, particularX, particularY, { text: "PHP", alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
+            particularX += 100;
+            premiumX += 100;
+            jimpImage.print(font, premiumX, premiumY, { text: parseForDisplay(particular), alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
+            premiumX -= 100;
+          }
+          // jimpImage.print(font, premiumX, premiumY, { text: formatNumber(premium?.replaceAll(",", "") ?? 0), alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
+          headerStartY += 20;
+          particularY += 20;
+          premiumY += 20;
         }
-        // jimpImage.print(font, premiumX, premiumY, { text: formatNumber(premium?.replaceAll(",", "") ?? 0), alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
-        headerStartY += 20;
-        particularY += 20;
-        premiumY += 20;
       }
+      
       //TOTALS
       // console.log("Dynmc : ", policy);
       const totalPremiumGvt: number = Number(policy?.govtTax ?? 0) + (totalPremium ?? 0) + totalGovt;

@@ -145,7 +145,6 @@ const PolicySchema = new Schema(
     },
     type: {
       type: String,
-      require: true,
     },
     insurer: String,
     line: String,
