@@ -78,54 +78,56 @@ const PolicyTable: FC<IPolicyTable> = ({ data, refetch }) => {
     //setSelectedData({ selectedData: selectedData, isUpdate: false, isDelete: false });
   };
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 850 }} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell>Assured</TableCell>
-            <TableCell>Insurer</TableCell>
-            <TableCell align="right">Policy Number</TableCell>
-            <TableCell align="right">GIA OR</TableCell>
-            <TableCell align="right">GIA Issue Date</TableCell>
-            <TableCell align="right">Expiry</TableCell>
-            <TableCell align="center">View</TableCell>
-            {session?.user.role == Roles.ADMIN ? <TableCell align="center">Delete</TableCell> : null}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {dataIndexed?.data?.map((row: InsurancePolicy) => (
-            <TableRow key={row?._id} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-              <TableCell component="th" scope="row">
-                {row?.assured ?? "Unknown"}
-              </TableCell>
-              <TableCell component="th" scope="row">
-                {row?.insurer ?? "Unknown"}
-              </TableCell>
-              <TableCell align="right">{row?.policyNo ?? "Not Included"}</TableCell>
-              <TableCell align="right">{row?.giaOr}</TableCell>
-              <TableCell align="right">{String(moment(row?.giaIssuedDate).format("MMM DD, YYYY"))}</TableCell>
-              <TableCell align="right">{String(moment(row?.expiry).format("MMM DD, YYYY"))}</TableCell>
-              <TableCell align="center">
-                <IconButton onClick={() => setSelectedData({ ...selectedData, selectedData: row as any, isUpdate: true })}>
-                  <VisibilityIcon />
-                </IconButton>
-              </TableCell>
-              {session?.user.role == Roles.ADMIN ? (
+    <>
+      <TableContainer component={Paper} sx={{ maxHeight: 440 }}>
+        <Table stickyHeader sx={{ minWidth: 850 }} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell>Assured</TableCell>
+              <TableCell>Insurer</TableCell>
+              <TableCell align="right">Policy Number</TableCell>
+              <TableCell align="right">GIA OR</TableCell>
+              <TableCell align="right">GIA Issue Date</TableCell>
+              <TableCell align="right">Expiry</TableCell>
+              <TableCell align="center">View</TableCell>
+              {session?.user.role == Roles.ADMIN ? <TableCell align="center">Delete</TableCell> : null}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {dataIndexed?.data?.map((row: InsurancePolicy) => (
+              <TableRow key={row?._id} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+                <TableCell component="th" scope="row">
+                  {row?.assured ?? "Unknown"}
+                </TableCell>
+                <TableCell component="th" scope="row">
+                  {row?.insurer ?? "Unknown"}
+                </TableCell>
+                <TableCell align="right">{row?.policyNo ?? "Not Included"}</TableCell>
+                <TableCell align="right">{row?.giaOr}</TableCell>
+                <TableCell align="right">{String(moment(row?.giaIssuedDate).format("MMM DD, YYYY"))}</TableCell>
+                <TableCell align="right">{String(moment(row?.expiry).format("MMM DD, YYYY"))}</TableCell>
                 <TableCell align="center">
-                  <IconButton onClick={() => setSelectedData({ ...selectedData, selectedData: row as any, isDelete: true })}>
-                    <DeleteIcon />
+                  <IconButton onClick={() => setSelectedData({ ...selectedData, selectedData: row as any, isUpdate: true })}>
+                    <VisibilityIcon />
                   </IconButton>
                 </TableCell>
-              ) : null}
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+                {session?.user.role == Roles.ADMIN ? (
+                  <TableCell align="center">
+                    <IconButton onClick={() => setSelectedData({ ...selectedData, selectedData: row as any, isDelete: true })}>
+                      <DeleteIcon />
+                    </IconButton>
+                  </TableCell>
+                ) : null}
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+        <InsuranceModal open={selectedData.isUpdate} onClose={handleClose} onPrint={handlePrint} data={selectedData} />
+        <SoaModal open={selectedData.isPrint} onClose={handleClose} componentRef={componentRef} onPrint={handlePrintProceed} data={selectedData} currentImage={currentImage} />
+        <InsuranceModalDelete open={selectedData.isDelete} onClose={handleClose} data={selectedData} onConfirm={DeletePolicy} />
+      </TableContainer>
       <Pagination data={data} dataIndexed={dataIndexed} setDataIndexed={setDataIndexed} />
-      <InsuranceModal open={selectedData.isUpdate} onClose={handleClose} onPrint={handlePrint} data={selectedData} />
-      <SoaModal open={selectedData.isPrint} onClose={handleClose} componentRef={componentRef} onPrint={handlePrintProceed} data={selectedData} currentImage={currentImage} />
-      <InsuranceModalDelete open={selectedData.isDelete} onClose={handleClose} data={selectedData} onConfirm={DeletePolicy} />
-    </TableContainer>
+    </>
   );
 };
 

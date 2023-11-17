@@ -10,7 +10,7 @@ import { useSession } from "next-auth/react";
 import { searchLogsClient } from "@helper/userLog";
 import { TableTypes } from "@typedefs/components/Table.type";
 import { TableSwitch } from "@components/TableSwitch";
-import { Box, Dialog, DialogContent, IconButton, Modal, Tooltip, Typography } from "@mui/material";
+import { Box, Container, Dialog, DialogContent, IconButton, Modal, Tooltip, Typography } from "@mui/material";
 import { searchUsersClient } from "@helper/client/user/userClient";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import { searchPolicyClient } from "@helper/client/policy";
@@ -55,47 +55,49 @@ const TableContainer: FC<ITable> = ({ placeholder, data, hasButton, buttonText, 
   }, [searchInput]);
 
   return (
-    <Paper sx={{ maxWidth: 936, margin: "auto", overflow: "hidden", marginTop: 20 }}>
-      <AppBar position="static" color="default" elevation={0} sx={{ borderBottom: "1px solid rgba(0, 0, 0, 0.12)" }}>
-        <Toolbar>
-          <Grid container spacing={2} alignItems="center">
-            <Grid item>
-              <SearchIcon color="inherit" sx={{ display: "block" }} />
+    <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+      <Paper sx={{ maxWidth: "auto", margin: "auto", overflow: "hidden" }}>
+        <AppBar position="static" color="default" elevation={0} sx={{ borderBottom: "1px solid rgba(0, 0, 0, 0.12)" }}>
+          <Toolbar>
+            <Grid container spacing={2} alignItems="center">
+              <Grid item>
+                <SearchIcon color="inherit" sx={{ display: "block" }} />
+              </Grid>
+              <Grid item xs>
+                <TextField
+                  fullWidth
+                  placeholder={placeholder}
+                  InputProps={{
+                    disableUnderline: true,
+                    sx: { fontSize: "default" },
+                  }}
+                  variant="standard"
+                  onChange={(e) => setSearchInput(e.target.value)}
+                />
+              </Grid>
+              <Grid item>
+                {!hasButton ? null : (
+                  <>
+                    <Button variant="contained" sx={{ mr: 1 }} onClick={() => setIsModalOpen(!isModalOpen)}>
+                      {buttonText}
+                    </Button>
+                    <Tooltip title="Reload" onClick={() => refetch && refetch()}>
+                      <IconButton>
+                        <RefreshIcon color="inherit" sx={{ display: "block" }} />
+                      </IconButton>
+                    </Tooltip>
+                  </>
+                )}
+              </Grid>
             </Grid>
-            <Grid item xs>
-              <TextField
-                fullWidth
-                placeholder={placeholder}
-                InputProps={{
-                  disableUnderline: true,
-                  sx: { fontSize: "default" },
-                }}
-                variant="standard"
-                onChange={(e) => setSearchInput(e.target.value)}
-              />
-            </Grid>
-            <Grid item>
-              {!hasButton ? null : (
-                <>
-                  <Button variant="contained" sx={{ mr: 1 }} onClick={() => setIsModalOpen(!isModalOpen)}>
-                    {buttonText}
-                  </Button>
-                  <Tooltip title="Reload" onClick={() => refetch && refetch()}>
-                    <IconButton>
-                      <RefreshIcon color="inherit" sx={{ display: "block" }} />
-                    </IconButton>
-                  </Tooltip>
-                </>
-              )}
-            </Grid>
-          </Grid>
-        </Toolbar>
-      </AppBar>
-      <TableSwitch tableType={type} data={data} searchData={searchData} refetch={refetch} />
-      <Dialog open={isModalOpen} onClose={handleClose} maxWidth="lg">
-        <DialogContent>{modalChildren}</DialogContent>
-      </Dialog>
-    </Paper>
+          </Toolbar>
+        </AppBar>
+        <TableSwitch tableType={type} data={data} searchData={searchData} refetch={refetch} />
+        <Dialog open={isModalOpen} onClose={handleClose} maxWidth="lg">
+          <DialogContent>{modalChildren}</DialogContent>
+        </Dialog>
+      </Paper>
+    </Container>
   );
 };
 

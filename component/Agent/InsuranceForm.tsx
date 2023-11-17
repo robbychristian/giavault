@@ -52,13 +52,13 @@ const InsuranceForm: FC<IInsuranceForm> = ({ open, data, onClose }) => {
       setLoading(false);
       onClose && onClose();
       open = false;
-      return router.push("/insurance/list");
+      //return router.push("/insurance/list");
     } else {
       await AddPolicy({ ...entries }, session?.user.accessToken!, setSnackbar);
       setLoading(false);
       onClose && onClose();
       open = false;
-      return router.push("/insurance/list");
+      //return router.push("/insurance/list");
     }
   };
 
