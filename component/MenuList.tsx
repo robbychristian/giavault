@@ -12,6 +12,7 @@ import { Divider } from "@mui/material";
 import ListAltIcon from "@mui/icons-material/ListAlt";
 import PolicyIcon from "@mui/icons-material/Policy";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import FeedIcon from "@mui/icons-material/Feed";
 
 export const MenuList = () => {
   const { data: session } = useSession({ required: true });
@@ -38,7 +39,7 @@ const Agent = () => {
       </ListItemButton>
       <ListItemButton onClick={() => router.push("/insurance/form")}>
         <ListItemIcon>
-          <ListAltIcon />
+          <FeedIcon />
         </ListItemIcon>
         <ListItemText primary="Insurance Policy" />
       </ListItemButton>
@@ -77,7 +78,7 @@ const Admin = () => {
       <Divider />
       <ListItemButton onClick={() => router.push("/insurance/form")}>
         <ListItemIcon>
-          <PolicyIcon />
+          <FeedIcon />
         </ListItemIcon>
         <ListItemText primary="Add Insurance Policy" />
       </ListItemButton>
