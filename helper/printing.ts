@@ -148,7 +148,7 @@ export const getPolicy = async (policyId: string) => {
       // premiumY += 20;
       //TOTALS
 
-      jimpImage.print(font, particularX + 260, particularY, { text: textLine, alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
+      //jimpImage.print(font, particularX + 260, particularY, { text: textLine, alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
       particularY += 20;
       jimpImage.print(font, particularX, particularY, { text: "Premium", alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
       particularX += 280;
@@ -162,9 +162,9 @@ export const getPolicy = async (policyId: string) => {
       jimpImage.print(font, particularX + 260, particularY, { text: textLine, alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
       particularY += 20;
       cardetailsX = 70;
-      if (policy.deductibles) {
-        jimpImage.print(font, cardetailsX, particularY, { text: "DEDUCTIBLE " + parseForDisplay(policy?.deductibles), alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 300, 200);
-      }
+      // if (policy.deductibles) {
+      //   jimpImage.print(font, cardetailsX, particularY, { text: "DEDUCTIBLE " + parseForDisplay(policy?.deductibles), alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 300, 200);
+      // }
       jimpImage.print(font, particularX, particularY, { text: "Total Premium", alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
       particularX += 280;
       jimpImage.print(font, particularX, particularY, { text: parseForDisplay(totalPremiumGvt.toString()), alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
