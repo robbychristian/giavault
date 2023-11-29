@@ -53,7 +53,7 @@ export const getPolicy = async (policyId: string) => {
     jimpImage.print(font_insurer, 800, 290, policy.line ?? "");
     jimpImage.print(font_insurer, 1000, 290, policy.policyNo ?? "");
     jimpImage.print(font_insurer, 950, 230, now.format("LL"));
-    jimpImage.print(font_insurer, 800, 860, "ADRIAN MOGUL");
+    jimpImage.print(font_insurer, 800, 850, "ADRIAN MOGUL");
     jimpImage.print(font_insurer, 250, 800, policy.producer ?? "");
 
     // console.log("dynamicPolicy: ", dynamicPolicy);
@@ -124,7 +124,7 @@ export const getPolicy = async (policyId: string) => {
 
         for (let entries of dynamicPolicy) {
           const { particularHeaderName, particular, premium } = entries;
-          jimpImage.print(font, headerStartX, headerStartY, { text: particularHeaderName, alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 200);
+          jimpImage.print(font, headerStartX, headerStartY, { text: particularHeaderName, alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 220);
           if (particular && particular != "0") {
             particularX -= 100;
             jimpImage.print(font, particularX, particularY, { text: "PHP", alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
