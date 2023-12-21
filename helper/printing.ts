@@ -52,6 +52,7 @@ export const getPolicy = async (policyId: string) => {
     jimpImage.print(font_insurer, 70, 320, "WITHHOLDING TAX (BIR 2307) SHOULD BE IN FAVOR OF THE INSURANCE COMPANY");
     jimpImage.print(font_insurer, 800, 290, policy.line ?? "");
     jimpImage.print(font_insurer, 1000, 290, policy.policyNo ?? "");
+    jimpImage.print(font_insurer, 1000, 320, policy.endorsment ?? "");
     jimpImage.print(font_insurer, 950, 230, now.format("LL"));
     jimpImage.print(font_insurer, 800, 850, "ADRIAN MOGUL");
     jimpImage.print(font_insurer, 250, 800, policy.producer ?? "");

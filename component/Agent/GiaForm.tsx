@@ -48,6 +48,9 @@ const GiaForm: FC<IGiaForm> = ({ data, setData }) => {
           <TextField fullWidth label="Policy No." value={data?.policyNo} name="policyNo" onChange={(e) => handleChange(e, data, setData)} />
         </Grid>
         <Grid item xs={6}>
+          <TextField fullWidth label="Endorsment" value={data?.endorsment} name="endorsment" onChange={(e) => handleChange(e, data, setData)} />
+        </Grid>
+        <Grid item xs={6}>
           <DatePicker label="Inception" value={data?.expiry ? moment(data?.inception) : null} onChange={(e) => handleChangeDate({ target: { name: "inception", value: e } }, data, setData)} slotProps={{ textField: { fullWidth: true } }} />
           {/* <TextField fullWidth label="Inception" value={data?.inception} name="inception" onChange={(e) => handleChange(e, data, setData)} /> */}
         </Grid>

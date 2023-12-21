@@ -154,6 +154,9 @@ const PolicySchema = new Schema(
     policyNo: {
       type: String,
     },
+    endorsment: {
+      type: String,
+    },
     inception: {
       type: Date,
     },

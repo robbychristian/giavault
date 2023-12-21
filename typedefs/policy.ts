@@ -243,6 +243,7 @@ export interface InsurancePolicy extends DocumentResult<InsurancePolicy> {
   producer: string;
   giaIssuedDate: Date;
   policyNo: string;
+  endorsment: string;
   inception: Date;
   assured: string;
   expiry: Date;
