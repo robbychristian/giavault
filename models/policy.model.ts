@@ -186,6 +186,8 @@ const PolicySchema = new Schema(
     marine: [particularDynamicFieldSchema],
     personal_accident: [particularDynamicFieldSchema],
     endorsement: [particularDynamicFieldSchema],
+    hmo: [particularDynamicFieldSchema],
+    ctpl: [particularDynamicFieldSchema],
     docStamp: {
       type: String,
     },
