@@ -70,9 +70,8 @@ const InsuranceForm: FC<IInsuranceForm> = ({ open, data, onClose }) => {
     <>
       <SnackBarComponent setSnackbar={setSnackbar} snackbar={snackbar} />
       <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
+        sx={{                                                                                                                                                                                                                                                                                                                  
+          display: "fleflexDirection: column",
           alignItems: "center",
           padding: 5,
         }}
