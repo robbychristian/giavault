@@ -10,7 +10,7 @@ import { useSession } from "next-auth/react";
 import { searchLogsClient } from "@helper/userLog";
 import { TableTypes } from "@typedefs/components/Table.type";
 import { TableSwitch } from "@components/TableSwitch";
-import { Box, Container, Dialog, DialogContent, IconButton, Modal, Tooltip, Typography } from "@mui/material";
+import { Box, Container, Dialog, DialogActions, DialogContent, IconButton, Modal, Tooltip, Typography, DialogTitle } from "@mui/material";
 import { searchUsersClient } from "@helper/client/user/userClient";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import { searchPolicyClient } from "@helper/client/policy";
@@ -94,7 +94,21 @@ const TableContainer: FC<ITable> = ({ placeholder, data, hasButton, buttonText, 
         </AppBar>
         <TableSwitch tableType={type} data={data} searchData={searchData} refetch={refetch} />
         <Dialog open={isModalOpen} onClose={handleClose} maxWidth="lg">
+          <DialogTitle>
+            <Typography component="h1" variant="h4" align="center" sx={{ mb: 5 }}>
+              Add Form
+            </Typography>
+          </DialogTitle>
           <DialogContent>{modalChildren}</DialogContent>
+          <DialogActions>
+            <Button form="policyForm" type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+              {"Submit"}
+            </Button>
+            {/* <Button variant="contained" onClick={onPrint}>
+              <LocalPrintshopIcon /> Print
+            </Button> */}
+            <Button onClick={handleClose}>Cancel</Button>
+          </DialogActions>
         </Dialog>
       </Paper>
     </Container>

@@ -134,11 +134,24 @@ const PolicyTable: FC<IPolicyTable> = ({ data, refetch }) => {
 export const InsuranceModal = ({ open, onClose, onPrint, data }: any) => {
   return (
     <Dialog open={open} onClose={onClose} maxWidth="lg">
-      <DialogTitle>Edit Policy</DialogTitle>
+      <DialogTitle>
+        {data?._id ? (
+          <Typography component="h1" variant="h4" align="center" sx={{ mb: 5 }}>
+            Edit Form
+          </Typography>
+        ) : (
+          <Typography component="h1" variant="h4" align="center" sx={{ mb: 5 }}>
+            Add Form
+          </Typography>
+        )}
+      </DialogTitle>
       <DialogContent>
         <InsuranceForm open={open} data={data?.selectedData} onClose={onClose} />
       </DialogContent>
       <DialogActions>
+        <Button form="policyForm" type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+          {data?._id ? "Update" : "Submit"}
+        </Button>
         <Button variant="contained" onClick={onPrint}>
           <LocalPrintshopIcon /> Print
         </Button>
