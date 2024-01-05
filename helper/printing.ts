@@ -111,7 +111,7 @@ export const getPolicy = async (policyId: string) => {
       50
     );
     const dynamicPolicy: any = policyBuilder(policy);
-    const totalGovt = parseForCompute(policy?.govtTax) + parseForCompute(policy?.docStamp) + parseForCompute(policy?.vat) + parseForCompute(policy?.others);
+    const totalGovt = parseForCompute(policy?.docStamp) + parseForCompute(policy?.vat) + parseForCompute(policy?.others);
     if (policy.type !== PolicyTypes.MOTOR) {
       if (dynamicPolicy) {
         // console.log("Policy Type: ", policy.type);
@@ -125,7 +125,7 @@ export const getPolicy = async (policyId: string) => {
 
         for (let entries of dynamicPolicy) {
           const { particularHeaderName, particular, premium } = entries;
-          jimpImage.print(font, headerStartX, headerStartY, { text: particularHeaderName, alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 220);
+          jimpImage.print(font, headerStartX, headerStartY, { text: particularHeaderName, alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 280);
           if (particular && particular != "0") {
             particularX -= 100;
             jimpImage.print(font, particularX, particularY, { text: "PHP", alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);

@@ -44,21 +44,27 @@ const InsuranceForm: FC<IInsuranceForm> = ({ open, data, onClose }) => {
   };
 
   const handleSubmit = async (e: any) => {
-    setLoading(true);
     e.preventDefault();
-    if (data?._id) {
-      const { _id } = data;
-      await UpdatePolicy({ ...entries, _id }, session?.user.accessToken!, setSnackbar);
-      setLoading(false);
+    setLoading(true);
+
+    try {
+      if (data?._id) {
+        console.log("Is Update!");
+        const { _id } = data;
+        await UpdatePolicy({ ...entries, _id }, session?.user.accessToken!, setSnackbar);
+      } else {
+        console.log("Is Add!");
+        await AddPolicy({ ...entries }, session?.user.accessToken!, setSnackbar);
+      }
+
+      // After successful submission, redirect and close modal
+      await router.push("/insurance/list");
       onClose && onClose();
-      open = false;
-      //return router.push("/insurance/list");
-    } else {
-      await AddPolicy({ ...entries }, session?.user.accessToken!, setSnackbar);
+    } catch (error) {
+      console.log("Error after submission:", error);
+      // Handle error state or logging here
+    } finally {
       setLoading(false);
-      onClose && onClose();
-      open = false;
-      //return router.push("/insurance/list");
     }
   };
 
@@ -78,12 +84,7 @@ const InsuranceForm: FC<IInsuranceForm> = ({ open, data, onClose }) => {
         }}
       >
         <LocalizationProvider dateAdapter={AdapterMoment}>
-          {data?._id ? null : (
-            <Typography component="h1" variant="h4" align="center" sx={{ mb: 5 }}>
-              Add Form
-            </Typography>
-          )}
-          <form onSubmit={handleSubmit} onKeyDown={handleKeyDown}>
+          <form id="policyForm" onSubmit={handleSubmit} onKeyDown={handleKeyDown}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <Typography id="premium" key={`prem`} component="h3" variant="h6" sx={{ fontStyle: "bold" }}>
@@ -92,6 +93,7 @@ const InsuranceForm: FC<IInsuranceForm> = ({ open, data, onClose }) => {
               </Grid>
               <Grid item xs={12}>
                 <TextField
+                  disabled={data?._id ? true : false}
                   fullWidth
                   select
                   label="Policy Type"
@@ -170,9 +172,6 @@ const InsuranceForm: FC<IInsuranceForm> = ({ open, data, onClose }) => {
               <Grid item xs={12}>
                 <Remarks data={entries} setData={setEntries} />
               </Grid>
-              <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} disabled={loading}>
-                {data?._id ? "Update" : "Submit"}
-              </Button>
             </Grid>
           </form>
         </LocalizationProvider>
