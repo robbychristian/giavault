@@ -20,8 +20,8 @@ import { SecurityQuestions } from "@constants/securityQuestions";
 import { User } from "@typedefs/user";
 import SecurityQuestionList from "@components/SecurityQuestion";
 import SnackBarComponent from "@components/Snackbar";
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 
 export default function Registration() {
   const [isPasswordVisible, setIsPasswordVisible] = React.useState(false);
