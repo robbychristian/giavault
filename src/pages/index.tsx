@@ -1,6 +1,7 @@
 import Login from "@containers/Login";
-import { getSession } from "next-auth/react";
+import { getSession, useSession } from "next-auth/react";
 import Head from "next/head";
+import { useEffect } from "react";
 
 export default function Home() {
   return (

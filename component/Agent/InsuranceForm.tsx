@@ -17,9 +17,10 @@ interface IInsuranceForm {
   open: boolean;
   data?: InsurancePolicy;
   onClose?: () => void;
+  hasButton: boolean;
 }
 
-const InsuranceForm: FC<IInsuranceForm> = ({ open, data, onClose }) => {
+const InsuranceForm: FC<IInsuranceForm> = ({ open, data, onClose, hasButton = true }) => {
   const router = useRouter();
   const [entries, setEntries] = useState<Partial<InsurancePolicy>>(
     data ?? {
@@ -173,6 +174,9 @@ const InsuranceForm: FC<IInsuranceForm> = ({ open, data, onClose }) => {
               </Grid>
             </Grid>
           </form>
+          {hasButton && (
+            <Button onClick={handleSubmit}>test</Button>
+          )}
         </LocalizationProvider>
       </Box>
     </>

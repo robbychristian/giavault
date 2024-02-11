@@ -135,7 +135,7 @@ export const InsuranceModal = ({ open, onClose, onPrint, data }: any) => {
   return (
     <Dialog open={open} onClose={onClose} maxWidth="lg">
       <DialogTitle>
-        {data?._id ? (
+        {data?._id !== null || data?.id !== undefined ? (
           <Typography component="h1" variant="h4" align="center" sx={{ mb: 5 }}>
             Edit Form
           </Typography>
@@ -146,7 +146,7 @@ export const InsuranceModal = ({ open, onClose, onPrint, data }: any) => {
         )}
       </DialogTitle>
       <DialogContent>
-        <InsuranceForm open={open} data={data?.selectedData} onClose={onClose} />
+        <InsuranceForm open={open} data={data?.selectedData} onClose={onClose} hasButton={false} />
       </DialogContent>
       <DialogActions>
         <Button form="policyForm" type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
@@ -188,7 +188,7 @@ const InsuranceModalDelete = ({ open, onClose, onConfirm, data, session }: any) 
     <Dialog open={open} onClose={onClose} maxWidth="lg">
       <DialogTitle>Delete Policy</DialogTitle>
       <DialogContent>
-        <DialogContentText>Are you sure you want to delete "{data?.selectedData?.serial}"? This action cannot be undone.</DialogContentText>
+        <DialogContentText>Are you sure you want to delete "{data?.selectedData?.soaNo}"? This action cannot be undone.</DialogContentText>
       </DialogContent>
       <DialogActions>
         <Button onClick={() => onConfirm(data?.selectedData?._id, session?.user.accessToken, onClose)} color="error" autoFocus>
