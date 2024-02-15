@@ -80,6 +80,7 @@ export const SideDrawer: FC<ISideDrawer> = ({ title }) => {
 
   useEffect(() => {
     if (status == "authenticated") {
+      console.log("pre ito daw session",session?.user.accessToken!)
       getNotificationsClient(session?.user._id!, session?.user.accessToken!, setNotifications);
     }
   }, [status]);

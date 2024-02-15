@@ -38,6 +38,7 @@ export const getPolicy = async (policyId: string) => {
     const jimpImage = await Jimp.read(imageBuffer);
 
     const font = await Jimp.loadFont(Jimp.FONT_SANS_14_BLACK);
+    const font_10 = await Jimp.loadFont(Jimp.FONT_SANS_10_BLACK)
     const font_insurer = await Jimp.loadFont(Jimp.FONT_SANS_14_BLACK);
     const dateToday = moment(new Date());
     jimpImage.background(0x00000000);
@@ -111,33 +112,75 @@ export const getPolicy = async (policyId: string) => {
       50
     );
     const dynamicPolicy: any = policyBuilder(policy);
+    let countParticulars: number = 0 // PARA MAKUHA YUNG TOTAL DAHIL DI NAKA MAP
     const totalGovt = parseForCompute(policy?.docStamp) + parseForCompute(policy?.vat) + parseForCompute(policy?.others);
     if (policy.type !== PolicyTypes.MOTOR) {
+      let entryNumber = 0 //PARA MA COUNT KUNG PANG ILAN NA SIYA SA PARTICULARS
+      let extraParticulars = 0 //PARA MAKUHA YUNG TOTAL NA EXTRA
+      let addedHeaderY = 0 //PARA MAKUHA YUNG TOTAL ADDED SA HEADER
+      let addedParticularY = 0 //PARA MAKUHA YUNG TOTAL ADDED SA PARTICULARS
+      let addedPremiumY = 0 //PARA MAKUHA YUNG TOTAL ADDED SA 
+
       if (dynamicPolicy) {
         // console.log("Policy Type: ", policy.type);
         dynamicPolicy.map((e: DynamicField) => {
+          countParticulars += 1
           // console.log("e.premium", parseFloat(e.premium));
           totalPremium += parseForCompute(e.premium);
           // console.log("e.particular", parseFloat(e.particular));
           totalParticular += parseForCompute(e.particular);
         });
         //DYNAMIC POLILCY
-
+        // ROBBY
         for (let entries of dynamicPolicy) {
           const { particularHeaderName, particular, premium } = entries;
-          jimpImage.print(font, headerStartX, headerStartY, { text: particularHeaderName, alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 300);
-          if (particular && particular != "0") {
-            particularX -= 100;
-            jimpImage.print(font, particularX, particularY, { text: "PHP", alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
-            particularX += 100;
-            premiumX += 100;
-            jimpImage.print(font, premiumX, premiumY, { text: parseForDisplay(particular), alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
-            premiumX -= 100;
+          if (countParticulars < 8) {
+            jimpImage.print(font, headerStartX, headerStartY, { text: particularHeaderName, alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 200, 300);
+            if (particular && particular != "0") {
+              particularX -= 100;
+              jimpImage.print(font, particularX, particularY, { text: "PHP", alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
+              particularX += 100;
+              premiumX += 100;
+              jimpImage.print(font, premiumX, premiumY, { text: parseForDisplay(particular), alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
+              premiumX -= 100;
+            }
+            // jimpImage.print(font, premiumX, premiumY, { text: formatNumber(premium?.replaceAll(",", "") ?? 0), alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
+            headerStartY += 20;
+            particularY += 20;
+            premiumY += 20;
+            entryNumber += 1
+          } else {
+            if (entryNumber < 8) {
+              jimpImage.print(font_10, headerStartX, headerStartY, { text: particularHeaderName, alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 200, 300);
+              if (particular && particular != "0") {
+                particularX -= 50;
+                jimpImage.print(font_10, particularX, particularY, { text: "PHP", alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
+                particularX += 50;
+                premiumX += 20;
+                jimpImage.print(font_10, premiumX, premiumY, { text: parseForDisplay(particular), alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
+                premiumX -= 20;
+              }
+              addedHeaderY += 20;
+              addedParticularY += 20;
+              addedPremiumY += 20;
+            } else {
+              extraParticulars += 1;
+              jimpImage.print(font_10, headerStartX + 100, headerStartY - addedHeaderY, { text: particularHeaderName, alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 200, 300);
+              if (particular && particular != "0") {
+                particularX += 150;
+                jimpImage.print(font_10, particularX, particularY - addedParticularY, { text: "PHP", alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
+                particularX -= 150;
+                premiumX += 200;
+                jimpImage.print(font_10, premiumX, premiumY - addedPremiumY, { text: parseForDisplay(particular), alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
+                premiumX -= 200;
+              }
+            }
+            // jimpImage.print(font, premiumX, premiumY, { text: formatNumber(premium?.replaceAll(",", "") ?? 0), alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
+            headerStartY += 20;
+            particularY += 20;
+            premiumY += 20;
+            entryNumber += 1
           }
-          // jimpImage.print(font, premiumX, premiumY, { text: formatNumber(premium?.replaceAll(",", "") ?? 0), alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
-          headerStartY += 20;
-          particularY += 20;
-          premiumY += 20;
         }
       }
 
@@ -145,7 +188,9 @@ export const getPolicy = async (policyId: string) => {
       // console.log("Dynmc : ", policy);
       const totalPremiumGvt: number = Number(policy?.govtTax ?? 0) + (totalPremium ?? 0) + totalGovt;
       // headerStartY += 20;
-      particularY -= 20;
+      // particularY -= 20; //!ito yung original bro
+      particularY = countParticulars < 8 ? particularY - 20 : particularY - (20 * extraParticulars); //TODO: NEED MAGING DYNAMIC NI TOTAL PRE
+      // particularY += 20;
       // premiumY += 20;
       //TOTALS
 

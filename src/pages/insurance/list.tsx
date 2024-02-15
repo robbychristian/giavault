@@ -2,10 +2,17 @@ import Head from "next/head";
 import Loader from "@components/Loader";
 import { Roles } from "@typedefs/roles";
 import { PolicyContainer } from "@containers/PolicyContainer";
-import { getSession } from "next-auth/react";
+import { getSession, useSession } from "next-auth/react";
 import { API } from "@libs/api";
+import { useEffect } from "react";
 
 export default function PolicyList({ data: { data } }: any) {
+  const { data: session, status } = useSession({ required: true });
+
+  useEffect(() => {
+    console.log('asdadasdasd', session, status)
+  }, [])
+
   console.log("data", data);
   return (
     <>

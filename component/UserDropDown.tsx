@@ -7,6 +7,8 @@ import ExpandMoreTwoToneIcon from "@mui/icons-material/ExpandMoreTwoTone";
 import LockOpenTwoToneIcon from "@mui/icons-material/LockOpenTwoTone";
 import { signOut, useSession } from "next-auth/react";
 import { Roles } from "@typedefs/roles";
+import SnackBarComponent from "./Snackbar";
+import { useRouter } from "next/router";
 
 const UserBoxButton = styled(Button)(
   ({ theme }) => `
@@ -45,6 +47,12 @@ const UserBoxDescription = styled(Typography)(
 
 function UserDropdown() {
   const { data: session, status } = useSession({ required: true });
+  const router = useRouter()
+  const [snackbar, setSnackbar] = useState<any>({
+    isOpen: false,
+    isError: false,
+    message: null,
+  })
 
   const [user, setUser] = useState({
     name: "",
@@ -61,6 +69,20 @@ function UserDropdown() {
     }
   }, [status]);
 
+  useEffect(() => {
+    const handleRouteChange = (url: string, { shallow } : any) => {
+      console.log(
+        `App is changing to ${url} ${
+          shallow ? 'with' : 'without'
+        } shallow routing`
+      )
+    }
+    router.events.on('routeChangeComplete', handleRouteChange)
+
+    return () => {
+      router.events.off('routeChangeComplete', handleRouteChange)
+    }
+  }, [router])
   // const user = {
   //   name: 'Catherine Pike',
   //   avatar: '/static/images/avatars/default.jpg',
@@ -81,6 +103,7 @@ function UserDropdown() {
   return (
     <>
       <UserBoxButton color="primary" ref={ref} onClick={handleOpen}>
+        <SnackBarComponent setSnackbar={setSnackbar} snackbar={snackbar} />
         <Avatar variant="rounded" alt={user.name} src={user.avatar} />
         <Hidden mdDown>
           <UserBoxText>
@@ -127,7 +150,7 @@ function UserDropdown() {
             color="primary"
             fullWidth
             onClick={() => {
-              signOut({ callbackUrl: "/" });
+              signOut({ callbackUrl: "/", redirect: false })
             }}
           >
             <LockOpenTwoToneIcon sx={{ mr: 1 }} />

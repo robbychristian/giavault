@@ -1,4 +1,5 @@
 import { API } from "@libs/api";
+import { signOut } from "next-auth/react";
 
 export const getNotificationsClient = async (userId: string, accessToken: string, setNotification: (notification: any) => void) => {
   try {
@@ -16,6 +17,7 @@ export const getNotificationsClient = async (userId: string, accessToken: string
       return setNotification(data?.data);
     }
   } catch (e: any) {
+    signOut(({callbackUrl: "/"}))
     console.log("error", e);
   }
 };
