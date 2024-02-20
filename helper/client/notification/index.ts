@@ -17,7 +17,7 @@ export const getNotificationsClient = async (userId: string, accessToken: string
       return setNotification(data?.data);
     }
   } catch (e: any) {
-    signOut(({callbackUrl: "/"}))
+    signOut({ callbackUrl: "/"})
     console.log("error", e);
   }
 };

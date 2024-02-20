@@ -20,9 +20,13 @@ async function handler(req: NextApiRequest, res: NextApiResponse<any>) {
     case "GET": {
       // login
       const creds: Partial<User> = req.query;
-      const jwtToken = await LoginApi(creds);
-      if (!jwtToken) return res.status(401).json({ error: ERROR_TYPES.UNAUTHORIZED });
-      return res.status(200).json({ token: jwtToken });
+      try {
+        const jwtToken = await LoginApi(creds);
+        // if (!jwtToken) return res.status(401).json({ error: ERROR_TYPES.UNAUTHORIZED });
+        return res.status(200).json({ token: jwtToken });
+      } catch (err) {
+        console.log(err)
+      }
     }
     case "PATCH": {
       const userUpdate: User = req.body;

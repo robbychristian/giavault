@@ -113,6 +113,7 @@ export const getPolicy = async (policyId: string) => {
       50
     );
     const dynamicPolicy: any = policyBuilder(policy);
+    const strGovtTax: string = String(policy?.govtTax ?? 0).replace(/,/g, '');
     let countParticulars: number = 0 // PARA MAKUHA YUNG TOTAL DAHIL DI NAKA MAP
     const totalGovt = parseForCompute(policy?.docStamp) + parseForCompute(policy?.vat) + parseForCompute(policy?.others);
     if (policy.type !== PolicyTypes.MOTOR) {
@@ -187,7 +188,7 @@ export const getPolicy = async (policyId: string) => {
 
       //TOTALS
       // console.log("Dynmc : ", policy);
-      const totalPremiumGvt: number = Number(policy?.govtTax ?? 0) + (totalPremium ?? 0) + totalGovt;
+      const totalPremiumGvt: number = Number(strGovtTax) + (totalPremium ?? 0) + totalGovt;
       // headerStartY += 20;
       // particularY -= 20; //!ito yung original bro
       // particularY = countParticulars < 8 ? particularY - 20 : particularY - (20 * extraParticulars); //TODO: NEED MAGING DYNAMIC NI TOTAL PRE

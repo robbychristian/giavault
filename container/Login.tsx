@@ -50,10 +50,11 @@ const Login = () => {
     new FormData(event.currentTarget).forEach((value: any, key: any) => (object[key] = value));
     if (isEmptyNoSec(object)) return setSnackbar({ isOpen: true, isError: true, message: "Check your fields" });
     signIn("credentials", { username: object?.username!, password: object?.password!, redirect: false }).then((e) => {
-      console.log(e);
       if (e?.ok) Router.push("/dashboard");
       else if (e?.error) setSnackbar({ isOpen: true, isError: true, message: "Your credentials is invalid, please try again" });
-    });
+    }).catch(err => {
+      console.log(err)
+    })
     // const res = await LoginClient(object);
     // if (!res.isOpen && !res.isError && res.message.length > 1) {
     //   setCookie("auth", res.message);
