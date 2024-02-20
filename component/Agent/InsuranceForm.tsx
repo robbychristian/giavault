@@ -175,7 +175,9 @@ const InsuranceForm: FC<IInsuranceForm> = ({ open, data, onClose, hasButton = tr
             </Grid>
           </form>
           {hasButton && (
-            <Button onClick={handleSubmit}>test</Button>
+            <Grid item xs={12} textAlign="right" sx={{ marginTop: 3 }}>
+              <Button onClick={handleSubmit} color="success" fullWidth variant={"contained"} sx={{ fontWeight: 700 }}>Add Policy</Button>
+            </Grid>
           )}
         </LocalizationProvider>
       </Box>

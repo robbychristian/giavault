@@ -49,14 +49,15 @@ export const getPolicy = async (policyId: string) => {
     //BASIC INFO
     jimpImage.print(font_insurer, 250, 210, policy.assured ?? "");
     jimpImage.print(font_insurer, 250, 230, policy.mailingAddress ?? "");
-    jimpImage.print(font_insurer, 70, 290, policy.insurer ?? "");
-    jimpImage.print(font_insurer, 70, 320, "WITHHOLDING TAX (BIR 2307) SHOULD BE IN FAVOR OF THE INSURANCE COMPANY");
+    jimpImage.print(font_insurer, 70, 270, policy.insurer ?? "");
+    jimpImage.print(font_insurer, 70, 300, "WITHHOLDING TAX (BIR 2307) SHOULD BE IN FAVOR OF THE INSURANCE COMPANY");
     jimpImage.print(font_insurer, 800, 290, policy.line ?? "");
     jimpImage.print(font_insurer, 1000, 290, policy.policyNo ?? "");
     jimpImage.print(font_insurer, 1000, 320, policy.endorsment ?? "");
     jimpImage.print(font_insurer, 950, 230, now.format("LL"));
-    jimpImage.print(font_insurer, 800, 850, "ADRIAN MOGUL");
-    jimpImage.print(font_insurer, 250, 800, policy.producer ?? "");
+    jimpImage.print(font_insurer, 800, 815, "ADRIAN MOGUL");
+    // jimpImage.print(font_insurer, 800, 850, "ADRIAN MOGUL");
+    jimpImage.print(font_insurer, 250, 765, policy.producer ?? "");
 
     // console.log("dynamicPolicy: ", dynamicPolicy);
     const imagePathResult = path.join(process.cwd(), "public", "static", "images", "printing", filename);
@@ -134,22 +135,22 @@ export const getPolicy = async (policyId: string) => {
         // ROBBY
         for (let entries of dynamicPolicy) {
           const { particularHeaderName, particular, premium } = entries;
-          if (countParticulars < 8) {
-            jimpImage.print(font, headerStartX, headerStartY, { text: particularHeaderName, alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 200, 300);
-            if (particular && particular != "0") {
-              particularX -= 100;
-              jimpImage.print(font, particularX, particularY, { text: "PHP", alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
-              particularX += 100;
-              premiumX += 100;
-              jimpImage.print(font, premiumX, premiumY, { text: parseForDisplay(particular), alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
-              premiumX -= 100;
-            }
-            // jimpImage.print(font, premiumX, premiumY, { text: formatNumber(premium?.replaceAll(",", "") ?? 0), alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
-            headerStartY += 20;
-            particularY += 20;
-            premiumY += 20;
-            entryNumber += 1
-          } else {
+          // if (countParticulars < 8) {
+          //   jimpImage.print(font, headerStartX, headerStartY, { text: particularHeaderName, alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 200, 300);
+          //   if (particular && particular != "0") {
+          //     particularX -= 100;
+          //     jimpImage.print(font, particularX, particularY, { text: "PHP", alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
+          //     particularX += 100;
+          //     premiumX += 100;
+          //     jimpImage.print(font, premiumX, premiumY, { text: parseForDisplay(particular), alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
+          //     premiumX -= 100;
+          //   }
+          //   // jimpImage.print(font, premiumX, premiumY, { text: formatNumber(premium?.replaceAll(",", "") ?? 0), alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
+          //   headerStartY += 20;
+          //   particularY += 20;
+          //   premiumY += 20;
+          //   entryNumber += 1
+          // } else {
             if (entryNumber < 8) {
               jimpImage.print(font_10, headerStartX, headerStartY, { text: particularHeaderName, alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 200, 300);
               if (particular && particular != "0") {
@@ -181,7 +182,7 @@ export const getPolicy = async (policyId: string) => {
             premiumY += 20;
             entryNumber += 1
           }
-        }
+        // }
       }
 
       //TOTALS
@@ -189,34 +190,78 @@ export const getPolicy = async (policyId: string) => {
       const totalPremiumGvt: number = Number(policy?.govtTax ?? 0) + (totalPremium ?? 0) + totalGovt;
       // headerStartY += 20;
       // particularY -= 20; //!ito yung original bro
-      particularY = countParticulars < 8 ? particularY - 20 : particularY - (20 * extraParticulars); //TODO: NEED MAGING DYNAMIC NI TOTAL PRE
+      // particularY = countParticulars < 8 ? particularY - 20 : particularY - (20 * extraParticulars); //TODO: NEED MAGING DYNAMIC NI TOTAL PRE
       // particularY += 20;
       // premiumY += 20;
       //TOTALS
 
       //jimpImage.print(font, particularX + 260, particularY, { text: textLine, alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
+      // particularY += 20;
+      
+      //PARA SA PREMIUM
+      particularX += 150;
+      jimpImage.print(font_10, particularX, particularY - addedParticularY, { text: "Premium", alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
+      particularX -= 150;
+      premiumX += 200;
+      jimpImage.print(font_10, premiumX, particularY - addedParticularY, { text: parseForDisplay(totalPremium.toString()), alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
+      premiumX -= 200;
       particularY += 20;
-      jimpImage.print(font, particularX, particularY, { text: "Premium", alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
-      particularX += 280;
-      jimpImage.print(font, particularX, particularY, { text: parseForDisplay(totalPremium.toString()), alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
-      particularX -= 280;
+      
+      //PARA SA GOV'T TAXES
+      particularX += 150;
+      jimpImage.print(font_10, particularX, particularY - addedParticularY, { text: "Gov't Taxes", alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
+      particularX -= 150;
+      premiumX += 200;
+      jimpImage.print(font_10, premiumX, particularY - addedParticularY, { text: parseForDisplay(totalGovt.toString()), alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
+      jimpImage.print(font_10, premiumX - 20, particularY - addedParticularY, { text: textLine, alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
+      premiumX -= 200;
       particularY += 20;
-      jimpImage.print(font, particularX, particularY, { text: "Gov't Taxes", alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
-      particularX += 280;
-      jimpImage.print(font, particularX, particularY, { text: parseForDisplay(totalGovt.toString()), alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
-      particularX -= 280;
-      jimpImage.print(font, particularX + 260, particularY, { text: textLine, alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
-      particularY += 20;
-      cardetailsX = 70;
-      // if (policy.deductibles) {
-      //   jimpImage.print(font, cardetailsX, particularY, { text: "DEDUCTIBLE " + parseForDisplay(policy?.deductibles), alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 300, 200);
-      // }
-      jimpImage.print(font, particularX, particularY, { text: "Total Premium", alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
-      particularX += 280;
-      jimpImage.print(font, particularX, particularY, { text: parseForDisplay(totalPremiumGvt.toString()), alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
-      particularX -= 280;
-      jimpImage.print(font, particularX + 260, particularY, { text: textLine, alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
+      
+      // PARA SA TOTAL PREMIUM
+      particularX += 150;
+      jimpImage.print(font_10, particularX, particularY - addedParticularY, { text: "Total Premium", alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
+      particularX -= 150;
+      premiumX += 200;
+      jimpImage.print(font_10, premiumX, particularY - addedParticularY, { text: parseForDisplay(totalPremiumGvt.toString()), alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
+      jimpImage.print(font_10, premiumX - 20, particularY - addedParticularY, { text: textLine, alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
+      premiumX -= 200;
       premiumY -= 20;
+
+
+      //! OLD ASS
+      // //TOTALS
+      // // console.log("Dynmc : ", policy);
+      // const totalPremiumGvt: number = Number(policy?.govtTax ?? 0) + (totalPremium ?? 0) + totalGovt;
+      // // headerStartY += 20;
+      // // particularY -= 20; //!ito yung original bro
+      // // particularY = countParticulars < 8 ? particularY - 20 : particularY - (20 * extraParticulars); //TODO: NEED MAGING DYNAMIC NI TOTAL PRE
+      // // particularY += 20;
+      // // premiumY += 20;
+      // //TOTALS
+
+      // //jimpImage.print(font, particularX + 260, particularY, { text: textLine, alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
+      // // particularY += 20;
+      // jimpImage.print(font_10, particularX, particularY - addedParticularY, { text: "Premium", alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
+      // particularX += 150;
+      // jimpImage.print(font_10, particularX, particularY - addedParticularY, { text: parseForDisplay(totalPremium.toString()), alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
+      // particularX -= 150;
+      // particularY += 20;
+      // jimpImage.print(font_10, particularX, particularY, { text: "Gov't Taxes", alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
+      // particularX += 280;
+      // jimpImage.print(font_10, particularX, particularY, { text: parseForDisplay(totalGovt.toString()), alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
+      // particularX -= 280;
+      // jimpImage.print(font_10, particularX + 260, particularY, { text: textLine, alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
+      // particularY += 20;
+      // cardetailsX = 70;
+      // // if (policy.deductibles) {
+      // //   jimpImage.print(font, cardetailsX, particularY, { text: "DEDUCTIBLE " + parseForDisplay(policy?.deductibles), alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 300, 200);
+      // // }
+      // jimpImage.print(font_10, particularX, particularY, { text: "Total Premium", alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
+      // particularX += 280;
+      // jimpImage.print(font_10, particularX, particularY, { text: parseForDisplay(totalPremiumGvt.toString()), alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
+      // particularX -= 280;
+      // jimpImage.print(font_10, particularX + 260, particularY, { text: textLine, alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
+      // premiumY -= 20;
     } else {
       particularX -= 380;
       jimpImage.print(font, particularX, particularY, { text: dynamicPolicy?._doc["modelMakeRisk"], alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 300, 200);
@@ -234,49 +279,49 @@ export const getPolicy = async (policyId: string) => {
         const selectedKeyValue = dynamicPolicy._doc[selectedKeysValues[i]];
         if (selectedKey != "0" || selectedKeyValue != "0") {
           //Sum Insured Column
-          jimpImage.print(font, particularX, particularY, { text: MotorLabels[selectedKeys[i] as keyof typeof MotorLabels], alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
-          particularX += 100;
-          jimpImage.print(font, particularX, particularY, { text: parseForDisplay(selectedKey), alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
-          particularX -= 100;
+          jimpImage.print(font_10, particularX, particularY, { text: MotorLabels[selectedKeys[i] as keyof typeof MotorLabels], alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
+          particularX += 50;
+          jimpImage.print(font_10, particularX, particularY, { text: parseForDisplay(selectedKey), alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
+          particularX -= 50;
           //Premium Column
           particularX += 280;
-          jimpImage.print(font, particularX, particularY, { text: parseForDisplay(selectedKeyValue) ?? "Free", alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
+          jimpImage.print(font_10, particularX, particularY, { text: parseForDisplay(selectedKeyValue) ?? "Free", alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
           totalPremium += parseForCompute(selectedKeyValue.toString());
           particularX -= 280;
-          particularY += 20;
+          particularY += 15;
         }
       }
       const totalPremiumGvt: number = (Number(dynamicPolicy?._doc["govtTax"]) ?? 0) + (totalPremium ?? 0) + totalGovt;
       // headerStartY += 20;
-      particularY -= 20;
-      premiumY += 20;
+      particularY -= 15;
+      premiumY += 15;
       //TOTALS
 
-      jimpImage.print(font, particularX + 260, particularY, { text: textLine, alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
-      particularY += 20;
-      jimpImage.print(font, particularX, particularY, { text: "Premium", alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
+      jimpImage.print(font_10, particularX + 260, particularY, { text: textLine, alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
+      particularY += 15;
+      jimpImage.print(font_10, particularX, particularY, { text: "Premium", alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
       particularX += 280;
-      jimpImage.print(font, particularX, particularY, { text: parseForDisplay(totalPremium.toString()), alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
+      jimpImage.print(font_10, particularX, particularY, { text: parseForDisplay(totalPremium.toString()), alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
       particularX -= 280;
-      particularY += 20;
-      jimpImage.print(font, particularX, particularY, { text: "Gov't Taxes", alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
+      particularY += 15;
+      jimpImage.print(font_10, particularX, particularY, { text: "Gov't Taxes", alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
       particularX += 280;
-      jimpImage.print(font, particularX, particularY, { text: parseForDisplay(String(totalGovt)), alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
+      jimpImage.print(font_10, particularX, particularY, { text: parseForDisplay(String(totalGovt)), alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
       particularX -= 280;
-      jimpImage.print(font, particularX + 260, particularY, { text: textLine, alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
-      particularY += 20;
+      jimpImage.print(font_10, particularX + 260, particularY, { text: textLine, alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
+      particularY += 15;
       cardetailsY += 40;
       cardetailsX = 70;
       if (policy.deductibles) {
-        jimpImage.print(font, cardetailsX, particularY, { text: "DEDUCTIBLE " + parseForDisplay(policy?.deductibles), alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 300, 200);
+        jimpImage.print(font_10, cardetailsX, particularY, { text: "DEDUCTIBLE " + parseForDisplay(policy?.deductibles), alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 300, 200);
       }
-      jimpImage.print(font, particularX, particularY, { text: "Total Premium", alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
+      jimpImage.print(font_10, particularX, particularY, { text: "Total Premium", alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
       particularX += 280;
-      jimpImage.print(font, particularX, particularY, { text: parseForDisplay(totalPremiumGvt.toString()), alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
+      jimpImage.print(font_10, particularX, particularY, { text: parseForDisplay(totalPremiumGvt.toString()), alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
       particularX -= 280;
-      jimpImage.print(font, particularX + 260, particularY, { text: textLine, alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
-      jimpImage.print(font, particularX + 260, particularY + 1, { text: textLine, alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
-      premiumY -= 20;
+      jimpImage.print(font_10, particularX + 260, particularY, { text: textLine, alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
+      jimpImage.print(font_10, particularX + 260, particularY + 1, { text: textLine, alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 150, 150);
+      premiumY -= 15;
     }
     const buffAsync = await jimpImage.getBufferAsync(Jimp.MIME_PNG);
     await fs.writeFile(imagePathResult, buffAsync);
