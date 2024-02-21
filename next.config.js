@@ -31,7 +31,7 @@ const ipAddress = getIPAddress()
 const nextConfig = {
   reactStrictMode: true,
   env: {
-    NEXT_API_URL:`${ipAddress}:3000`
+    NEXT_API_URL:`http://${ipAddress}:3000`
     // NEXT_API_URL:'http://localhost:3000'
   },
 }
