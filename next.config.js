@@ -27,6 +27,7 @@ const getIPAddress = () => {
 }
 
 const ipAddress = getIPAddress()
+console.log('Your IP Address: ',ipAddress)
 
 const nextConfig = {
   reactStrictMode: true,
