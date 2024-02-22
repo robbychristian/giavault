@@ -54,6 +54,10 @@ const TableContainer: FC<ITable> = ({ placeholder, data, hasButton, buttonText, 
     }
   }, [searchInput]);
 
+  useEffect(() => {
+    refetch && refetch()
+  }, [isModalOpen])
+
   return (
     <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
       <Paper sx={{ maxWidth: "auto", margin: "auto", overflow: "hidden" }}>
