@@ -191,7 +191,7 @@ const InsuranceModalDelete = ({ open, onClose, onConfirm, data, session }: any) 
         <DialogContentText>Are you sure you want to delete "{data?.selectedData?.soaNo}"? This action cannot be undone.</DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={() => onConfirm(data?.selectedData?._id, session?.user.accessToken, onClose)} color="error" autoFocus>
+        <Button onClick={() => {onConfirm(data?.selectedData?._id, session?.user.accessToken, onClose); onClose()}} color="error" autoFocus>
           Delete
         </Button>
         <Button onClick={onClose}>Cancel</Button>

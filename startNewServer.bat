@@ -2,4 +2,4 @@ ipconfig
 npm run dev
 
 
-payse
+pause
