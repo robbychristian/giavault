@@ -54,10 +54,6 @@ const TableContainer: FC<ITable> = ({ placeholder, data, hasButton, buttonText, 
     }
   }, [searchInput]);
 
-  useEffect(() => {
-    refetch && refetch()
-  }, [isModalOpen])
-
   return (
     <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
       <Paper sx={{ maxWidth: "auto", margin: "auto", overflow: "hidden" }}>
@@ -105,7 +101,7 @@ const TableContainer: FC<ITable> = ({ placeholder, data, hasButton, buttonText, 
           </DialogTitle>
           <DialogContent>{modalChildren}</DialogContent>
           <DialogActions>
-            <Button form="policyForm" type="submit" onClick={() => handleClose()} fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+            <Button form="policyForm" type="submit" onClick={handleClose} fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
               {"Submit"}
             </Button>
             {/* <Button variant="contained" onClick={onPrint}>
