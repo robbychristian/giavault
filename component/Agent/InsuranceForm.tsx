@@ -18,9 +18,10 @@ interface IInsuranceForm {
   data?: InsurancePolicy;
   onClose?: () => void;
   hasButton: boolean;
+  refetch?: () => void;
 }
 
-const InsuranceForm: FC<IInsuranceForm> = ({ open, data, onClose, hasButton = true }) => {
+const InsuranceForm: FC<IInsuranceForm> = ({ open, data, onClose, hasButton = true, refetch }) => {
   const router = useRouter();
   const [entries, setEntries] = useState<Partial<InsurancePolicy>>(
     data ?? {
@@ -56,6 +57,9 @@ const InsuranceForm: FC<IInsuranceForm> = ({ open, data, onClose, hasButton = tr
       } else {
         console.log("Is Add!");
         await AddPolicy({ ...entries }, session?.user.accessToken!, setSnackbar);
+        if (refetch) {
+          refetch()
+        }
       }
 
       // After successful submission, redirect and close modal

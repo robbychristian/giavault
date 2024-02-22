@@ -48,6 +48,7 @@ export const DeletePolicy = async (_id: string, accessToken: string, setSnackbar
         data: { error },
       },
     } = e;
+    console.log(error)
     return { isOpen: true, message: error, isError: true };
   }
 };
