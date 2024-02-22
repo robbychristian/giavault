@@ -36,19 +36,18 @@ export const DeletePolicy = async (_id: string, accessToken: string, setSnackbar
       params: { _id },
     });
 
-    if (res.status == 200) {
+    // if (res.status == 200) {
       const { data } = res;
       return setSnackbar({ isOpen: true, message: data?.message, isError: false });
-    }
+    // }
 
-    return { isOpen: true, message: res?.data?.message, isError: true };
+    // return { isOpen: true, message: res?.data?.message, isError: true };
   } catch (e: any) {
     const {
       response: {
         data: { error },
       },
     } = e;
-    console.log(error)
     return { isOpen: true, message: error, isError: true };
   }
 };
