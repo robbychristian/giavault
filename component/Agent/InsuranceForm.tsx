@@ -98,7 +98,7 @@ const InsuranceForm: FC<IInsuranceForm> = ({ open, data, onClose, hasButton = tr
               </Grid>
               <Grid item xs={12}>
                 <TextField
-                  disabled={data?._id ? true : false}
+                  disabled={data?._id ? true : disablePolicy ? true : false}
                   fullWidth
                   select
                   label="Policy Type"
@@ -113,7 +113,7 @@ const InsuranceForm: FC<IInsuranceForm> = ({ open, data, onClose, hasButton = tr
                     }
                     updatedEntries.type = newType;
                     setEntries(updatedEntries);
-                    console.log('changed');
+                    setDisablePolicy(true)
                   }}
                 >
                   <MenuItem value="">Select Policy Type</MenuItem>
