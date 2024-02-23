@@ -90,18 +90,20 @@ const InsuranceForm: FC<IInsuranceForm> = ({ open, data, onClose, hasButton = tr
       >
         <LocalizationProvider dateAdapter={AdapterMoment}>
           <form id="policyForm" onSubmit={handleSubmit} onKeyDown={handleKeyDown}>
-            <Grid container spacing={2}>
+            <Grid container spacing={2} justifyContent={"space-between"}>
               <Grid item xs={6}>
                 <Typography id="premium" key={`prem`} component="h3" variant="h6" sx={{ fontStyle: "bold" }}>
                   Policy Type *
                 </Typography>
               </Grid>
-              <Grid item xs={6} justifySelf={'flex-end'}>
+              <Grid item xs={6}>
                 {/* <Typography id="premium" key={`prem`} component="h3" variant="h6" sx={{ fontStyle: "bold" }}>
                   Policy Type *
                 </Typography> */}
                 <Button variant="contained" color="warning" onClick={() => {
-                  setEntries({});
+                  setEntries({
+                    type: PolicyTypes.MOTOR, // default
+                  });
                   setDisablePolicy(false);
                 }}>
                   Reset
