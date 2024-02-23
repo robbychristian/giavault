@@ -33,6 +33,7 @@ const InsuranceForm: FC<IInsuranceForm> = ({ open, data, onClose, hasButton = tr
 
   const [totalPrem, setTotalPrem] = useState<any>();
   const [amtDue, setAmtDue] = useState<any>();
+  const [disablePolicy, setDisablePolicy] = useState<boolean>(false)
 
   const [snackbar, setSnackbar] = useState<any>({
     isOpen: false,
@@ -112,6 +113,7 @@ const InsuranceForm: FC<IInsuranceForm> = ({ open, data, onClose, hasButton = tr
                     }
                     updatedEntries.type = newType;
                     setEntries(updatedEntries);
+                    console.log('changed');
                   }}
                 >
                   <MenuItem value="">Select Policy Type</MenuItem>
