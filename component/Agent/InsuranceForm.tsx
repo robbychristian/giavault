@@ -91,12 +91,12 @@ const InsuranceForm: FC<IInsuranceForm> = ({ open, data, onClose, hasButton = tr
         <LocalizationProvider dateAdapter={AdapterMoment}>
           <form id="policyForm" onSubmit={handleSubmit} onKeyDown={handleKeyDown}>
             <Grid container spacing={2} justifyContent={"space-between"} width={"100%"}>
-              <Grid item xs={6}>
+              <Grid item xs={10}>
                 <Typography id="premium" key={`prem`} component="h3" variant="h6" sx={{ fontStyle: "bold" }}>
                   Policy Type *
                 </Typography>
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={2}>
                 {/* <Typography id="premium" key={`prem`} component="h3" variant="h6" sx={{ fontStyle: "bold" }}>
                   Policy Type *
                 </Typography> */}
