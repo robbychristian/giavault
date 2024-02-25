@@ -96,10 +96,10 @@ const InsuranceForm: FC<IInsuranceForm> = ({ open, data, onClose, hasButton = tr
                   Policy Type *
                 </Typography>
               </Grid>
-              <Grid item xs={2}>
-                {/* <Typography id="premium" key={`prem`} component="h3" variant="h6" sx={{ fontStyle: "bold" }}>
+              {/* <Grid item xs={2}>
+                <Typography id="premium" key={`prem`} component="h3" variant="h6" sx={{ fontStyle: "bold" }}>
                   Policy Type *
-                </Typography> */}
+                </Typography>
                 <Button variant="contained" color="warning" onClick={() => {
                   setEntries({
                     type: PolicyTypes.MOTOR, // default
@@ -108,7 +108,7 @@ const InsuranceForm: FC<IInsuranceForm> = ({ open, data, onClose, hasButton = tr
                 }}>
                   Reset
                 </Button>
-              </Grid>
+              </Grid> */}
               <Grid item xs={12}>
                 <TextField
                   disabled={data?._id ? true : disablePolicy ? true : false}
