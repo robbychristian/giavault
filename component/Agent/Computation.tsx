@@ -48,7 +48,8 @@ const Computation: FC<IComputation> = ({ data, setData, totalPrem, setTotalPrem,
       let { premium } = other! ?? 0;
       let sum: number = parseStringNumber(odP) + parseStringNumber(vbiP) + parseStringNumber(vpdP) + parseStringNumber(theftP) + parseStringNumber(autoPaP) + parseStringNumber(aogP) + parseStringNumber(premium) + parseStringNumber(ldP) + parseStringNumber(luP);
       let amtdue: number = (sum ?? 0) + parseStringNumber(data?.docStamp) + parseStringNumber(data?.vat) + parseStringNumber(data?.others) + parseStringNumber(data?.govtTax);
-      setAmtDue(amtdue);
+      let tempAmtDue: number = Number(amtdue) - parseStringNumber(data?.deductibles) 
+      setAmtDue(tempAmtDue);
       setTotalPrem(sum);
       premium = String(sum);
     } else {
