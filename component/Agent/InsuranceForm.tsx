@@ -173,7 +173,7 @@ const InsuranceForm: FC<IInsuranceForm> = ({ open, data, onClose, hasButton = tr
               <Grid item xs={12}>
                 <Divider />
               </Grid>
-              <Grid item xs={12}>
+              {/* <Grid item xs={12}>
                 <Typography id="premium" key={`prem`} component="h3" variant="h6" sx={{ fontStyle: "bold" }}>
                   Deductibles *
                 </Typography>
@@ -183,7 +183,7 @@ const InsuranceForm: FC<IInsuranceForm> = ({ open, data, onClose, hasButton = tr
               </Grid>
               <Grid item xs={12}>
                 <Divider />
-              </Grid>
+              </Grid> */}
               <Grid item xs={12}>
                 <Typography id="premium" key={`prem`} component="h3" variant="h6" sx={{ fontStyle: "bold" }}>
                   Remarks *

@@ -68,7 +68,10 @@ const Computation: FC<IComputation> = ({ data, setData, totalPrem, setTotalPrem,
           }
         }
       }
-      setAmtDue(sum + parseStringNumber(data?.docStamp) + parseStringNumber(data?.vat) + parseStringNumber(data?.others) + parseStringNumber(data?.govtTax));
+      let tempAmtDue =sum + parseStringNumber(data?.docStamp) + parseStringNumber(data?.vat) + parseStringNumber(data?.others) + parseStringNumber(data?.govtTax)
+      let withDeductible = Number(tempAmtDue) - parseStringNumber(data?.deductibles) 
+      // setAmtDue(sum + parseStringNumber(data?.docStamp) + parseStringNumber(data?.vat) + parseStringNumber(data?.others) + parseStringNumber(data?.govtTax));
+      setAmtDue(withDeductible);
       setTotalPrem(sum);
     }
   }, [data]);
@@ -105,6 +108,9 @@ const Computation: FC<IComputation> = ({ data, setData, totalPrem, setTotalPrem,
         <Grid item xs={12}>
           <NumericFormat customInput={TextField} thousandSeparator="," label="Others" name="others" fullWidth value={data?.others} onChange={(e) => handleChange(e, data, setData)} />
         </Grid>
+        <Grid item xs={12}>
+                <NumericFormat customInput={TextField} thousandSeparator="," label="Deductibles" name="deductibles" fullWidth={true} value={data?.deductibles} onChange={(e) => handleChange(e, data, setData)} />
+              </Grid>
         <Grid item xs={12}>
           <NumericFormat
             fullWidth
