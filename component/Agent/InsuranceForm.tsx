@@ -111,7 +111,8 @@ const InsuranceForm: FC<IInsuranceForm> = ({ open, data, onClose, hasButton = tr
               </Grid> */}
               <Grid item xs={12}>
                 <TextField
-                  disabled={data?._id ? true : disablePolicy ? true : false}
+                  disabled={data?._id ? true : false}
+                  InputProps={{ readOnly: disablePolicy ? true : false }}
                   fullWidth
                   select
                   label="Policy Type"
